@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="anchorBaseSearchBar" fx:id="anchorBaseSearchBar" onMouseClicked="#closeLogout" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #add8e6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wanderwisep.graphic_controller.SearchBarController">
+   <children>
+      <AnchorPane layoutX="17.0" layoutY="200.0" minHeight="-Infinity" prefHeight="193.0" prefWidth="567.0" style="-fx-background-color: #4682B4;">
+         <effect>
+            <Glow />
+         </effect>
+         <children>
+            <AnchorPane layoutX="424.0" layoutY="7.0" prefHeight="181.0" prefWidth="141.0" style="-fx-background-color: #4682B4;">
+               <effect>
+                  <ColorAdjust brightness="0.32" />
+               </effect>
+            </AnchorPane>
+            <AnchorPane layoutX="283.0" layoutY="7.0" prefHeight="181.0" prefWidth="140.0" style="-fx-background-color: #4682B4;">
+               <effect>
+                  <ColorAdjust brightness="0.32" />
+               </effect>
+            </AnchorPane>
+            <AnchorPane layoutX="3.0" layoutY="7.0" prefHeight="181.0" prefWidth="139.0" style="-fx-background-color: #4682B4;">
+               <effect>
+                  <ColorAdjust brightness="0.32" />
+               </effect>
+            </AnchorPane>
+            <AnchorPane layoutX="143.0" layoutY="7.0" prefHeight="181.0" prefWidth="139.0" style="-fx-background-color: #4682B4;">
+               <effect>
+                  <ColorAdjust brightness="0.32" />
+               </effect>
+            </AnchorPane>
+            <VBox layoutX="5.0" layoutY="10.0" prefHeight="181.0" prefWidth="137.0">
+               <children>
+                  <ImageView id="tokyoSearchBar" fx:id="tokyoSearchBar" fitHeight="150.0" fitWidth="137.0" onMouseClicked="#openTokyo" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Tokyo.jpeg" />
+                     </image>
+                  </ImageView>
+                  <Text id="tokyoSearchBarText" fx:id="tokyoSearchBarText" fontSmoothingType="LCD" onMouseClicked="#openTokyo" strokeType="OUTSIDE" strokeWidth="0.0" text="Tokyo" textAlignment="CENTER" wrappingWidth="136.13671875" y="10.0">
+                     <font>
+                        <Font name="Verdana Pro Cond Semibold" size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox layoutX="145.0" layoutY="10.0" prefHeight="190.0" prefWidth="137.0">
+               <children>
+                  <ImageView id="parisSearchBar" fx:id="parisSearchBar" fitHeight="150.0" fitWidth="135.0" onMouseClicked="#openParis" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/Paris.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text id="parisSearchBarText" fx:id="parisSearchBarText" fontSmoothingType="LCD" onMouseClicked="#openParis" strokeType="OUTSIDE" strokeWidth="0.0" text="Paris" textAlignment="CENTER" wrappingWidth="137.13671875">
+                     <font>
+                        <Font name="Verdana Pro Cond Semibold" size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox layoutX="285.0" layoutY="10.0" prefHeight="181.0" prefWidth="137.0">
+               <children>
+                  <ImageView id="amsterdamSearchBar" fx:id="amsterdamSearchBar" fitHeight="150.0" fitWidth="136.0" onMouseClicked="#openAmsterdam" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/Amsterdam.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text id="AmsterdamSearchBarText" fx:id="AmsterdamSearchBarText" fontSmoothingType="LCD" onMouseClicked="#openAmsterdam" strokeType="OUTSIDE" strokeWidth="0.0" text="Amsterdam" textAlignment="CENTER" wrappingWidth="136.189453125">
+                     <font>
+                        <Font name="Verdana Pro Cond Semibold" size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox layoutX="426.0" layoutY="10.0" prefHeight="190.0" prefWidth="137.0">
+               <children>
+                  <ImageView id="barcelonaSearchBar" fx:id="barcelonaSearchBar" fitHeight="150.0" fitWidth="137.0" onMouseClicked="#openBarcelona" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/Barcelona.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text id="barcelonaSearchBarText" fx:id="barcelonaSearchBarText" fontSmoothingType="LCD" onMouseClicked="#openBarcelona" strokeType="OUTSIDE" strokeWidth="0.0" text="Barcelona" textAlignment="CENTER" wrappingWidth="138.13671875">
+                     <font>
+                        <Font name="Verdana Pro Cond Semibold" size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <Text layoutX="17.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Explore New Destination" wrappingWidth="529.13671875">
+         <font>
+            <Font name="Verdana Pro Cond Semibold" size="32.0" />
+         </font>
+      </Text>
+      <Text layoutX="19.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search">
+         <font>
+            <Font name="Verdana Pro Cond Semibold" size="30.0" />
+         </font>
+      </Text>
+      <Button id="searchButton" fx:id="searchButton" layoutX="297.0" layoutY="125.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#searchDestination" prefHeight="24.0" prefWidth="44.0">
+         <graphic>
+            <ImageView fitHeight="16.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/1410285.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <DatePicker id="dateInitial" fx:id="dateInitial" layoutX="147.0" layoutY="125.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="74.0" />
+      <DatePicker id="dateFinal" fx:id="dateFinal" layoutX="222.0" layoutY="125.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="74.0" />
+      <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="5.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Cattura-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="265.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Home">
+         <font>
+            <Font name="Verdana Pro Cond Semibold" size="12.0" />
+         </font></Text>
+      <Text id="myAreaSearchBar" fx:id="myAreaSearchBar" layoutX="310.0" layoutY="22.0" onMouseClicked="#openMyArea" strokeType="OUTSIDE" strokeWidth="0.0" text="MyArea">
+         <font>
+            <Font name="Verdana Pro Cond Semibold" size="12.0" />
+         </font></Text>
+      <AnchorPane id="loginAnchor" fx:id="loginAnchor" layoutX="530.0" layoutY="2.0" prefHeight="64.0" prefWidth="59.0" style="-fx-background-color: white; -fx-border-color: #4682B4;" visible="false">
+         <children>
+            <Text id="logoutSearchBar" fx:id="logoutSearchBar" layoutX="3.0" layoutY="59.0" onMouseClicked="#logout" strokeType="OUTSIDE" strokeWidth="0.0" text="Log-Out" textAlignment="CENTER" wrappingWidth="52.13671875">
+               <font>
+                  <Font name="Verdana Pro Semibold" size="8.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <TextField id="citySearch" fx:id="citySearch" layoutX="19.0" layoutY="125.0" prefHeight="25.0" prefWidth="127.0" />
+      <Line id="loginLine" fx:id="loginLine" endX="113.0" layoutX="475.0" layoutY="51.0" startX="56.5" stroke="STEELBLUE" visible="false" />
+      <ImageView id="loginSearch" fx:id="loginSearch" fitHeight="36.0" fitWidth="32.0" layoutX="544.0" layoutY="2.0" onMouseClicked="#openLogout" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/free-user-icon-3296-thumb.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
