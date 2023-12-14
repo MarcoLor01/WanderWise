@@ -12,14 +12,16 @@ public class GuidedTour {
     private Date expirationDate;
     private TouristGuide myTouristGuide;
     private Vector<Ticket> tourTicket;
+    private Integer idTicket;
 
-    public GuidedTour(String cityName, ArrayList<String> listOfAttraction, Date departureDate, Date returnDate, Date expirationDate, TouristGuide myTouristGuide) {
+    public GuidedTour(String cityName, ArrayList<String> listOfAttraction, Date departureDate, Date returnDate, Date expirationDate, TouristGuide myTouristGuide, Integer idTicket) {
         this.cityName = cityName;
         this.listOfAttraction = listOfAttraction;
         this.departureDate = departureDate;
         this.returnDate = returnDate;
         this.expirationDate = expirationDate;
         this.myTouristGuide = myTouristGuide;
+        this.idTicket = idTicket;
     }
 
     public String getCityName() {
@@ -76,5 +78,9 @@ public class GuidedTour {
 
     public void setTourTicket(Vector<Ticket> tourTicket) {
         this.tourTicket = tourTicket;
+    }
+
+    public Integer getIdTicket() {
+        return idTicket;
     }
 }

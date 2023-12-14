@@ -148,4 +148,6 @@ public class SearchBarController {
 
     }
 
+    public void closeLogout(MouseEvent mouseEvent) {
+    }
 }
