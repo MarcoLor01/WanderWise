@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public  class LoginDAO {
 
@@ -16,7 +18,7 @@ public  class LoginDAO {
     private static final String EMAIL = "email";
 
 
-    public User findUser(String email, String password) throws SQLException {
+    public User findUser(String email, String password) {
         User user = null;
         try (
                 Connection conn = DBConnection.getConnection();
@@ -32,9 +34,8 @@ public  class LoginDAO {
                 }
             }
         } catch (SQLException e) {
-            // Handle SQL exception (log it, throw a custom exception, etc.)
-            e.printStackTrace();
-            throw e;
+            Logger logger = Logger.getLogger(DBConnection.class.getName());
+            logger.log(Level.INFO, e.getMessage());
         }
 
         return user;
