@@ -15,10 +15,10 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(LOGIN));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        NavigatorSingleton Navigator = NavigatorSingleton.getInstance(stage);
-        Navigator.getStg().setScene(scene);
-        Navigator.getStg().setTitle("WanderWise");
-        Navigator.getStg().setResizable(false);
-        Navigator.getStg().show();
+        NavigatorSingleton navigator = NavigatorSingleton.getInstance(stage);
+        navigator.getStg().setScene(scene);
+        navigator.getStg().setTitle("WanderWise");
+        navigator.getStg().setResizable(false);
+        navigator.getStg().show();
     }
 }

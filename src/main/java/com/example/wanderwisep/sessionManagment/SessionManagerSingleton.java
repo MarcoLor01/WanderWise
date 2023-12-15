@@ -13,11 +13,9 @@ import java.util.Map;
         public static synchronized SessionManagerSingleton getInstance() {
             if (instance == null) {
                 instance = new SessionManagerSingleton();
-
             }
             return instance;
         }
-
         // Metodo per ottenere una sessione per un utente
         public Session getUserSession(String username) {
             if (!userSession.containsKey(username)) {

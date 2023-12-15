@@ -12,6 +12,7 @@ import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.exception.InvalidFormatException;
 import com.example.wanderwisep.exception.UserNotFoundException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -19,6 +20,7 @@ import javafx.scene.text.Text;
 
 public class LoginController extends NavigatorController {
 
+    private Label msgLbl;
     private static final Logger logger = Logger.getLogger(LoginController.class.getName());
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -35,23 +37,30 @@ public class LoginController extends NavigatorController {
     @FXML // fx:id="passwordLogin"
     private PasswordField passwordLogin; // Value injected by FXMLLoader
 
-    LoginControllerApplication loginController = new LoginControllerApplication();
+    LoginControllerApplication loginControllerApp = new LoginControllerApplication();
 
     @FXML
-    void doLogin(MouseEvent event) throws SQLException {
-        try {
-            LoginBean loginBean = new LoginBean();
+    void doLogin(MouseEvent event) {
+        try{
+        LoginBean loginBean = new LoginBean();
             loginBean.setEmail(emailLogin.getText());
             loginBean.setPassword(passwordLogin.getText());
-            String role = loginController.login(loginBean).getRole();
+            loginBean.checkField(loginBean.getEmail(),loginBean.getPassword());
+            String role = loginControllerApp.login(loginBean).getRole();
+
             if (Objects.equals(role, "User")) {
                 goToPage(SEARCHBAR);
             } else if (Objects.equals(role, "TouristGuide")) {
                 goToPage(GUIDECONFIRM);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }catch(InvalidFormatException | UserNotFoundException e){
+            logger.log(Level.INFO, e.getMessage());
+            showErrorDialog(e.getMessage(),"Login Error");
+        } catch (SQLException e) {
+            logger.log(Level.INFO, e.getMessage());
+
         }
+
     }
 
 

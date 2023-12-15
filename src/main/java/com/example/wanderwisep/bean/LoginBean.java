@@ -1,5 +1,7 @@
 package com.example.wanderwisep.bean;
 
+import com.example.wanderwisep.exception.InvalidFormatException;
+
 public class LoginBean {
     private String email;
     private String password;
@@ -27,5 +29,10 @@ public class LoginBean {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public void checkField(String email, String password) throws InvalidFormatException{
+        if(email.isEmpty() | password.isEmpty()){
+            throw new InvalidFormatException("Please fill all the fields");
+        }
     }
 }
