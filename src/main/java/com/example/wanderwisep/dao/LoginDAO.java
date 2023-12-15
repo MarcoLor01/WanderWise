@@ -18,19 +18,20 @@ public  class LoginDAO {
 
 
     public User findUser(String email, String password) throws SQLException, UserNotFoundException {
-
-        User user;
-        Connection conn = DBConnection.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM user WHERE EMAIL = ? AND PASSWORD = ?",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-        stmt.setString(1, email);
-        stmt.setString(2, password);
-        ResultSet rs = stmt.executeQuery();
-        if(!rs.first()) throw new UserNotFoundException("User not found");
-        user = getUser(rs);
-        rs.close();
-        stmt.close();
-        return user;
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM user WHERE EMAIL = ? AND PASSWORD = ?",
+                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (!rs.first()) {
+                    throw new UserNotFoundException("User not found");
+                }
+                return getUser(rs);
+            }
+        }
     }
+
 
 
     private User getUser(ResultSet rs) throws UserNotFoundException, SQLException {

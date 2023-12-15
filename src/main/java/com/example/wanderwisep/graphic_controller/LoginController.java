@@ -1,6 +1,5 @@
 package com.example.wanderwisep.graphic_controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -58,7 +57,7 @@ public class LoginController extends NavigatorController {
             showErrorDialog(e.getMessage(),"Login Error");
         } catch (SQLException e) {
             logger.log(Level.INFO, e.getMessage());
-
+            showErrorDialog("Database Error","Login Error");
         }
 
     }
