@@ -1,11 +1,14 @@
 package com.example.wanderwisep.model;
 
+import com.example.wanderwisep.enumeration.userRole;
+
 import java.util.Vector;
 
 public class User {
     private String name;
     private String surname;
     private String email;
+    private userRole role;
 
     private Vector<Ticket> myTicket;
 
@@ -33,6 +36,14 @@ public class User {
         this.email = email;
     }
 
+    public userRole getRole() {
+        return role;
+    }
+
+    public void setRole(userRole role) {
+        this.role = role;
+    }
+
     public Vector<Ticket> getMyTicket() {
         return myTicket;
     }
@@ -41,9 +52,10 @@ public class User {
         this.myTicket = myTicket;
     }
 
-    public User(String name, String surname, String email) {
+    public User(String name, String surname, String email, userRole type) {
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.role = type;
     }
 }

@@ -1,10 +1,16 @@
 package com.example.wanderwisep.graphic_controller;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.example.wanderwisep.application_controller.LoginControllerApplication;
 import com.example.wanderwisep.bean.LoginBean;
+import com.example.wanderwisep.exception.InvalidFormatException;
+import com.example.wanderwisep.exception.UserNotFoundException;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -32,31 +38,21 @@ public class LoginController extends NavigatorController {
     LoginControllerApplication loginController = new LoginControllerApplication();
 
     @FXML
-    void doLogin(MouseEvent event) {
-
-        // try{
-        LoginBean loginBean = new LoginBean();
-        loginBean.setEmail(emailLogin.getText());
-        loginBean.setPassword(passwordLogin.getText());
-        boolean loginSuccess = loginController.login(loginBean);
-        if (loginSuccess) {
-            // Se il login ha successo, cambia la scena
-            //Controller applicativo caso duso
-            goToPage(SEARCHBAR);
-        } else {
-            String title = "Login Error";
-            String message = "Email or password is incorrect";
-            showErrorDialog(message, title);
+    void doLogin(MouseEvent event) throws SQLException {
+        try {
+            LoginBean loginBean = new LoginBean();
+            loginBean.setEmail(emailLogin.getText());
+            loginBean.setPassword(passwordLogin.getText());
+            String role = loginController.login(loginBean).getRole();
+            if (Objects.equals(role, "User")) {
+                goToPage(SEARCHBAR);
+            } else if (Objects.equals(role, "TouristGuide")) {
+                goToPage(GUIDECONFIRM);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
-
-        /* }
-        catch(InvalidFormatException e) {
-            String message = e.getMessage();
-            Throwable throwable = e.getCause();
-            logger.log(Level.INFO, message);
-            showErrorDialog("Empty Fields");
-        }*/
 
 
         @FXML // This method is called by the FXMLLoader when initialization is complete

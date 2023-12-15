@@ -1,5 +1,4 @@
 package com.example.wanderwisep;
-
 import com.example.wanderwisep.graphic_controller.NavigatorSingleton;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
