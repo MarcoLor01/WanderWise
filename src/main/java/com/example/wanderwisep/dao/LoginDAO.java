@@ -3,11 +3,14 @@ package com.example.wanderwisep.dao;
 import com.example.wanderwisep.dao.db_connection.DBConnection;
 import com.example.wanderwisep.enumeration.userRole;
 import com.example.wanderwisep.exception.UserNotFoundException;
+import com.example.wanderwisep.graphic_controller.LoginController;
 import com.example.wanderwisep.model.GenericUserProfile;
 import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.User;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public  class LoginDAO {
 
@@ -15,6 +18,7 @@ public  class LoginDAO {
     private static final String NAME = "nome";
     private static final String SURNAME = "cognome";
     private static final String EMAIL = "email";
+    private static final Logger logger = Logger.getLogger(LoginDAO.class.getName());
 
 
     public GenericUserProfile findUser(String email, String password) throws SQLException, UserNotFoundException {
@@ -45,7 +49,7 @@ public  class LoginDAO {
                 if (conn != null)
                     conn.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.log(Level.INFO, e.getMessage());
             }
         }
         return user;
