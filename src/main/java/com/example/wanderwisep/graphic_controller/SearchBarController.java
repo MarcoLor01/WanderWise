@@ -3,6 +3,9 @@ package com.example.wanderwisep.graphic_controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.example.wanderwisep.application_controller.BookTourControllerApplication;
+import com.example.wanderwisep.sessionManagment.SessionManagerSingleton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -14,6 +17,10 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
 public class SearchBarController {
+
+    BookTourControllerApplication BookTourController = new BookTourControllerApplication();
+    @FXML
+    private Text userText;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -145,9 +152,7 @@ public class SearchBarController {
         assert searchButton != null : "fx:id=\"searchButton\" was not injected: check your FXML file 'SearchBar.fxml'.";
         assert tokyoSearchBar != null : "fx:id=\"tokyoSearchBar\" was not injected: check your FXML file 'SearchBar.fxml'.";
         assert tokyoSearchBarText != null : "fx:id=\"tokyoSearchBarText\" was not injected: check your FXML file 'SearchBar.fxml'.";
-
-    }
-
-    public void closeLogout(MouseEvent mouseEvent) {
+        String name = SessionManagerSingleton.getInstance().getCurrentUserName();
+        userText.setText("Hello " + name);
     }
 }

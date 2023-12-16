@@ -4,13 +4,13 @@ import com.example.wanderwisep.enumeration.userRole;
 
 import java.util.Vector;
 
-public class User {
+public abstract class  GenericUserProfile {
     private String name;
     private String surname;
     private String email;
-    private userRole role;
+    private final userRole role;
 
-    private Vector<Ticket> myTicket;
+
 
     public String getName() {
         return name;
@@ -40,19 +40,8 @@ public class User {
         return role;
     }
 
-    public void setRole(userRole role) {
-        this.role = role;
-    }
 
-    public Vector<Ticket> getMyTicket() {
-        return myTicket;
-    }
-
-    public void setMyTicket(Vector<Ticket> myTicket) {
-        this.myTicket = myTicket;
-    }
-
-    public User(String name, String surname, String email, userRole type) {
+    public GenericUserProfile(String name, String surname, String email, userRole type) {
         this.name = name;
         this.surname = surname;
         this.email = email;

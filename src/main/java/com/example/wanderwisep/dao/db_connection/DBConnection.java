@@ -26,7 +26,7 @@ public class DBConnection {
             String dbUrl = props.getProperty("dbUrl");
             String username = props.getProperty("username");
             String password = props.getProperty("password");
-            connection = DriverManager.getConnection(dbUrl, username, password); //ERRORE QUA PORCO IL CRISTACCIO MALEDETTO
+            connection = DriverManager.getConnection(dbUrl, username, password);
         } catch (IOException | SQLException e) {
             Logger logger = Logger.getLogger(DBConnection.class.getName());
             logger.log(Level.INFO, e.getMessage());

@@ -3,11 +3,11 @@ package com.example.wanderwisep.dao;
 import com.example.wanderwisep.dao.db_connection.DBConnection;
 import com.example.wanderwisep.enumeration.userRole;
 import com.example.wanderwisep.exception.UserNotFoundException;
+import com.example.wanderwisep.model.GenericUserProfile;
+import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.User;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 
 public  class LoginDAO {
 
@@ -17,39 +17,59 @@ public  class LoginDAO {
     private static final String EMAIL = "email";
 
 
-    public User findUser(String email, String password) throws SQLException, UserNotFoundException {
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM user WHERE EMAIL = ? AND PASSWORD = ?",
-                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+    public GenericUserProfile findUser(String email, String password) throws SQLException, UserNotFoundException {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        GenericUserProfile user;
+        try {
+            conn = DBConnection.getConnection();
+            stmt = conn.prepareStatement("SELECT * FROM user WHERE EMAIL = ? AND PASSWORD = ?",
+                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             stmt.setString(1, email);
             stmt.setString(2, password);
-            try (ResultSet rs = stmt.executeQuery()) {
+            ResultSet rs = stmt.executeQuery();
                 if (!rs.first()) {
                     throw new UserNotFoundException("User not found");
                 }
-                return getUser(rs);
+                rs.first();
+                user =  getUser(rs);
+
+            rs.close();
+            }finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
+        return user;
     }
 
 
 
-    private User getUser(ResultSet rs) throws UserNotFoundException, SQLException {
-            User user;
-            userRole type;
+    private GenericUserProfile getUser(ResultSet rs) throws UserNotFoundException, SQLException {
+        GenericUserProfile userProfile;
+        userRole type;
         if(rs.getString(ROLE).equals("user")) {
-           type = userRole.USER;
+            type = userRole.USER;
+            userProfile = new User(rs.getString(NAME),
+                    rs.getString(SURNAME),
+                    rs.getString(EMAIL),type);
         }else if(rs.getString(ROLE).equals("tourist guide")) {
            type = userRole.TOURISTGUIDE;
+           userProfile = new TouristGuide(rs.getString(NAME),
+                   rs.getString(SURNAME),
+                   rs.getString(EMAIL),type);
         }else{
            throw new UserNotFoundException("Role Not Found");
         }
-        user = new User(
-            rs.getString(EMAIL),
-            rs.getString(NAME),
-            rs.getString(SURNAME),
-            type);
-            return user;
+            return userProfile;
         }
     }
 

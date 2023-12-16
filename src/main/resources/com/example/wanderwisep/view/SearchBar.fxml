@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="anchorBaseSearchBar" fx:id="anchorBaseSearchBar" onMouseClicked="#closeLogout" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #add8e6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wanderwisep.graphic_controller.SearchBarController">
+<AnchorPane id="anchorBaseSearchBar" fx:id="anchorBaseSearchBar" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #add8e6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wanderwisep.graphic_controller.SearchBarController">
    <children>
       <AnchorPane layoutX="17.0" layoutY="200.0" minHeight="-Infinity" prefHeight="193.0" prefWidth="567.0" style="-fx-background-color: #4682B4;">
          <effect>
@@ -148,5 +148,10 @@
             <Image url="@../images/free-user-icon-3296-thumb.png" />
          </image>
       </ImageView>
+      <Text id="userText" fx:id="userText" layoutX="475.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello, ">
+         <font>
+            <Font name="Verdana Pro Cond Semibold" size="12.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

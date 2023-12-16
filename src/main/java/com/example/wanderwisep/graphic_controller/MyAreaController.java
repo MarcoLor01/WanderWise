@@ -7,7 +7,7 @@ import java.net.URL;
         import javafx.scene.shape.Circle;
         import javafx.scene.text.Text;
 
-public class myAreaController {
+public class MyAreaController {
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
