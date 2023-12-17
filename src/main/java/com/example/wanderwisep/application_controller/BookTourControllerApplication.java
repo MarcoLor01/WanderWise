@@ -1,57 +1,38 @@
 package com.example.wanderwisep.application_controller;
+import com.example.wanderwisep.bean.SearchBean;
+import com.example.wanderwisep.bean.TourListBean;
+import com.example.wanderwisep.dao.SearchTourDAO;
+import com.example.wanderwisep.exception.TourNotFoundException;
+import com.example.wanderwisep.model.GuidedTour;
 
+import java.sql.SQLException;
+import java.util.List;
 
-/**
- * 
- */
 public class BookTourControllerApplication {
 
- //   /**
- //    * Default constructor
- //    */
- //   public BookTourControllerApplication() {
- //   }
- //
- //   /**
- //    *
- //    */
- //   public void verifyAuthentication() {
- //       // TODO implement here
- //   }
- //
- //
- //   public void SearchTour() {
- //       // TODO implement here
- //   }
- //
- //
- //   public void showDetails() {
- //       // TODO implement here
- //   }
- //
- //   public void provideTicket() {
- //       // TODO implement here
- //   }
- //
- //   /**
- //    *
- //    */
- //   public void notifyTouristGuide() {
- //       // TODO implement here
- //   }
- //
- //   /**
- //    * @param touristGuideAnswer
- //    */
- //   public void modifyTicket(boolean touristGuideAnswer) {
- //       // TODO implement here
- //   }
- //
- //   /**
- //    *
- //    */
- //   public void sendEmailUser() {
- //       // TODO implement here
- //   }
+    public BookTourControllerApplication() {
 
+    }
+    public TourListBean searchTour(SearchBean searchBean) throws TourNotFoundException, SQLException {
+        SearchTourDAO searchTourDAO = new SearchTourDAO();
+        List<GuidedTour> guidedTourList = searchTourDAO.findTicket(searchBean.getCityName(), searchBean.getDepartureDate(), searchBean.getReturnDate());
+        TourListBean tourListBean = new TourListBean();
+        int dimensione = guidedTourList.size();
+        System.out.println(dimensione);
+        int i = 0;
+        while(i < dimensione){
+            tourListBean.setTourName(guidedTourList.get(i).getCityName(),i);
+            tourListBean.setPhoto(guidedTourList.get(i).getPhoto(),i);
+            i++;
+        }
+        System.out.println(tourListBean.getTourName());
+        System.out.println(tourListBean.getPhoto());
+
+       // tourListBean.setCityName(guidedTourList.get());
+        return tourListBean;
+    }
+ //   String attractionsString = rs.getString("listOfAttraction");
+ //   attractionsString = attractionsString.replaceAll("[\\[\\]\"]", ""); Poi per il recupero delle varie attrazioni
+    //   String[] attractionsArray = attractionsString.split(",");
+ //   ArrayList<String> attractionsList = new ArrayList<>(Arrays.asList(attractionsArray));
 }

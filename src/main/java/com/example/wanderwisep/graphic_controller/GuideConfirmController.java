@@ -52,8 +52,6 @@ public class GuideConfirmController {
         assert availabilityYes != null : "fx:id=\"availabilityYes\" was not injected: check your FXML file 'GuideConfirm.fxml'.";
         assert textFor != null : "fx:id=\"textFor\" was not injected: check your FXML file 'GuideConfirm.fxml'.";
         assert textFrom != null : "fx:id=\"textFrom\" was not injected: check your FXML file 'GuideConfirm.fxml'.";
-        String name = SessionManagerSingleton.getInstance().getCurrentUserName();
-        nameGuideText.setText("Hello " + name);
     }
 
 }

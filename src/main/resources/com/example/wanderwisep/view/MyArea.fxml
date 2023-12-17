@@ -8,7 +8,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #add8e6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wanderwisep.graphic_controller.MyAreaController">
    <children>
       <ImageView fitHeight="36.0" fitWidth="32.0" layoutX="544.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
@@ -58,7 +57,7 @@
                         <Font name="Verdana Pro Cond Semibold" size="10.0" />
                      </font>
                   </Text>
-                  <Text id="status" fx:id="status" layoutX="120.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Waiting for Confirmation Status">
+                  <Text id="status" fx:id="status" layoutX="120.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Waiting for Confirmation">
                      <font>
                         <Font name="Verdana Pro Cond Semibold" size="10.0" />
                      </font>

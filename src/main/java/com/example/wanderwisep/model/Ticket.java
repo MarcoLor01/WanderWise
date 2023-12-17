@@ -9,11 +9,11 @@ public class Ticket {
     private stateEnum state;
     private Date prenotationDate;
     private GuidedTour myGuidedTour;
-    private GenericUserProfile user;
+    private User user;
 
 
 
-    public Ticket(Integer idTicket, stateEnum state, Date prenotationDate, GuidedTour myGuidedTour, GenericUserProfile user) {
+    public Ticket(Integer idTicket, stateEnum state, Date prenotationDate, GuidedTour myGuidedTour, User user) {
         this.idTicket = idTicket;
         this.state = state;
         this.prenotationDate = prenotationDate;
@@ -58,7 +58,7 @@ public class Ticket {
         return user;
     }
 
-    public void setUser(GenericUserProfile user) {
+    public void setUser(User user) {
         this.user = user;
     }
 }

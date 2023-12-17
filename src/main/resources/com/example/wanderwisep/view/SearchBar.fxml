@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="anchorBaseSearchBar" fx:id="anchorBaseSearchBar" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #add8e6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wanderwisep.graphic_controller.SearchBarController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #add8e6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wanderwisep.graphic_controller.SearchBarController">
    <children>
       <AnchorPane layoutX="17.0" layoutY="200.0" minHeight="-Infinity" prefHeight="193.0" prefWidth="567.0" style="-fx-background-color: #4682B4;">
          <effect>
@@ -42,12 +42,12 @@
             </AnchorPane>
             <VBox layoutX="5.0" layoutY="10.0" prefHeight="181.0" prefWidth="137.0">
                <children>
-                  <ImageView id="tokyoSearchBar" fx:id="tokyoSearchBar" fitHeight="150.0" fitWidth="137.0" onMouseClicked="#openTokyo" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="150.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Tokyo.jpeg" />
                      </image>
                   </ImageView>
-                  <Text id="tokyoSearchBarText" fx:id="tokyoSearchBarText" fontSmoothingType="LCD" onMouseClicked="#openTokyo" strokeType="OUTSIDE" strokeWidth="0.0" text="Tokyo" textAlignment="CENTER" wrappingWidth="136.13671875" y="10.0">
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Tokyo" textAlignment="CENTER" wrappingWidth="136.13671875" y="10.0">
                      <font>
                         <Font name="Verdana Pro Cond Semibold" size="22.0" />
                      </font>
@@ -56,12 +56,12 @@
             </VBox>
             <VBox layoutX="145.0" layoutY="10.0" prefHeight="190.0" prefWidth="137.0">
                <children>
-                  <ImageView id="parisSearchBar" fx:id="parisSearchBar" fitHeight="150.0" fitWidth="135.0" onMouseClicked="#openParis" pickOnBounds="true">
+                  <ImageView fitHeight="150.0" fitWidth="135.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/Paris.jpg" />
                      </image>
                   </ImageView>
-                  <Text id="parisSearchBarText" fx:id="parisSearchBarText" fontSmoothingType="LCD" onMouseClicked="#openParis" strokeType="OUTSIDE" strokeWidth="0.0" text="Paris" textAlignment="CENTER" wrappingWidth="137.13671875">
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Paris" textAlignment="CENTER" wrappingWidth="137.13671875">
                      <font>
                         <Font name="Verdana Pro Cond Semibold" size="22.0" />
                      </font>
@@ -70,12 +70,12 @@
             </VBox>
             <VBox layoutX="285.0" layoutY="10.0" prefHeight="181.0" prefWidth="137.0">
                <children>
-                  <ImageView id="amsterdamSearchBar" fx:id="amsterdamSearchBar" fitHeight="150.0" fitWidth="136.0" onMouseClicked="#openAmsterdam" pickOnBounds="true">
+                  <ImageView fitHeight="150.0" fitWidth="136.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/Amsterdam.jpg" />
                      </image>
                   </ImageView>
-                  <Text id="AmsterdamSearchBarText" fx:id="AmsterdamSearchBarText" fontSmoothingType="LCD" onMouseClicked="#openAmsterdam" strokeType="OUTSIDE" strokeWidth="0.0" text="Amsterdam" textAlignment="CENTER" wrappingWidth="136.189453125">
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Amsterdam" textAlignment="CENTER" wrappingWidth="136.189453125">
                      <font>
                         <Font name="Verdana Pro Cond Semibold" size="22.0" />
                      </font>
@@ -84,12 +84,12 @@
             </VBox>
             <VBox layoutX="426.0" layoutY="10.0" prefHeight="190.0" prefWidth="137.0">
                <children>
-                  <ImageView id="barcelonaSearchBar" fx:id="barcelonaSearchBar" fitHeight="150.0" fitWidth="137.0" onMouseClicked="#openBarcelona" pickOnBounds="true">
+                  <ImageView fitHeight="150.0" fitWidth="137.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/Barcelona.jpg" />
                      </image>
                   </ImageView>
-                  <Text id="barcelonaSearchBarText" fx:id="barcelonaSearchBarText" fontSmoothingType="LCD" onMouseClicked="#openBarcelona" strokeType="OUTSIDE" strokeWidth="0.0" text="Barcelona" textAlignment="CENTER" wrappingWidth="138.13671875">
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Barcelona" textAlignment="CENTER" wrappingWidth="138.13671875">
                      <font>
                         <Font name="Verdana Pro Cond Semibold" size="22.0" />
                      </font>
@@ -100,7 +100,7 @@
       </AnchorPane>
       <Text layoutX="17.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Explore New Destination" wrappingWidth="529.13671875">
          <font>
-            <Font name="Verdana Pro Cond Semibold" size="32.0" />
+            <Font name="Verdana Pro Cond Semibold" size="30.0" />
          </font>
       </Text>
       <Text layoutX="19.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search">
@@ -108,7 +108,7 @@
             <Font name="Verdana Pro Cond Semibold" size="30.0" />
          </font>
       </Text>
-      <Button id="searchButton" fx:id="searchButton" layoutX="297.0" layoutY="125.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#searchDestination" prefHeight="24.0" prefWidth="44.0">
+      <Button layoutX="297.0" layoutY="125.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#searchDestination" prefHeight="24.0" prefWidth="44.0">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -148,7 +148,7 @@
             <Image url="@../images/free-user-icon-3296-thumb.png" />
          </image>
       </ImageView>
-      <Text id="userText" fx:id="userText" layoutX="475.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello, ">
+      <Text id="userText" fx:id="userText" layoutX="475.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" ">
          <font>
             <Font name="Verdana Pro Cond Semibold" size="12.0" />
          </font>

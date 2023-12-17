@@ -3,7 +3,6 @@ package com.example.wanderwisep.dao;
 import com.example.wanderwisep.dao.db_connection.DBConnection;
 import com.example.wanderwisep.enumeration.userRole;
 import com.example.wanderwisep.exception.UserNotFoundException;
-import com.example.wanderwisep.graphic_controller.LoginController;
 import com.example.wanderwisep.model.GenericUserProfile;
 import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.User;
@@ -25,6 +24,7 @@ public  class LoginDAO {
         PreparedStatement stmt = null;
         Connection conn = null;
         GenericUserProfile user;
+
         try {
             conn = DBConnection.getConnection();
             stmt = conn.prepareStatement("SELECT * FROM user WHERE EMAIL = ? AND PASSWORD = ?",
@@ -43,11 +43,6 @@ public  class LoginDAO {
             try {
                 if (stmt != null)
                     stmt.close();
-            } catch (SQLException e) {
-            }
-            try {
-                if (conn != null)
-                    conn.close();
             } catch (SQLException e) {
                 logger.log(Level.INFO, e.getMessage());
             }
