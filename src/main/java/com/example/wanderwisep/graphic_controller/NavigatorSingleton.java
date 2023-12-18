@@ -26,8 +26,6 @@ public class NavigatorSingleton {
     public static synchronized NavigatorSingleton getInstance() {
         return instance;
     }
-
-    // Costruttore privato per evitare la creazione diretta di istanze
     private NavigatorSingleton(Stage stage) {
         this.stg = stage;
     }
@@ -36,5 +34,17 @@ public class NavigatorSingleton {
         Parent root = loader.load();
         stg.getScene().setRoot(root);
     }
+    public void goToPageInit(String page, Object controllerData) throws IOException {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource(page));
+        Parent root = loader.load();
+
+        if (controllerData != null && loader.getController() instanceof InitializableController) {
+            InitializableController controller = (InitializableController) loader.getController();
+            controller.initializeData(controllerData);
+        }
+
+        stg.getScene().setRoot(root);
+    }
+
 }
 

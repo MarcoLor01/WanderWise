@@ -34,18 +34,7 @@ public  class LoginUserDAO {
             rs.close();
         } finally {
             // STEP 5.2: Clean-up dell'ambiente
-            try {
-                if (stmt != null)
-                    stmt.close();
-            } catch (SQLException e) {
-                logger.log(Level.INFO, e.getMessage());
-            }
-            try {
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException e) {
-                logger.log(Level.INFO, e.getMessage());
-            }
+            LoginGuideDAO.closeDAO(stmt, conn, logger);
         }
         return user;
     }

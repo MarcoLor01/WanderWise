@@ -21,16 +21,7 @@
             <Glow />
          </effect>
          <children>
-            <VBox id="vBoxGuidedTour" fx:id="vBoxGuidedTour" layoutX="8.8" layoutY="14.0" prefHeight="110.0" prefWidth="100.0" style="-fx-border-color: #87CEEB;">
-               <children>
-                  <ImageView fitHeight="74.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Guided Tour Name" wrappingWidth="97.47005462646484">
-                     <font>
-                        <Font name="Verdana Pro Cond Semibold" size="10.0" />
-                     </font>
-                  </Text>
-               </children>
-            </VBox>
+            <VBox id="vBoxGuidedTour" fx:id="vBoxGuidedTour" layoutX="8.8" layoutY="14.0" prefHeight="110.0" prefWidth="100.0" style="-fx-border-color: #87CEEB;" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="5.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">

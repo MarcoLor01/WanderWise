@@ -81,9 +81,7 @@ public class SearchBarController extends NavigatorController {
             newSearch.setDepartureDate(dateInitial.getValue());
             newSearch.setReturnDate(dateFinal.getValue());
             TourListBean tourListBean = BookTourController.searchTour(newSearch);
-            TourListController tourListController = new TourListController();
-            goToPage(TOURLIST);
-            tourListController.startView(tourListBean);
+            goToPageInit(TOURLIST,tourListBean);
         }catch (InvalidFormatException | TourNotFoundException | SQLException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog(e.getMessage(),"Search Tour Error");

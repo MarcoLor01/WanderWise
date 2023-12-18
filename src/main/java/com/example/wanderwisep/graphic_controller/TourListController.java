@@ -3,11 +3,14 @@ package com.example.wanderwisep.graphic_controller;
 import com.example.wanderwisep.bean.TourListBean;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import java.net.URL;
 import java.sql.Blob;
@@ -16,7 +19,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-public class TourListController extends NavigatorController {
+public class TourListController extends NavigatorController implements InitializableController {
+
+    public void initializeData(Object data) {
+        if (data instanceof TourListBean) {
+            startView((TourListBean) data);
+        }
+    }
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -65,17 +74,32 @@ public class TourListController extends NavigatorController {
         List<String> tourName = tourListBean.getTourName();
         List<Blob> tourPhoto = tourListBean.getPhoto();
         int tourNumber = tourName.size();
+        System.out.println(tourNumber);
         int i=0;
+        double x = 0;
         while(i<tourNumber){
             VBox vBox = new VBox();
-            double x = 0;
             anchorPaneBase.getChildren().add(vBox);
-
+            vBox.setStyle("-fx-border-color: white; -fx-border-width: 2;");
             AnchorPane.setLeftAnchor(vBox, startX + x); // Imposta la distanza a sinistra
             AnchorPane.setTopAnchor(vBox, startY); // Imposta la distanza dall'alto
-            System.out.println("CIAO");
             vBox.setPrefWidth(boxWidth); // Imposta la larghezza preferita del VBox
             vBox.setPrefHeight(boxHeight); // Imposta l'altezza preferita del VBox
+
+            // Aggiungi ImageView
+            ImageView imageView = new ImageView();
+            imageView.setFitWidth(98);
+            imageView.setFitHeight(74);
+
+            // Aggiungi Text
+            Text tourNameText = new Text(tourName.get(i));
+            tourNameText.setFont(Font.font("Verdana Pro Cond Semibold", 10));
+            // Aggiungi ImageView e Text alla VBox
+            vBox.getChildren().addAll(imageView, tourNameText);
+            System.out.println("QUA");
+            // Imposta il layout per ImageView e Text
+            VBox.setMargin(imageView, new Insets(0, 0, 5, 0)); // Margine inferiore per separare l'ImageView dal Text
+
             x += boxWidth + startX;
             i++;
         }
@@ -84,7 +108,7 @@ public class TourListController extends NavigatorController {
 
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
-    void initialize() {
+    void initialize(TourListBean tourListBean) {
         assert anchorPaneBase != null : "fx:id=\"anchorPaneBase\" was not injected: check your FXML file 'TourList.fxml'.";
         assert homeButton != null : "fx:id=\"homeButton\" was not injected: check your FXML file 'TourList.fxml'.";
         assert logoutTourList != null : "fx:id=\"logoutTourList\" was not injected: check your FXML file 'TourList.fxml'.";
