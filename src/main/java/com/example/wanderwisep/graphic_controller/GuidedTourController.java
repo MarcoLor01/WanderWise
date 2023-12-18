@@ -11,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 
-public class GuidedTourController {
+public class GuidedTourController extends NavigatorController {
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -70,6 +70,8 @@ public class GuidedTourController {
     void openMyArea(MouseEvent event) {
 
     }
+
+
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {

@@ -18,17 +18,12 @@ public class BookTourControllerApplication {
         List<GuidedTour> guidedTourList = searchTourDAO.findTicket(searchBean.getCityName(), searchBean.getDepartureDate(), searchBean.getReturnDate());
         TourListBean tourListBean = new TourListBean();
         int dimensione = guidedTourList.size();
-        System.out.println(dimensione);
         int i = 0;
         while(i < dimensione){
             tourListBean.setTourName(guidedTourList.get(i).getCityName(),i);
             tourListBean.setPhoto(guidedTourList.get(i).getPhoto(),i);
             i++;
         }
-        System.out.println(tourListBean.getTourName());
-        System.out.println(tourListBean.getPhoto());
-
-       // tourListBean.setCityName(guidedTourList.get());
         return tourListBean;
     }
  //   String attractionsString = rs.getString("listOfAttraction");

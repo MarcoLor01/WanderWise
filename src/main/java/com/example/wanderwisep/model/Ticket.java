@@ -53,11 +53,6 @@ public class Ticket {
     public void setMyGuidedTour(GuidedTour myGuidedTour) {
         this.myGuidedTour = myGuidedTour;
     }
-
-    public GenericUserProfile getUser() {
-        return user;
-    }
-
     public void setUser(User user) {
         this.user = user;
     }

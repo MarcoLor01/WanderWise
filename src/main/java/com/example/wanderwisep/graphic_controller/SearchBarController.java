@@ -12,7 +12,6 @@ import com.example.wanderwisep.bean.SearchBean;
 import com.example.wanderwisep.bean.TourListBean;
 import com.example.wanderwisep.exception.InvalidFormatException;
 import com.example.wanderwisep.exception.TourNotFoundException;
-import com.example.wanderwisep.sessionManagment.SessionManagerSingleton;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -82,6 +81,8 @@ public class SearchBarController extends NavigatorController {
             newSearch.setDepartureDate(dateInitial.getValue());
             newSearch.setReturnDate(dateFinal.getValue());
             TourListBean tourListBean = BookTourController.searchTour(newSearch);
+            TourListController tourListController = new TourListController();
+            tourListController.startView(tourListBean);
             goToPage(TOURLIST);
         }catch (InvalidFormatException | TourNotFoundException | SQLException e) {
             logger.log(Level.INFO, e.getMessage());
