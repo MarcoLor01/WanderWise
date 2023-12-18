@@ -18,6 +18,7 @@ public class LoginControllerApplication {
         String name = user.getName();
         String surname = user.getSurname();
         SessionManagerSingleton.getInstance().getUserSession(email, name);
+        //Capire come si gestisce la sessione
     }
     public void loginGuide(LoginBean loginBean) throws UserNotFoundException, SQLException {
         LoginGuideDAO loginGuideDAO = new LoginGuideDAO();

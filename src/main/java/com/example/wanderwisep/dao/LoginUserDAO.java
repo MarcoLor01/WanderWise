@@ -14,11 +14,13 @@ public  class LoginUserDAO {
 
     public User findUser(String email, String password) throws SQLException, UserNotFoundException {
         Statement stmt = null;
-        Connection conn;
+        Connection conn = null;
         User user;
 
         try {
             conn = DBConnection.getConnection();
+            System.out.println("QUA CONNESSIONE" + conn);
+            System.out.println("QUA");
             stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = Queries.loginUser(stmt, email, password);
@@ -38,12 +40,12 @@ public  class LoginUserDAO {
             } catch (SQLException e) {
                 logger.log(Level.INFO, e.getMessage());
             }
-        }
-        try {
-            if (conn != null)
-                conn.close();
-        } catch (SQLException e) {
-            logger.log(Level.INFO, e.getMessage());
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                logger.log(Level.INFO, e.getMessage());
+            }
         }
         return user;
     }

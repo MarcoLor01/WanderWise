@@ -13,29 +13,26 @@ import java.util.logging.Logger;
 public class SearchTourDAO {
     private static final Logger logger = Logger.getLogger(SearchTourDAO.class.getName());
     public List<GuidedTour> findTicket(String city, LocalDate departureDate, LocalDate returnDate) throws SQLException, TourNotFoundException{
-        PreparedStatement stmt = null;
+        Statement stmt = null;
         Connection conn = null;
         List<GuidedTour> tours = new ArrayList<>();
         try {
             conn = DBConnection.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM guidedtour WHERE cityName = ? AND departureDate >= ? AND returnDate <= ?",
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            stmt.setString(1, city);
-            stmt.setDate(2, java.sql.Date.valueOf(departureDate));
-            stmt.setDate(3, java.sql.Date.valueOf(returnDate));
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
 
-            ResultSet rs = stmt.executeQuery();
+            ResultSet rs = Queries.findTour(stmt, city, Date.valueOf(departureDate), Date.valueOf(returnDate));
             if (!rs.first()) {
                 throw new TourNotFoundException("No tours available");
             }
             rs.first();
             do {
-                // lettura delle colonne "by name"
                 String tourName = rs.getString("nametour");
                 Blob photoBlob = rs.getBlob("photo");
                 GuidedTour a = new GuidedTour(tourName, photoBlob);
                 tours.add(a);
             } while (rs.next());
+            rs.close();
         }finally{
             // STEP 5.2: Clean-up dell'ambiente
             try {

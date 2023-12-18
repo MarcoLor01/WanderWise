@@ -69,8 +69,6 @@ public class TourListController extends NavigatorController {
         while(i<tourNumber){
             VBox vBox = new VBox();
             double x = 0;
-            System.out.println("CIAO");
-            System.out.println("ciao" + anchorPaneBase.getChildren());
             anchorPaneBase.getChildren().add(vBox);
 
             AnchorPane.setLeftAnchor(vBox, startX + x); // Imposta la distanza a sinistra
