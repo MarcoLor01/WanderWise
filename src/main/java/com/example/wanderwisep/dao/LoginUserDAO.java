@@ -4,8 +4,10 @@ import com.example.wanderwisep.dao.db_connection.DBConnection;
 import com.example.wanderwisep.exception.UserNotFoundException;
 import com.example.wanderwisep.model.User;
 
-import java.sql.*;
-import java.util.logging.Level;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 public  class LoginUserDAO {
@@ -13,17 +15,18 @@ public  class LoginUserDAO {
 
 
     public User findUser(String email, String password) throws SQLException, UserNotFoundException {
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         Connection conn = null;
         User user;
+        String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
 
         try {
             conn = DBConnection.getConnection();
-            System.out.println("QUA CONNESSIONE" + conn);
-            System.out.println("QUA");
-            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+            stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = Queries.loginUser(stmt, email, password);
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
             if (!rs.first()) {
                 throw new UserNotFoundException("User not found");
             }

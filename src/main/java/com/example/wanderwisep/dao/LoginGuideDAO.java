@@ -5,9 +5,9 @@ import com.example.wanderwisep.exception.UserNotFoundException;
 import com.example.wanderwisep.model.TouristGuide;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,15 +18,19 @@ public class LoginGuideDAO {
     private static final Logger logger = Logger.getLogger(LoginUserDAO.class.getName());
 
     public TouristGuide findGuide(String email, String password) throws UserNotFoundException, SQLException {
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         Connection conn = null;
         TouristGuide touristGuide;
+        String sql = "SELECT * FROM touristguide WHERE email = ? AND password = ?";
 
         try {
             conn = DBConnection.getConnection();
-            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+
+            stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = Queries.loginGuide(stmt, email, password);
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
             if (!rs.first()) {
                 throw new UserNotFoundException("User not found");
             }
@@ -44,7 +48,7 @@ public class LoginGuideDAO {
         return touristGuide;
     }
 
-    static void closeDAO(Statement stmt, Connection conn, Logger logger) {
+    static void closeDAO(PreparedStatement stmt, Connection conn, Logger logger) {
         try {
             if (stmt != null)
                 stmt.close();

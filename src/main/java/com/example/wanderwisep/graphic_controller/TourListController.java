@@ -49,7 +49,6 @@ public class TourListController extends NavigatorController implements Initializ
 
     @FXML // fx:id="userIconTourlist"
     private ImageView userIconTourlist; // Value injected by FXMLLoader
-
     @FXML
     void logout(MouseEvent event) {
 
@@ -63,22 +62,21 @@ public class TourListController extends NavigatorController implements Initializ
     void openLogoutMenu(MouseEvent event) {
 
     }
-
     void startView(TourListBean tourListBean) {
         List<String> tourName = tourListBean.getTourName();
         List<Blob> tourPhoto = tourListBean.getPhoto();
         int tourNumber = tourName.size();
         int i = 0;
-            double x = 0;
-            while (i < tourNumber) {
-                VBox vBox = new VBox();
-                anchorPaneBase.getChildren().add(vBox);
-                vBox.setStyle("-fx-border-color: white; -fx-border-width: 2;");
-                double startX = 8.8;
-                AnchorPane.setLeftAnchor(vBox, startX + x); // Imposta la distanza a sinistra
-                double startY = 14.0;
-                double boxWidth = 100.0;
-                double boxHeight = 110.0;
+        double x = 0;
+        while (i < tourNumber) {
+            VBox vBox = new VBox();
+            anchorPaneBase.getChildren().add(vBox);
+            vBox.setStyle("-fx-border-color: white; -fx-border-width: 2;");
+            double startX = 8.8;
+            AnchorPane.setLeftAnchor(vBox, startX + x); // Imposta la distanza a sinistra
+            double startY = 14.0;
+            double boxWidth = 100.0;
+            double boxHeight = 110.0;
                 double imageWidth = 98.0;
                 double imageHeight = 74.0;
                 AnchorPane.setTopAnchor(vBox, startY); // Imposta la distanza dall'alto
@@ -95,12 +93,12 @@ public class TourListController extends NavigatorController implements Initializ
                 tourNameText.setOnMouseClicked(event -> {
                     openTourDescription(event, tourNameText.getText());
                 });
-                vBox.getChildren().addAll(imageView, tourNameText);
-                VBox.setMargin(imageView, new Insets(0, 0, 1, 0));
-                x += boxWidth + startX;
-                i++;
-            }
+            vBox.getChildren().addAll(imageView, tourNameText);
+            VBox.setMargin(imageView, new Insets(0, 0, 1, 0));
+            x += boxWidth + startX;
+            i++;
         }
+    }
 
 
     @FXML
