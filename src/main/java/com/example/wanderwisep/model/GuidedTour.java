@@ -1,31 +1,35 @@
 package com.example.wanderwisep.model;
 
 import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Vector;
 
 public class GuidedTour {
     private String cityName;
-    private ArrayList<String> listOfAttraction;
-    private Date departureDate;
-    private Date returnDate;
-    private TouristGuide myTouristGuide;
+    private List<String> listOfAttraction;
+    private LocalDate departureDate;
+    private LocalDate returnDate;
+    private String myTouristGuide;
     private Vector<Ticket> tourTicket;
     private String nameTour;
     private Blob photo;
 
-    public GuidedTour(String nameTour, Blob photo) {
+    public GuidedTour(String nameTour, Blob photo, LocalDate departureDate, LocalDate returnDate) {
         this.cityName = nameTour;
         this.photo = photo;
+        this.departureDate = departureDate;
+        this.returnDate = returnDate;
     }
 
-    public GuidedTour(String cityName, ArrayList<String> listOfAttraction, Date departureDate, Date returnDate, TouristGuide myTouristGuide) {
+    public GuidedTour(String cityName, List<String> listOfAttraction, LocalDate departureDate, LocalDate returnDate, String myTouristGuide, Blob photo, String tourName) {
         this.cityName = cityName;
         this.listOfAttraction = listOfAttraction;
         this.departureDate = departureDate;
         this.returnDate = returnDate;
         this.myTouristGuide = myTouristGuide;
+        this.photo = photo;
+        this.nameTour = tourName;
     }
 
     public String getNameTour() {
@@ -43,36 +47,47 @@ public class GuidedTour {
     public String getCityName() {
         return cityName;
     }
+
     public void setCityName(String cityName) {
         this.cityName = cityName;
     }
-    public ArrayList<String> getListOfAttraction() {
+
+    public List<String> getListOfAttraction() {
         return listOfAttraction;
     }
-    public void setListOfAttraction(ArrayList<String> listOfAttraction) {
+
+    public void setListOfAttraction(List<String> listOfAttraction) {
         this.listOfAttraction = listOfAttraction;
     }
-    public Date getDepartureDate() {
+
+    public LocalDate getDepartureDate() {
         return departureDate;
     }
-    public void setDepartureDate(Date departureDate) {
+
+    public void setDepartureDate(LocalDate departureDate) {
         this.departureDate = departureDate;
     }
-    public Date getReturnDate() {
+
+    public LocalDate getReturnDate() {
         return returnDate;
     }
-    public void setReturnDate(Date returnDate) {
+
+    public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
-    public TouristGuide getMyTouristGuide() {
+
+    public String getMyTouristGuide() {
         return myTouristGuide;
     }
-    public void setMyTouristGuide(TouristGuide myTouristGuide) {
+
+    public void setMyTouristGuide(String myTouristGuide) {
         this.myTouristGuide = myTouristGuide;
     }
+
     public Vector<Ticket> getTourTicket() {
         return tourTicket;
     }
+
     public void setTourTicket(Vector<Ticket> tourTicket) {
         this.tourTicket = tourTicket;
     }

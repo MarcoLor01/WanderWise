@@ -9,8 +9,8 @@ import java.util.List;
 public class TourListBean implements Serializable {
 
     private List<String> tourName = new ArrayList<>();
-    private List<LocalDate> departureDate;
-    private List <LocalDate> returnDate;
+    private List<LocalDate> departureDate = new ArrayList<>();
+    private List<LocalDate> returnDate = new ArrayList<>();
     private List<Blob> photo = new ArrayList<>();
 
     public TourListBean() {
@@ -29,7 +29,7 @@ public class TourListBean implements Serializable {
     }
 
     public void setDepartureDate(LocalDate departureDate, Integer i) {
-        this.departureDate.set(i, departureDate);
+        this.departureDate.add(i, departureDate);
     }
 
     public void setPhoto(Blob photo, Integer i) {
@@ -45,6 +45,6 @@ public class TourListBean implements Serializable {
     }
 
     public void setReturnDate(LocalDate returnDate, Integer i) {
-        this.returnDate.set(i, returnDate);
+        this.returnDate.add(i, returnDate);
     }
 }

@@ -1,0 +1,76 @@
+package com.example.wanderwisep.bean;
+
+import java.io.Serializable;
+import java.sql.Blob;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class GuidedTourBean implements Serializable {
+    String tourName;
+    List<String> listOfAttraction = new ArrayList<>();
+    LocalDate departureDate;
+    LocalDate returnDate;
+    String touristGuideName;
+    Blob photo;
+    String cityName;
+
+    public GuidedTourBean() {
+    }
+
+    public String getTourName() {
+        return tourName;
+    }
+
+    public void setTourName(String tourName) {
+        this.tourName = tourName;
+    }
+
+    public List<String> getListOfAttraction() {
+        return listOfAttraction;
+    }
+
+    public void setListOfAttraction(List<String> listOfAttraction) {
+        this.listOfAttraction = listOfAttraction;
+    }
+
+    public LocalDate getDepartureDate() {
+        return departureDate;
+    }
+
+    public void setDepartureDate(LocalDate departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public LocalDate getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(LocalDate returnDate) {
+        this.returnDate = returnDate;
+    }
+
+    public String getTouristGuideName() {
+        return touristGuideName;
+    }
+
+    public void setTouristGuideName(String touristGuideName) {
+        this.touristGuideName = touristGuideName;
+    }
+
+    public Blob getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Blob photo) {
+        this.photo = photo;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+}

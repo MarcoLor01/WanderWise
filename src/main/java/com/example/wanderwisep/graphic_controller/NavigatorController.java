@@ -1,15 +1,13 @@
 package com.example.wanderwisep.graphic_controller;
+
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,5 +57,11 @@ public class NavigatorController {
 
         return null;
     }
+
+    protected void setText(Integer i, Text toSet) {
+        toSet.setTextAlignment(TextAlignment.CENTER);
+        toSet.setTranslateY(i);
+        toSet.setFont(Font.font("Verdana Pro Cond Semibold", 10));
     }
+}
 

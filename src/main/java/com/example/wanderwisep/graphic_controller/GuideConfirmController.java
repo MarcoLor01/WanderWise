@@ -1,14 +1,13 @@
 package com.example.wanderwisep.graphic_controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import com.example.wanderwisep.sessionManagment.SessionManagerSingleton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class GuideConfirmController {
 

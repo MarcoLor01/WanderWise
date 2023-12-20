@@ -2,15 +2,10 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.effect.Glow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
+<?import javafx.scene.text.*?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #add8e6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wanderwisep.graphic_controller.GuidedTourController">
    <Text id="homeGuidedTour" fx:id="homeGuidedTour" layoutX="265.0" layoutY="22.0" onMouseClicked="#openHome" strokeType="OUTSIDE" strokeWidth="0.0" text="Home">
       <font>
@@ -22,60 +17,51 @@
          <Font name="Verdana Pro Cond Semibold" size="12.0" />
       </font>
    </Text>
-   <AnchorPane id="loginAnchorGuidedTour" fx:id="loginAnchorGuidedTour" layoutX="530.0" layoutY="2.0" prefHeight="64.0" prefWidth="59.0" style="-fx-background-color: white; -fx-border-color: #4682B4;" visible="false">
+   <AnchorPane id="loginAnchorGuidedTour" fx:id="loginAnchorGuidedTour" layoutX="530.0" layoutY="2.0" prefHeight="64.0"
+               prefWidth="59.0" style="-fx-background-color: white; -fx-border-color: #4682B4;" visible="false">
       <children>
-         <Text id="logoutGuidedTour" fx:id="logoutGuidedTour" layoutX="3.0" layoutY="59.0" onMouseClicked="#logout" strokeType="OUTSIDE" strokeWidth="0.0" text="Log-Out" textAlignment="CENTER" wrappingWidth="52.13671875">
+         <Text id="logoutGuidedTour" fx:id="logoutGuidedTour" layoutX="3.0" layoutY="59.0" onMouseClicked="#logout"
+               strokeType="OUTSIDE" strokeWidth="0.0" text="Log-Out" textAlignment="CENTER" wrappingWidth="52.13671875">
             <font>
-               <Font name="Verdana Pro Semibold" size="8.0" />
+               <Font name="Verdana Pro Semibold" size="8.0"/>
             </font>
          </Text>
       </children>
    </AnchorPane>
-   <ImageView id="loginGuidedTour" fx:id="loginGuidedTour" fitHeight="36.0" fitWidth="32.0" layoutX="544.0" layoutY="2.0" onMouseClicked="#openLogout" pickOnBounds="true" preserveRatio="true">
+   <ImageView id="loginGuidedTour" fx:id="loginGuidedTour" fitHeight="36.0" fitWidth="32.0" layoutX="544.0"
+              layoutY="2.0" onMouseClicked="#openLogout" pickOnBounds="true" preserveRatio="true">
       <image>
-         <Image url="@../images/free-user-icon-3296-thumb.png" />
+         <Image url="@../images/free-user-icon-3296-thumb.png"/>
       </image>
    </ImageView>
    <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="5.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
       <image>
-         <Image url="@../images/Cattura-removebg-preview.png" />
+         <Image url="@../images/Cattura-removebg-preview.png"/>
       </image>
    </ImageView>
-   <AnchorPane layoutX="27.0" layoutY="88.0" prefHeight="282.0" prefWidth="255.0" style="-fx-background-color: #4682B4;">
-      <children>
-         <ImageView id="tourImage" fx:id="tourImage" fitHeight="303.0" fitWidth="255.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true" />
-      </children>
-      <effect>
-         <Glow />
-      </effect>
-   </AnchorPane>
-   <Text layoutX="27.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tour Title" wrappingWidth="517.13671875">
+   <ImageView id="tourImage" fx:id="tourImage" fitHeight="303.0" fitWidth="255.0" layoutX="31.0" layoutY="80.0"
+              pickOnBounds="true"/>
+   <Text id="tourTitleText" fx:id="tourTitleText" layoutX="27.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0"
+         wrappingWidth="517.13671875">
       <font>
-         <Font name="Verdana Pro Cond Semibold" size="24.0" />
+         <Font name="Verdana Pro Cond Semibold" size="24.0"/>
       </font>
    </Text>
-   <FlowPane id="flowPaneId" fx:id="flowPaneId" layoutX="300.0" layoutY="88.0" prefHeight="200.0" prefWidth="172.0">
-      <children>
-         <Circle fill="DODGERBLUE" radius="11.0" stroke="BLACK" strokeType="INSIDE" />
-         <Text id="firstStopText" fx:id="firstStopText" strokeType="OUTSIDE" strokeWidth="0.0" text="  Prima Tappa" wrappingWidth="137.13671875">
-            <font>
-               <Font name="Verdana Pro Cond Semibold" size="10.0" />
-            </font>
-         </Text>
-      </children>
-   </FlowPane>
-   <Line endX="-156.0" endY="-230.0" layoutX="467.0" layoutY="340.0" startX="-156.0" startY="-207.0" />
-   <AnchorPane layoutX="391.0" layoutY="343.0" prefHeight="39.0" prefWidth="185.0" style="-fx-background-color: #4682B4;">
+   <FlowPane id="flowPaneId" fx:id="flowPaneId" layoutX="300.0" layoutY="88.0" prefHeight="200.0" prefWidth="172.0"/>
+   <AnchorPane layoutX="391.0" layoutY="343.0" prefHeight="39.0" prefWidth="185.0"
+               style="-fx-background-color: #4682B4;">
       <effect>
-         <Glow />
+         <Glow/>
       </effect>
       <children>
-         <Text layoutX="14.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Guided Tour" wrappingWidth="105.13671875">
+         <Text layoutX="14.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Guided Tour"
+               wrappingWidth="105.13671875">
             <font>
-               <Font name="Verdana Pro Cond Semibold" size="12.0" />
+               <Font name="Verdana Pro Cond Semibold" size="12.0"/>
             </font>
          </Text>
-         <Button id="bookTour" fx:id="bookTour" layoutX="132.0" layoutY="7.0" mnemonicParsing="false" onAction="#bookTour" prefHeight="25.0" prefWidth="40.0" />
+         <Button id="bookTour" fx:id="bookTour" layoutX="132.0" layoutY="7.0" mnemonicParsing="false"
+                 onAction="#bookTour" prefHeight="25.0" prefWidth="40.0"/>
       </children>
    </AnchorPane>
 </AnchorPane>
