@@ -12,19 +12,18 @@ import java.util.Properties;
 public class TicketDAOFactory {
 
     public TicketDAO createCategoryDAO() throws IOException {
-        InputStream input = new FileInputStream("config.properties");
-        Properties properties = new Properties();
-        properties.load(input);
-
-        String categoryDaoType = properties.getProperty("CATEGORY_DAO_TYPE");
-
-        switch (categoryDaoType) {
-            case "jdbc":
-                return new TicketDAOJDBC();
-            case "csv":
-                return new TicketDAOCSV();
-            default:
-                throw new IOException("Configuration file error");
+        try (InputStream input = new FileInputStream("config.properties")) {
+            Properties properties = new Properties();
+            properties.load(input);
+            String categoryDaoType = properties.getProperty("CATEGORY_DAO_TYPE");
+            switch (categoryDaoType) {
+                case "jdbc":
+                    return new TicketDAOJDBC();
+                case "csv":
+                    return new TicketDAOCSV();
+                default:
+                    throw new IOException("Configuration file error");
+            }
         }
     }
 
