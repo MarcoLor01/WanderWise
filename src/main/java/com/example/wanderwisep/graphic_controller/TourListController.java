@@ -113,9 +113,9 @@ public class TourListController extends NavigatorController implements Initializ
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             Text departureDateText = new Text("From " + departureDate.get(i).format(formatter));
             Text returnDateText = new Text("To " + returnDate.get(i).format(formatter));
-            setText(-2, tourNameText);
-            setText(-2, departureDateText);
-            setText(-2, returnDateText);
+            setTextN(-2, tourNameText, 10);
+            setTextN(-2, departureDateText, 10);
+            setTextN(-2, returnDateText, 10);
             Line separatorLine = new Line(0, 0, boxWidth - 3, 0);
             separatorLine.setStroke(Color.WHITE);
             vBox.getChildren().addAll(imageView, tourNameText, separatorLine, departureDateText, returnDateText);

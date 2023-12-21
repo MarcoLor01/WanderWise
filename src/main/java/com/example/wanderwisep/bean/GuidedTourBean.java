@@ -12,6 +12,7 @@ public class GuidedTourBean implements Serializable {
     LocalDate departureDate;
     LocalDate returnDate;
     String touristGuideName;
+    String touristGuideSurname;
     Blob photo;
     String cityName;
 
@@ -72,5 +73,13 @@ public class GuidedTourBean implements Serializable {
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
+    }
+
+    public String getTouristGuideSurname() {
+        return touristGuideSurname;
+    }
+
+    public void setTouristGuideSurname(String touristGuideSurname) {
+        this.touristGuideSurname = touristGuideSurname;
     }
 }

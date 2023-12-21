@@ -5,15 +5,14 @@ import com.example.wanderwisep.enumeration.stateEnum;
 import java.util.Date;
 
 public class Ticket {
-    private Integer idTicket;
-    private stateEnum state;
-    private Date prenotationDate;
-    private GuidedTour myGuidedTour;
-    private User user;
+    private Integer idTicket; //
+    private stateEnum state; //
+    private Date prenotationDate; //
+    private String myGuidedTour;
+    private String user;
 
 
-
-    public Ticket(Integer idTicket, stateEnum state, Date prenotationDate, GuidedTour myGuidedTour, User user) {
+    public Ticket(Integer idTicket, stateEnum state, Date prenotationDate, String myGuidedTour, String user) {
         this.idTicket = idTicket;
         this.state = state;
         this.prenotationDate = prenotationDate;
@@ -46,14 +45,15 @@ public class Ticket {
         this.prenotationDate = prenotationDate;
     }
 
-    public GuidedTour getMyGuidedTour() {
+    public String getMyGuidedTour() {
         return myGuidedTour;
     }
 
-    public void setMyGuidedTour(GuidedTour myGuidedTour) {
+    public void setMyGuidedTour(String myGuidedTour) {
         this.myGuidedTour = myGuidedTour;
     }
-    public void setUser(User user) {
+
+    public void setUser(String user) {
         this.user = user;
     }
 }

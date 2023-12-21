@@ -1,12 +1,6 @@
 package com.example.wanderwisep.graphic_controller;
 
 
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
 import com.example.wanderwisep.bean.SearchBean;
 import com.example.wanderwisep.bean.TourListBean;
@@ -20,6 +14,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SearchBarController extends NavigatorController {
     BookTourControllerApplication BookTourController = new BookTourControllerApplication();
@@ -52,7 +52,7 @@ public class SearchBarController extends NavigatorController {
 
     @FXML
     void logout(MouseEvent event) {
-
+        goToPage(LOGIN);
     }
     @FXML
     void openLogout(MouseEvent event) {

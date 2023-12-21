@@ -1,6 +1,8 @@
 package com.example.wanderwisep.application_controller;
+
 import com.example.wanderwisep.bean.GuidedTourBean;
 import com.example.wanderwisep.bean.SearchBean;
+import com.example.wanderwisep.bean.TicketBean;
 import com.example.wanderwisep.bean.TourListBean;
 import com.example.wanderwisep.dao.SearchTourDAO;
 import com.example.wanderwisep.exception.TourNotFoundException;
@@ -46,5 +48,10 @@ public class BookTourControllerApplication {
         return tourListBean;
     }
 
+    public TicketBean createTicket(TicketBean ticketBean) {
+        //Ticket newTicket = ticketDAO.createTicket();
+        //Implements the session
+        return ticketBean;
+    }
 
 }

@@ -58,10 +58,10 @@ public class NavigatorController {
         return null;
     }
 
-    protected void setText(Integer i, Text toSet) {
+    protected void setTextN(Integer i, Text toSet, Integer fontText) {
         toSet.setTextAlignment(TextAlignment.CENTER);
         toSet.setTranslateY(i);
-        toSet.setFont(Font.font("Verdana Pro Cond Semibold", 10));
+        toSet.setFont(Font.font("Verdana Pro Cond Semibold", fontText));
     }
 }
 
