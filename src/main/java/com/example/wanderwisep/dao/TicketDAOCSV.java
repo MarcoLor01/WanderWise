@@ -4,12 +4,15 @@ import com.example.wanderwisep.exception.DAOException;
 import com.example.wanderwisep.model.Ticket;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class TicketDAOCSV implements TicketDAO {
+
+
     @Override
-    public Integer createTicket(String tourName) throws DAOException, SQLException {
-        return null;
+    public int createTicket(String tourName, String user, LocalDate prenotationDate, String stateTicket) throws DAOException, SQLException {
+        return 1;
     }
 
     @Override

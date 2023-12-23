@@ -3,9 +3,12 @@ package com.example.wanderwisep.graphic_controller;
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
 import com.example.wanderwisep.bean.GuidedTourBean;
 import com.example.wanderwisep.bean.TicketBean;
+import com.example.wanderwisep.exception.DAOException;
+import com.example.wanderwisep.exception.DuplicateTourException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -18,11 +21,14 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GuidedTourController extends NavigatorController implements InitializableController {
@@ -113,14 +119,33 @@ public class GuidedTourController extends NavigatorController implements Initial
     }
     @FXML
     void bookTour(ActionEvent event) {
-        //try{
-        TicketBean ticketBean = new TicketBean();
-        ticketBean.setGuidedTour(tourTitleText.getText());
-        ticketBean.setEmailSender("not implemented yet");
-        ticketBean.setPrenotationDate(LocalDate.now());
-        bookTourControllerApplication.createTicket(ticketBean);
+        try {
+            TicketBean ticketBean = new TicketBean();
+            ticketBean.setGuidedTour(tourTitleText.getText());
+            ticketBean.setEmailSender("not implemented yet");
+            ticketBean.setPrenotationDate(LocalDate.now());
+            ticketBean.setStateTicket("waiting for confirmation");
+            TicketBean ticketBeanReturn = new TicketBean();
+            ticketBeanReturn = bookTourControllerApplication.createTicket(ticketBean);
+            if (ticketBeanReturn.getResult() == -1) {
 
-        //}
+                throw new DuplicateTourException("Guided Tour duplicate prenotation");
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Guided Tour");
+            alert.setHeaderText(null); // Puoi impostare un'intestazione se necessario
+            alert.setContentText("Guided Tour Booked");
+            alert.showAndWait();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (DAOException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (DuplicateTourException e) {
+            logger.log(Level.INFO, e.getMessage());
+            showErrorDialog("You have already booked this guided tour", "Error guided tour");
+        }
     }
 
     @FXML
@@ -130,7 +155,7 @@ public class GuidedTourController extends NavigatorController implements Initial
 
     @FXML
     void openHome(MouseEvent event) {
-        goToPage(SEARCHBAR);
+
     }
 
     @FXML
@@ -140,7 +165,7 @@ public class GuidedTourController extends NavigatorController implements Initial
 
     @FXML
     void openMyArea(MouseEvent event) {
-
+        goToPage(MYAREA);
     }
 
 

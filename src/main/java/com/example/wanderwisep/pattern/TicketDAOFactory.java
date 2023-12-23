@@ -11,8 +11,8 @@ import java.util.Properties;
 
 public class TicketDAOFactory {
 
-    public TicketDAO createCategoryDAO() throws IOException {
-        try (InputStream input = new FileInputStream("config.properties")) {
+    public TicketDAO createTicketDAO() throws IOException {
+        try (InputStream input = new FileInputStream("src/main/resources/com/example/wanderwisep/config.properties")) {
             Properties properties = new Properties();
             properties.load(input);
             String categoryDaoType = properties.getProperty("CATEGORY_DAO_TYPE");

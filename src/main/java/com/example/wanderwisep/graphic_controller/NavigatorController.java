@@ -18,6 +18,7 @@ public class NavigatorController {
     public static final String GUIDECONFIRM = "view/GuideConfirm.fxml";
     public static final String GUIDEDTOUR = "view/GuidedTour.fxml";
     public static final String TOURLIST = "view/TourList.fxml";
+    public static final String MYAREA = "view/MyArea.fxml";
 
     protected void goToPage(String page){
         try{

@@ -8,8 +8,26 @@ public class TicketBean implements Serializable {
     String emailSender;
     String guidedTour;
     Integer idTicket;
+    String stateTicket;
+    int result;
 
     public TicketBean() {
+    }
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+
+    public String getStateTicket() {
+        return stateTicket;
+    }
+
+    public void setStateTicket(String stateTicket) {
+        this.stateTicket = stateTicket;
     }
 
     public LocalDate getPrenotationDate() {
