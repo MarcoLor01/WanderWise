@@ -31,7 +31,7 @@ public class TicketDAOFactory {
         return new TicketDAOJDBC();
     }
 
-    public TicketDAO createTicketDAOCSV() throws IOException {
+    public TicketDAO createTicketDAOCSV() {
         return new TicketDAOCSV();
     }
 }

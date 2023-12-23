@@ -1,14 +1,14 @@
 package com.example.wanderwisep.model;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class TouristGuide {
     private String name;
     private String surname;
     private String email;
     private List<String> spokenLanguages;
-    private Vector<GuidedTour> myTour;
+    private ArrayList<GuidedTour> myTour;
 
     public TouristGuide(String name, String surname, String email, List<String> spokenLanguages) {
         this.name = name;
@@ -49,11 +49,11 @@ public class TouristGuide {
         this.spokenLanguages = spokenLanguages;
     }
 
-    public Vector<GuidedTour> getMyTour() {
+    public ArrayList<GuidedTour> getMyTour() {
         return myTour;
     }
 
-    public void setMyTour(Vector<GuidedTour> myTour) {
+    public void setMyTour(ArrayList<GuidedTour> myTour) {
         this.myTour = myTour;
     }
 }

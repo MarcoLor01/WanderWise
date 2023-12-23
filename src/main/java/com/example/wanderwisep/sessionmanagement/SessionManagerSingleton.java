@@ -1,4 +1,4 @@
-package com.example.wanderwisep.sessionManagement;
+package com.example.wanderwisep.sessionmanagement;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -2,8 +2,8 @@ package com.example.wanderwisep.model;
 
 import java.sql.Blob;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class GuidedTour {
     private String cityName;
@@ -11,7 +11,7 @@ public class GuidedTour {
     private LocalDate departureDate;
     private LocalDate returnDate;
     private String myTouristGuide;
-    private Vector<Ticket> tourTicket;
+    private ArrayList<Ticket> tourTicket;
     private String nameTour;
     private Blob photo;
 
@@ -84,11 +84,11 @@ public class GuidedTour {
         this.myTouristGuide = myTouristGuide;
     }
 
-    public Vector<Ticket> getTourTicket() {
+    public ArrayList<Ticket> getTourTicket() {
         return tourTicket;
     }
 
-    public void setTourTicket(Vector<Ticket> tourTicket) {
+    public void setTourTicket(ArrayList<Ticket> tourTicket) {
         this.tourTicket = tourTicket;
     }
 

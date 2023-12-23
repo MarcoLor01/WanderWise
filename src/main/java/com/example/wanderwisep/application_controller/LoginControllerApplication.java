@@ -6,7 +6,7 @@ import com.example.wanderwisep.dao.LoginUserDAO;
 import com.example.wanderwisep.exception.UserNotFoundException;
 import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.User;
-import com.example.wanderwisep.sessionManagement.SessionManagerSingleton;
+import com.example.wanderwisep.sessionmanagement.SessionManagerSingleton;
 
 import java.sql.SQLException;
 import java.util.List;

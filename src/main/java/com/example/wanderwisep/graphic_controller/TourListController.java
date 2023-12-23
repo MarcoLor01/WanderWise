@@ -31,8 +31,8 @@ public class TourListController extends NavigatorController implements Initializ
     private static final Logger logger = Logger.getLogger(SearchBarController.class.getName());
 
     public void initializeData(Object data) {
-        if (data instanceof TourListBean) {
-            startView((TourListBean) data);
+        if (data instanceof TourListBean tourListBean) {
+            startView(tourListBean);
         }
     }
 
