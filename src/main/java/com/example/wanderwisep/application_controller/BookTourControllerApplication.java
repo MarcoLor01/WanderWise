@@ -1,13 +1,12 @@
 package com.example.wanderwisep.application_controller;
 
-import com.example.wanderwisep.bean.GuidedTourBean;
-import com.example.wanderwisep.bean.SearchBean;
-import com.example.wanderwisep.bean.TicketBean;
-import com.example.wanderwisep.bean.TourListBean;
+import com.example.wanderwisep.bean.*;
 import com.example.wanderwisep.dao.SearchTourDAO;
 import com.example.wanderwisep.exception.DAOException;
+import com.example.wanderwisep.exception.TicketNotFoundException;
 import com.example.wanderwisep.exception.TourNotFoundException;
 import com.example.wanderwisep.model.GuidedTour;
+import com.example.wanderwisep.model.Ticket;
 import com.example.wanderwisep.pattern.TicketDAOFactory;
 
 import java.io.IOException;
@@ -56,4 +55,19 @@ public class BookTourControllerApplication {
         return ticketBean;
     }
 
+    public TicketListBean createMyArea(TicketListBean ticketListBean) throws IOException, TicketNotFoundException, SQLException {
+        TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
+        List<Ticket> ticketList = ticketDAOFactory.createTicketDAO().retrieveTicket(ticketListBean.getEmail());
+        int dimensione = ticketList.size();
+        int i = 0;
+        while (i < dimensione) {
+            ticketListBean.setTourName(ticketList.get(i).getMyGuidedTour(), i);
+            ticketListBean.setIdTicket(ticketList.get(i).getIdTicket(), i);
+            ticketListBean.setEmail(ticketListBean.getEmail());
+            ticketListBean.setPrenotationDate(ticketList.get(i).getPrenotationDate(), i);
+            ticketListBean.setStateEnum(ticketList.get(i).getState(), i);
+            i++;
+        }
+        return ticketListBean;
+    }
 }

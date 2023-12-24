@@ -3,6 +3,7 @@ package com.example.wanderwisep.graphic_controller;
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
 import com.example.wanderwisep.bean.GuidedTourBean;
 import com.example.wanderwisep.bean.TicketBean;
+import com.example.wanderwisep.bean.TicketListBean;
 import com.example.wanderwisep.exception.DAOException;
 import com.example.wanderwisep.exception.DuplicateTourException;
 import javafx.event.ActionEvent;
@@ -165,7 +166,9 @@ public class GuidedTourController extends NavigatorController implements Initial
 
     @FXML
     void openMyArea(MouseEvent event) {
-        goToPage(MYAREA);
+        TicketListBean ticketBeanList = new TicketListBean();
+        ticketBeanList.setEmail("user@user.com"); //Da prendere con la Session
+        goToPageInit(MYAREA, ticketBeanList);
     }
 
 

@@ -1,7 +1,9 @@
 package com.example.wanderwisep.dao;
 
 import com.example.wanderwisep.dao.db_connection.DBConnection;
+import com.example.wanderwisep.enumeration.stateEnum;
 import com.example.wanderwisep.exception.DAOException;
+import com.example.wanderwisep.exception.TicketNotFoundException;
 import com.example.wanderwisep.model.Ticket;
 
 import java.sql.Connection;
@@ -9,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,10 +72,37 @@ public class TicketDAOJDBC implements TicketDAO {
     }
 
     @Override
-    public List<Ticket> retrieveTicket(String touristGuideName) {
-        List<Ticket> ticketsUser = null;
-
-        return null;
+    public List<Ticket> retrieveTicket(String emailUser) throws SQLException, TicketNotFoundException {
+        List<Ticket> ticketsUser = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM ticket WHERE user = ?";
+        try {
+            conn = DBConnection.getConnection();
+            stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            stmt.setString(1, emailUser);
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.first()) {
+                throw new TicketNotFoundException("No ticket available");
+            }
+            rs.first();
+            do {
+                Integer idTicket = rs.getInt("idTicket");
+                String stateTicket = rs.getString("state");
+                java.util.Date prenotationDate = rs.getDate("prenotationDate");
+                String tourName = rs.getString("myGuidedTour");
+                stateEnum state = stateEnum.fromString(stateTicket);
+                Ticket a = new Ticket(idTicket, state, prenotationDate, tourName, emailUser);
+                ticketsUser.add(a);
+            } while (rs.next());
+            rs.close();
+        } finally {
+            // STEP 5.2: Clean-up dell'ambiente
+            LoginGuideDAO.closeDAO(stmt, conn, logger);
+        }
+        return ticketsUser;
     }
 }
 
