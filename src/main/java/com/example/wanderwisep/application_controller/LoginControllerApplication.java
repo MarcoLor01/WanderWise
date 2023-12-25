@@ -6,7 +6,6 @@ import com.example.wanderwisep.dao.LoginUserDAO;
 import com.example.wanderwisep.exception.UserNotFoundException;
 import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.User;
-import com.example.wanderwisep.sessionmanagement.SessionManagerSingleton;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,7 +14,7 @@ public class LoginControllerApplication {
     public void loginUser(LoginBean loginBean) throws UserNotFoundException, SQLException {
         LoginUserDAO loginUserDAO = new LoginUserDAO();
         User user = loginUserDAO.findUser(loginBean.getEmail(), loginBean.getPassword());
-        String id = SessionManagerSingleton.getInstance().addSession(user.getEmail());
+        //String id = SessionManagerSingleton.getInstance().addSession(user.getEmail());
     }
 
     public void loginGuide(LoginBean loginBean) throws UserNotFoundException, SQLException {
@@ -25,6 +24,6 @@ public class LoginControllerApplication {
         String name = touristGuide.getName();
         String surname = touristGuide.getSurname();
         List<String> spokenLanguages = touristGuide.getSpokenLanguages();
-        String id = SessionManagerSingleton.getInstance().addSession(touristGuide.getEmail());
+        //String id = SessionManagerSingleton.getInstance().addSession(touristGuide.getEmail());
     }
 }

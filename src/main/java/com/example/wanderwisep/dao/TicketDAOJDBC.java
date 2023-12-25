@@ -78,6 +78,8 @@ public class TicketDAOJDBC implements TicketDAO {
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
         String sql = "SELECT * FROM ticket WHERE user = ?";
+        System.out.println(emailUser);
+
         try {
             conn = DBConnection.getConnection();
             stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,

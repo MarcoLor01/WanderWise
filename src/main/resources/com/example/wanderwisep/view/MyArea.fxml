@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.effect.Glow?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.*?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #add8e6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wanderwisep.graphic_controller.MyAreaController">
    <children>
@@ -17,113 +17,29 @@
             <Image url="@../images/Cattura-removebg-preview.png" />
          </image>
       </ImageView>
-      <Text id="homeButton" fx:id="homeButton" layoutX="265.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Home">
-         <font>
-            <Font name="Verdana Pro Cond Semibold" size="12.0" />
-         </font>
-      </Text>
-      <Text id="myAreaButtonMyArea" fx:id="myAreaButtonMyArea" layoutX="310.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MyArea">
-         <font>
-            <Font name="Verdana Pro Cond Semibold" size="12.0" />
-         </font>
-      </Text>
+       <Text id="homeButton" fx:id="homeButton" layoutX="265.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0"
+             text="Home">
+           <font>
+               <Font name="Verdana Pro Cond Semibold" size="12.0"/>
+           </font>
+       </Text>
+       <Text id="myAreaButtonMyArea" fx:id="myAreaButtonMyArea" layoutX="310.0" layoutY="22.0" strokeType="OUTSIDE"
+             strokeWidth="0.0" text="MyArea">
+           <font>
+               <Font name="Verdana Pro Cond Semibold" size="12.0"/>
+           </font>
+       </Text>
        <AnchorPane id="anchorPaneBase" fx:id="anchorPaneBase" layoutX="23.0" layoutY="121.0" prefHeight="256.0"
                    prefWidth="553.0" style="-fx-background-color: #4682B4;">
            <effect>
                <Glow/>
            </effect>
-           <children>
-               <AnchorPane layoutX="3.0" layoutY="14.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="123.0"
-                           prefWidth="260.0" style="-fx-border-color: #87CEEB;">
-                   <children>
-                       <ImageView fitHeight="119.0" fitWidth="98.0" layoutX="2.0" layoutY="2.0" pickOnBounds="true">
-                           <image>
-                               <Image url="@../images/Paris.jpg"/>
-                           </image>
-                       </ImageView>
-                       <Text id="guidedTourName" fx:id="guidedTourName" layoutX="104.0" layoutY="14.0"
-                             strokeType="OUTSIDE" strokeWidth="0.0" text="Paris Guided Tour"
-                             wrappingWidth="101.6494140625">
-                           <font>
-                               <Font name="Verdana Pro Cond Semibold" size="10.0"/>
-                           </font>
-                  </Text>
-                  <Text id="touristGuideName" fx:id="touristGuideName" layoutX="104.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tourist Guide: Name Tourist Guide" wrappingWidth="173.13671875">
-                     <font>
-                        <Font name="Verdana Pro Cond Semibold" size="10.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="105.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status:">
-                     <font>
-                        <Font name="Verdana Pro Cond Semibold" size="10.0" />
-                     </font>
-                  </Text>
-                  <Text id="status" fx:id="status" layoutX="120.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Waiting for Confirmation">
-                     <font>
-                         <Font name="Verdana Pro Cond Semibold" size="10.0"/>
-                     </font>
-                  </Text>
-                       <Circle id="confirmationCircle" fx:id="confirmationCircle" fill="#949494" layoutX="110.0"
-                               layoutY="56.0" radius="6.0" stroke="BLACK" strokeType="INSIDE"/>
-                       <Text id="viewGuidedTour" fx:id="viewGuidedTour" layoutX="105.0" layoutY="85.0"
-                             onMouseClicked="#openGuidedTour" strokeType="OUTSIDE" strokeWidth="0.0"
-                             text="View Guided Tour" underline="true">
-                           <font>
-                               <Font name="Verdana Pro Cond Semibold" size="10.0"/>
-                           </font>
-                       </Text>
-                   </children>
-               </AnchorPane>
-               <AnchorPane layoutX="268.0" layoutY="14.0" prefHeight="123.0" prefWidth="260.0"
-                           style="-fx-border-color: #87CEEB;">
-                   <children>
-                       <ImageView fitHeight="119.0" fitWidth="98.0" layoutX="2.0" layoutY="2.0" pickOnBounds="true">
-                           <image>
-                               <Image url="@../images/Paris.jpg"/>
-                           </image>
-                       </ImageView>
-                       <Text id="guidedTourName" fx:id="guidedTourName1" layoutX="104.0" layoutY="14.0"
-                             strokeType="OUTSIDE" strokeWidth="0.0" text="Paris Guided Tour"
-                             wrappingWidth="101.6494140625">
-                           <font>
-                               <Font name="Verdana Pro Cond Semibold" size="10.0"/>
-                           </font>
-                       </Text>
-                       <Text id="touristGuideName" fx:id="touristGuideName1" layoutX="104.0" layoutY="29.0"
-                             strokeType="OUTSIDE" strokeWidth="0.0" text="Tourist Guide: Name Tourist Guide"
-                             wrappingWidth="173.13671875">
-                           <font>
-                               <Font name="Verdana Pro Cond Semibold" size="10.0"/>
-                           </font>
-                       </Text>
-                       <Text layoutX="105.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status:">
-                           <font>
-                               <Font name="Verdana Pro Cond Semibold" size="10.0"/>
-                           </font>
-                       </Text>
-                       <Text id="status" fx:id="status1" layoutX="120.0" layoutY="59.0" strokeType="OUTSIDE"
-                             strokeWidth="0.0" text="Waiting for Confirmation">
-                           <font>
-                               <Font name="Verdana Pro Cond Semibold" size="10.0"/>
-                           </font>
-                       </Text>
-                       <Circle id="confirmationCircle" fx:id="confirmationCircle1" fill="#949494" layoutX="110.0"
-                               layoutY="56.0" radius="6.0" stroke="BLACK" strokeType="INSIDE"/>
-                       <Text id="viewGuidedTour" fx:id="viewGuidedTour1" layoutX="105.0" layoutY="85.0"
-                             onMouseClicked="#openGuidedTour" strokeType="OUTSIDE" strokeWidth="0.0"
-                             text="View Guided Tour" underline="true">
-                           <font>
-                               <Font name="Verdana Pro Cond Semibold" size="10.0"/>
-                           </font>
-                       </Text>
-                   </children>
-               </AnchorPane>
-           </children>
-      </AnchorPane>
-      <Text layoutX="23.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Ticket" wrappingWidth="553.0">
-         <font>
-            <Font name="Verdana Pro Cond Semibold" size="18.0" />
-         </font>
-      </Text>
+       </AnchorPane>
+       <Text layoutX="23.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Ticket"
+             wrappingWidth="553.0">
+           <font>
+               <Font name="Verdana Pro Cond Semibold" size="18.0"/>
+           </font>
+       </Text>
    </children>
 </AnchorPane>

@@ -156,7 +156,7 @@ public class GuidedTourController extends NavigatorController implements Initial
 
     @FXML
     void openHome(MouseEvent event) {
-
+        goToPage(SEARCHBAR);
     }
 
     @FXML

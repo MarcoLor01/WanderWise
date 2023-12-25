@@ -5,9 +5,10 @@ import com.example.wanderwisep.bean.TicketListBean;
 import com.example.wanderwisep.enumeration.stateEnum;
 import com.example.wanderwisep.exception.TicketNotFoundException;
 import javafx.fxml.FXML;
-import javafx.scene.image.ImageView;
+import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -19,7 +20,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MyAreaController implements InitializableController {
+import static javafx.scene.paint.Color.*;
+
+public class MyAreaController extends NavigatorController implements InitializableController {
 
     BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
 
@@ -82,28 +85,47 @@ public class MyAreaController implements InitializableController {
             ticketListBean = bookTourControllerApplication.createMyArea(ticketListBean);
             List<Date> datePrenotation = ticketListBean.getPrenotationDate();
             List<String> tourName = ticketListBean.getTourName();
-            List<stateEnum> stateEnum = ticketListBean.getStateEnum();
+            List<stateEnum> stateEn = ticketListBean.getStateEnum();
             List<Integer> idTicket = ticketListBean.getIdTicket();
+            //List<String> touristGuide = ticketListBean.getTouristGuide();
             String email = ticketListBean.getEmail();
             int ticketNumber = tourName.size();
+            System.out.println(ticketNumber);
             int i = 0;
             double x = 0;
             while (i < ticketNumber) {
                 VBox vBox = new VBox();
                 anchorPaneBase.getChildren().add(vBox);
                 vBox.setStyle("-fx-border-color: white; -fx-border-width: 1;");
-                double startX = 3;
+                double startX = 10;
                 double startY = 14;
                 AnchorPane.setLeftAnchor(vBox, startX + x);
                 double boxWidth = 260;
-                double boxHeight = 123;
-                double imageWidth = 98.0;
-                double imageHeight = 119;
+                double boxHeight = 70;
                 AnchorPane.setTopAnchor(vBox, startY); // Imposta la distanza dall'alto
                 vBox.setPrefWidth(boxWidth); // Imposta la larghezza preferita del VBox
                 vBox.setPrefHeight(boxHeight); // Imposta l'altezza preferita del VBox
-                ImageView imageView = new ImageView();
-                //imageView.setImage(convertBlobToImage(tourPhoto.get(i))); //take the photo
+                Text tourN = new Text("Tour name: " + tourName.get(i));
+                stateEnum ticketState = stateEn.get(i);
+                Circle circle;
+                if (ticketState.getStateName() == "Waiting for confirmation") {
+                    circle = new Circle(4, GREY);
+                } else if (ticketState.getStateName() == "Confirmed") {
+                    circle = new Circle(4, BLUE);
+                } else {
+                    circle = new Circle(4, RED);
+                }
+                circle.setStroke(BLACK);
+                Text prenotationD = new Text(("Prenotation Date: " + datePrenotation.get(i).toString()));
+                Text stateEnum = new Text(" State: " + stateEn.get(i).getStateName());
+                setTextN(-2, tourN, 10);
+                setTextN(-2, prenotationD, 10);
+                setTextN(-2, stateEnum, 10);
+                HBox circleAndStateBox = new HBox(circle, stateEnum); // Posiziona il cerchio e il testo dello stato in un HBox
+                VBox.setMargin(circleAndStateBox, new Insets(0, 15, 0, 0)); // Aggiunge un margine tra il cerchio e lo stato
+                vBox.getChildren().addAll(tourN, prenotationD, circleAndStateBox);
+                x += boxWidth + startX;
+                i++;
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

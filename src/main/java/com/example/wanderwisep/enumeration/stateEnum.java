@@ -4,8 +4,9 @@ public enum stateEnum {
 
     WAITING("Waiting for confirmation"),
     CONFIRMED("Confirmed"),
-    CANCELED("Cancelled");
+    REFUSED("Refused");
     private final String stateName;
+
     stateEnum(String stateName) {
         this.stateName = stateName;
     }
