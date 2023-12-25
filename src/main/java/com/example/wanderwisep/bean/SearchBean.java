@@ -37,8 +37,10 @@ public class SearchBean implements Serializable {
         this.returnDate = returnDate;
     }
     public void checkField(String cityName, LocalDate departureDate, LocalDate returnDate) throws InvalidFormatException{
-        if(cityName.isEmpty() | departureDate == null | returnDate == null) throw new InvalidFormatException("Please fill all the fields");
-        if(departureDate.isBefore(LocalDate.now())) throw new InvalidFormatException("Departure date cannot be in the past");
+        if (cityName.isEmpty() || departureDate == null || returnDate == null)
+            throw new InvalidFormatException("Please fill all the fields");
+        if (departureDate.isBefore(LocalDate.now()))
+            throw new InvalidFormatException("Departure date cannot be in the past");
         if(returnDate.isBefore(departureDate)) throw new InvalidFormatException("Return date cannot be before the departure date");
     }
 }

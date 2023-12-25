@@ -8,11 +8,11 @@ import java.util.Date;
 import java.util.List;
 
 public class TicketListBean implements Serializable {
-    String email;
-    List<Integer> idTicket = new ArrayList<>();
-    List<stateEnum> stateEnum = new ArrayList<>();
-    List<Date> prenotationDate = new ArrayList<>();
-    List<String> tourName = new ArrayList<>();
+    private String email;
+    private List<Integer> idTicket = new ArrayList<>();
+    private List<stateEnum> stateEnum = new ArrayList<>();
+    private List<Date> prenotationDate = new ArrayList<>();
+    private List<String> tourName = new ArrayList<>();
 
 
     public TicketListBean() {

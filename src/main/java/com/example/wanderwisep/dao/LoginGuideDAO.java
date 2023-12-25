@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 
 public class LoginGuideDAO {
-    private static final Logger logger = Logger.getLogger(LoginUserDAO.class.getName());
+    private static final Logger logger = Logger.getLogger(LoginGuideDAO.class.getName());
 
     public TouristGuide findGuide(String email, String password) throws UserNotFoundException, SQLException {
         PreparedStatement stmt = null;

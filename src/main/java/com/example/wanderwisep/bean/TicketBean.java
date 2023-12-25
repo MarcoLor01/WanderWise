@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class TicketBean implements Serializable {
-    LocalDate prenotationDate;
-    String emailSender;
-    String guidedTour;
-    Integer idTicket;
-    String stateTicket;
-    int result;
+    private LocalDate prenotationDate;
+    private String emailSender;
+    private String guidedTour;
+    private Integer idTicket;
+    private String stateTicket;
+    private int result;
 
     public TicketBean() {
     }

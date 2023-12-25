@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuidedTourBean implements Serializable {
-    String tourName;
-    List<String> listOfAttraction = new ArrayList<>();
-    LocalDate departureDate;
-    LocalDate returnDate;
-    String touristGuideName;
-    String touristGuideSurname;
-    transient Blob photo;
-    String cityName;
+    private String tourName;
+    private List<String> listOfAttraction = new ArrayList<>();
+    private LocalDate departureDate;
+    private LocalDate returnDate;
+    private String touristGuideName;
+    private String touristGuideSurname;
+    private transient Blob photo;
+    private String cityName;
 
     public GuidedTourBean() {
     }

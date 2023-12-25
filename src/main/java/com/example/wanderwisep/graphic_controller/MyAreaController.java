@@ -18,6 +18,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static javafx.scene.paint.Color.*;
@@ -108,9 +109,9 @@ public class MyAreaController extends NavigatorController implements Initializab
                 Text tourN = new Text("Tour name: " + tourName.get(i));
                 stateEnum ticketState = stateEn.get(i);
                 Circle circle;
-                if (ticketState.getStateName() == "Waiting for confirmation") {
+                if (Objects.equals(ticketState.getStateName(), "Waiting for confirmation")) {
                     circle = new Circle(4, GREY);
-                } else if (ticketState.getStateName() == "Confirmed") {
+                } else if (Objects.equals(ticketState.getStateName(), "Confirmed")) {
                     circle = new Circle(4, BLUE);
                 } else {
                     circle = new Circle(4, RED);

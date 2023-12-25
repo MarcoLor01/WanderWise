@@ -20,15 +20,15 @@ public class BookTourControllerApplication {
 
     public GuidedTourBean getTourDescription(GuidedTourBean guidedTourBean) throws TourNotFoundException, SQLException {
         SearchTourDAO searchTourDAO = new SearchTourDAO();
-        GuidedTour MyTour = searchTourDAO.retrieveTour(guidedTourBean.getTourName(), guidedTourBean.getDepartureDate(), guidedTourBean.getReturnDate());
+        GuidedTour myTour = searchTourDAO.retrieveTour(guidedTourBean.getTourName(), guidedTourBean.getDepartureDate(), guidedTourBean.getReturnDate());
         GuidedTourBean guidedTourB = new GuidedTourBean();
-        guidedTourB.setCityName(MyTour.getCityName());
-        guidedTourB.setTourName(MyTour.getNameTour());
-        guidedTourB.setDepartureDate(MyTour.getDepartureDate());
-        guidedTourB.setReturnDate(MyTour.getReturnDate());
-        guidedTourB.setPhoto(MyTour.getPhoto());
-        guidedTourB.setListOfAttraction(MyTour.getListOfAttraction());
-        guidedTourB.setTouristGuideName(MyTour.getMyTouristGuide());
+        guidedTourB.setCityName(myTour.getCityName());
+        guidedTourB.setTourName(myTour.getNameTour());
+        guidedTourB.setDepartureDate(myTour.getDepartureDate());
+        guidedTourB.setReturnDate(myTour.getReturnDate());
+        guidedTourB.setPhoto(myTour.getPhoto());
+        guidedTourB.setListOfAttraction(myTour.getListOfAttraction());
+        guidedTourB.setTouristGuideName(myTour.getMyTouristGuide());
         return guidedTourB;
     }
     public TourListBean searchTour(SearchBean searchBean) throws TourNotFoundException, SQLException {
