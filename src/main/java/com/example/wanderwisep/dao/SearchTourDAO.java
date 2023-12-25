@@ -49,7 +49,6 @@ public class SearchTourDAO {
     public GuidedTour retrieveTour(String tourName, LocalDate departureDate, LocalDate returnDate) throws TourNotFoundException, SQLException {
         PreparedStatement stmt = null;
         Connection conn = null;
-        GuidedTour tour;
         String sql = "SELECT * FROM guidedtour WHERE nametour = ? AND departureDate = ? AND returnDate = ?";
         GuidedTour guidedTour;
 
@@ -73,7 +72,7 @@ public class SearchTourDAO {
             String listOfAttraction = rs.getString("listOfAttraction");
             String touristGuide = rs.getString("touristGuideName");
             List<String> attractionsArray = List.of(listOfAttraction.split(","));
-            guidedTour = new GuidedTour(cityName, attractionsArray, ((Date) departureD).toLocalDate(), ((Date) returnD).toLocalDate(), touristGuide, photoBlob, tourName);
+            guidedTour = new GuidedTour(cityName, attractionsArray, ((Date) departureD).toLocalDate(), ((Date) returnD).toLocalDate(), touristGuide, photoBlob, nameTour);
             rs.close();
         } finally {
             // STEP 5.2: Clean-up dell'ambiente

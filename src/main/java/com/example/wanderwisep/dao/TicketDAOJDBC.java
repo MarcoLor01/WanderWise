@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TicketDAOJDBC implements TicketDAO {
-    private static final Logger logger = Logger.getLogger(LoginUserDAO.class.getName());
+    private static final Logger logger = Logger.getLogger(TicketDAOJDBC.class.getName());
 
 
     @Override
@@ -25,8 +25,8 @@ public class TicketDAOJDBC implements TicketDAO {
         PreparedStatement selectStmt = null;
         PreparedStatement insertStmt = null;
         Connection conn = null;
-        ResultSet resultSet = null;
-        Integer result = -1;
+        ResultSet resultSet;
+        int result;
 
         // Verifica se esistono già ticket con lo stesso nome e tourName
         String selectSql = "SELECT idTicket FROM ticket WHERE myGuidedTour = ? AND user = ?";
@@ -76,16 +76,15 @@ public class TicketDAOJDBC implements TicketDAO {
         List<Ticket> ticketsUser = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stmt = null;
-        ResultSet resultSet = null;
+        ResultSet rs;
         String sql = "SELECT * FROM ticket WHERE user = ?";
-        System.out.println(emailUser);
 
         try {
             conn = DBConnection.getConnection();
             stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             stmt.setString(1, emailUser);
-            ResultSet rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
             if (!rs.first()) {
                 throw new TicketNotFoundException("No ticket available");
             }
