@@ -6,13 +6,11 @@ import com.example.wanderwisep.bean.TicketBean;
 import com.example.wanderwisep.bean.TicketListBean;
 import com.example.wanderwisep.exception.DAOException;
 import com.example.wanderwisep.exception.DuplicateTourException;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -23,12 +21,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,21 +39,11 @@ public class GuidedTourController extends NavigatorController implements Initial
             startView((GuidedTourBean) data);
         }
     }
-
-    @FXML // ResourceBundle that was given to the FXMLLoader
-    private ResourceBundle resources;
-
-    @FXML // URL location of the FXML file that was given to the FXMLLoader
-    private URL location;
-
     @FXML
     private Text tourTitleText;
 
     @FXML // fx:id="bookTour"
     private Button bookTour; // Value injected by FXMLLoader
-
-    @FXML // fx:id="firstStopText"
-    private Text firstStopText; // Value injected by FXMLLoader
 
     @FXML // fx:id="flowPaneId"
     private FlowPane flowPaneId; // Value injected by FXMLLoader
@@ -65,10 +51,6 @@ public class GuidedTourController extends NavigatorController implements Initial
     private Text guideNameText;
     @FXML // fx:id="homeGuidedTour"
     private Text homeGuidedTour; // Value injected by FXMLLoader
-    @FXML
-    private Line lineaTappa;
-    @FXML
-    private Circle circleTappa;
     @FXML // fx:id="loginAnchorGuidedTour"
     private AnchorPane loginAnchorGuidedTour; // Value injected by FXMLLoader
 
@@ -85,16 +67,14 @@ public class GuidedTourController extends NavigatorController implements Initial
     private ImageView tourImage; // Value injected by FXMLLoader
 
     void startView(GuidedTourBean guidedTourBean) {
-        String cityName = guidedTourBean.getCityName();
         String tourName = guidedTourBean.getTourName();
-        LocalDate departureDate = guidedTourBean.getDepartureDate();
-        LocalDate returnDate = guidedTourBean.getReturnDate();
         Blob photo = guidedTourBean.getPhoto();
         List<String> listOfAttraction = guidedTourBean.getListOfAttraction();
-        String touristGuide = guidedTourBean.getTouristGuideName();
+        String touristGuideName = guidedTourBean.getTouristGuideName();
+        String touristGuideSurname = guidedTourBean.getTouristGuideSurname();
         tourTitleText.setText(tourName);
         setTextN(0, tourTitleText, 20);
-        guideNameText.setText("Hosted by " + touristGuide);
+        guideNameText.setText("Hosted by " + touristGuideName + touristGuideSurname);
         setTextN(0, guideNameText, 12);
         tourTitleText.setTextAlignment(TextAlignment.LEFT);
         guideNameText.setTextAlignment(TextAlignment.LEFT);
@@ -118,31 +98,22 @@ public class GuidedTourController extends NavigatorController implements Initial
         }
         flowPaneId.getChildren().add(vbox);
     }
+
     @FXML
-    void bookTour(ActionEvent event) {
+    void bookTour() {
         try {
             TicketBean ticketBean = new TicketBean();
             ticketBean.setGuidedTour(tourTitleText.getText());
-            ticketBean.setEmailSender("not implemented yet");
             ticketBean.setPrenotationDate(LocalDate.now());
             ticketBean.setStateTicket("waiting for confirmation");
-            TicketBean ticketBeanReturn = new TicketBean();
-            ticketBeanReturn = bookTourControllerApplication.createTicket(ticketBean);
-            if (ticketBeanReturn.getResult() == -1) {
-
-                throw new DuplicateTourException("Guided Tour duplicate prenotation");
-            }
+            bookTourControllerApplication.createTicket(ticketBean);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Guided Tour");
-            alert.setHeaderText(null); // Puoi impostare un'intestazione se necessario
             alert.setContentText("Guided Tour Booked");
             alert.showAndWait();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (DAOException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | DAOException | SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+            showErrorDialog("error in booking the tour", "Error guided tour");
         } catch (DuplicateTourException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog("You have already booked this guided tour", "Error guided tour");
@@ -150,22 +121,22 @@ public class GuidedTourController extends NavigatorController implements Initial
     }
 
     @FXML
-    void logout(MouseEvent event) {
+    void logout() {
         goToPage(LOGIN);
     }
 
     @FXML
-    void openHome(MouseEvent event) {
+    void openHome() {
         goToPage(SEARCHBAR);
     }
 
     @FXML
-    void openLogout(MouseEvent event) {
+    void openLogout() {
 
     }
 
     @FXML
-    void openMyArea(MouseEvent event) {
+    void openMyArea() {
         TicketListBean ticketBeanList = new TicketListBean();
         ticketBeanList.setEmail("user@user.com"); //Da prendere con la Session
         goToPageInit(MYAREA, ticketBeanList);
@@ -176,7 +147,6 @@ public class GuidedTourController extends NavigatorController implements Initial
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert bookTour != null : "fx:id=\"bookTour\" was not injected: check your FXML file 'GuidedTour.fxml'.";
-        assert firstStopText != null : "fx:id=\"firstStopText\" was not injected: check your FXML file 'GuidedTour.fxml'.";
         assert flowPaneId != null : "fx:id=\"flowPaneId\" was not injected: check your FXML file 'GuidedTour.fxml'.";
         assert homeGuidedTour != null : "fx:id=\"homeGuidedTour\" was not injected: check your FXML file 'GuidedTour.fxml'.";
         assert loginAnchorGuidedTour != null : "fx:id=\"loginAnchorGuidedTour\" was not injected: check your FXML file 'GuidedTour.fxml'.";

@@ -3,6 +3,7 @@ package com.example.wanderwisep.dao;
 import com.example.wanderwisep.dao.db_connection.DBConnection;
 import com.example.wanderwisep.enumeration.stateEnum;
 import com.example.wanderwisep.exception.DAOException;
+import com.example.wanderwisep.exception.DuplicateTourException;
 import com.example.wanderwisep.exception.TicketNotFoundException;
 import com.example.wanderwisep.model.Ticket;
 
@@ -21,7 +22,7 @@ public class TicketDAOJDBC implements TicketDAO {
 
 
     @Override
-    public int createTicket(String tourName, String user, LocalDate prenotationDate, String stateTicket) throws DAOException, SQLException {
+    public void createTicket(String tourName, String user, LocalDate prenotationDate, String stateTicket) throws DAOException, SQLException, DuplicateTourException {
         PreparedStatement selectStmt = null;
         PreparedStatement insertStmt = null;
         Connection conn = null;
@@ -44,9 +45,7 @@ public class TicketDAOJDBC implements TicketDAO {
             resultSet = selectStmt.executeQuery();
 
             if (resultSet.next()) {
-                // Se esiste già un ticket con le stesse informazioni, gestisci questa situazione
-                logger.log(Level.WARNING, "Ticket with the same name and user already exists");
-                return -1;
+                throw new DuplicateTourException("Tour already booked");
             }
 
             // Esegui l'inserimento del nuovo ticket
@@ -63,26 +62,23 @@ public class TicketDAOJDBC implements TicketDAO {
                 throw new DAOException("Error creating ticket");
             }
         } finally {
-            // Clean-up dell'ambiente
-            LoginGuideDAO.closeDAO(selectStmt, null, logger); // Chiudi il result set associato alla query di selezione
-            LoginGuideDAO.closeDAO(insertStmt, conn, logger);
+            if (selectStmt != null)
+                selectStmt.close();
+            if (insertStmt != null)
+                insertStmt.close();
+            if (conn != null)
+                conn.close();
         }
-
-        return result;
     }
 
     @Override
     public List<Ticket> retrieveTicket(String emailUser) throws SQLException, TicketNotFoundException {
         List<Ticket> ticketsUser = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement stmt = null;
         ResultSet rs;
         String sql = "SELECT * FROM ticket WHERE user = ?";
 
-        try {
-            conn = DBConnection.getConnection();
-            stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
             stmt.setString(1, emailUser);
             rs = stmt.executeQuery();
             if (!rs.first()) {
@@ -99,9 +95,6 @@ public class TicketDAOJDBC implements TicketDAO {
                 ticketsUser.add(a);
             } while (rs.next());
             rs.close();
-        } finally {
-            // STEP 5.2: Clean-up dell'ambiente
-            LoginGuideDAO.closeDAO(stmt, conn, logger);
         }
         return ticketsUser;
     }

@@ -1,35 +1,27 @@
 package com.example.wanderwisep.graphic_controller;
-
-
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
+import com.example.wanderwisep.application_controller.LoginControllerApplication;
 import com.example.wanderwisep.bean.SearchBean;
 import com.example.wanderwisep.bean.TourListBean;
 import com.example.wanderwisep.exception.InvalidFormatException;
-import com.example.wanderwisep.exception.TourNotFoundException;
+import com.example.wanderwisep.exception.TourException;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SearchBarController extends NavigatorController {
-    BookTourControllerApplication BookTourController = new BookTourControllerApplication();
+
+    BookTourControllerApplication bookTourController = new BookTourControllerApplication();
+    LoginControllerApplication loginController = new LoginControllerApplication();
     private static final Logger logger = Logger.getLogger(SearchBarController.class.getName());
-    @FXML
-    private Text userText;
-    @FXML // ResourceBundle that was given to the FXMLLoader
-    private ResourceBundle resources;
-    @FXML // URL location of the FXML file that was given to the FXMLLoader
-    private URL location;
     @FXML // fx:id="citySearch"
     private TextField citySearch; // Value injected by FXMLLoader
     @FXML // fx:id="dateFinal"
@@ -47,15 +39,17 @@ public class SearchBarController extends NavigatorController {
     @FXML // fx:id="myAreaSearchBar"
     private Text myAreaSearchBar; // Value injected by FXMLLoader
 
-    public SearchBarController() throws TourNotFoundException {
+    public SearchBarController() {
     }
 
     @FXML
-    void logout(MouseEvent event) {
+    void logout() {
+        loginController.logout();
         goToPage(LOGIN);
     }
+
     @FXML
-    void openLogout(MouseEvent event) {
+    void openLogout() {
         if (loginAnchor.isVisible() || loginLine.isVisible() || logoutSearchBar.isVisible()) {
             // Se la casella di logout è già aperta, la chiudo
             loginAnchor.setVisible(false);
@@ -68,23 +62,25 @@ public class SearchBarController extends NavigatorController {
             logoutSearchBar.setVisible(true);
         }
     }
+
     @FXML
-    void openMyArea(MouseEvent event) {
+    void openMyArea() {
 
     }
+
     @FXML
-    void searchDestination(MouseEvent event) {
-        try{
+    void searchDestination() {
+        try {
             SearchBean newSearch = new SearchBean();
             newSearch.checkField(citySearch.getText(), dateInitial.getValue(), dateFinal.getValue());
             newSearch.setCityName((citySearch.getText()));
             newSearch.setDepartureDate(dateInitial.getValue());
             newSearch.setReturnDate(dateFinal.getValue());
-            TourListBean tourListBean = BookTourController.searchTour(newSearch);
-            goToPageInit(TOURLIST,tourListBean);
-        }catch (InvalidFormatException | TourNotFoundException | SQLException e) {
+            TourListBean tourListBean = bookTourController.searchTour(newSearch);
+            goToPageInit(TOURLIST, tourListBean);
+        } catch (InvalidFormatException | TourException | SQLException e) {
             logger.log(Level.INFO, e.getMessage());
-            showErrorDialog(e.getMessage(),"Search Tour Error");
+            showErrorDialog(e.getMessage(), "Search Tour Error");
         }
     }
     @FXML // This method is called by the FXMLLoader when initialization is complete

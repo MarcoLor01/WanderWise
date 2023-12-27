@@ -12,6 +12,7 @@ public class GuidedTourBean implements Serializable {
     private LocalDate departureDate;
     private LocalDate returnDate;
     private String touristGuideName;
+
     private String touristGuideSurname;
     private transient Blob photo;
     private String cityName;

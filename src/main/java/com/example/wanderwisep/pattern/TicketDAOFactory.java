@@ -17,12 +17,13 @@ public class TicketDAOFactory {
             properties.load(input);
             String categoryDaoType = properties.getProperty("CATEGORY_DAO_TYPE");
             switch (categoryDaoType) {
-                case "jdbc":
+                case "jdbc" -> {
                     return new TicketDAOJDBC();
-                case "csv":
+                }
+                case "csv" -> {
                     return new TicketDAOCSV();
-                default:
-                    throw new IOException("Configuration file error");
+                }
+                default -> throw new IllegalArgumentException("Invalid CATEGORY_DAO_TYPE in configuration file");
             }
         }
     }
@@ -31,7 +32,7 @@ public class TicketDAOFactory {
         return new TicketDAOJDBC();
     }
 
-    public TicketDAO createTicketDAOCSV() {
+    public TicketDAO createTicketDAOCSV() throws IOException {
         return new TicketDAOCSV();
     }
 }

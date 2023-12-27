@@ -10,12 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-
 public class LoginGuideDAO {
-    private static final Logger logger = Logger.getLogger(LoginGuideDAO.class.getName());
 
     public TouristGuide findGuide(String email, String password) throws UserNotFoundException, SQLException {
         PreparedStatement stmt = null;
@@ -42,24 +37,13 @@ public class LoginGuideDAO {
             touristGuide = new TouristGuide(name, surname, email, lingueParlate);
             rs.close();
         } finally {
-            // STEP 5.2: Clean-up dell'ambiente
-            closeDAO(stmt, conn, logger);
+            if (stmt != null)
+                stmt.close();
+
+            if (conn != null)
+                conn.close();
         }
         return touristGuide;
     }
 
-    static void closeDAO(PreparedStatement stmt, Connection conn, Logger logger) {
-        try {
-            if (stmt != null)
-                stmt.close();
-        } catch (SQLException e) {
-            logger.log(Level.INFO, e.getMessage());
-        }
-        try {
-            if (conn != null)
-                conn.close();
-        } catch (SQLException e) {
-            logger.log(Level.INFO, e.getMessage());
-        }
-    }
 }

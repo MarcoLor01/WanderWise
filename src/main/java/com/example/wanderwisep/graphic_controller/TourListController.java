@@ -3,24 +3,21 @@ package com.example.wanderwisep.graphic_controller;
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
 import com.example.wanderwisep.bean.GuidedTourBean;
 import com.example.wanderwisep.bean.TourListBean;
-import com.example.wanderwisep.exception.TourNotFoundException;
+import com.example.wanderwisep.exception.TourException;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
-import java.net.URL;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,13 +32,6 @@ public class TourListController extends NavigatorController implements Initializ
             startView(tourListBean);
         }
     }
-
-    @FXML // ResourceBundle that was given to the FXMLLoader
-    private ResourceBundle resources;
-
-    @FXML // URL location of the FXML file that was given to the FXMLLoader
-    private URL location;
-
     @FXML
     private AnchorPane anchorPaneBase;
     @FXML // fx:id="homeButton"
@@ -60,11 +50,11 @@ public class TourListController extends NavigatorController implements Initializ
     private ImageView userIconTourlist; // Value injected by FXMLLoader
 
     @FXML
-    void logout(MouseEvent event) {
+    void logout() {
 
     }
 
-    void openTourDescription(MouseEvent event, String tourName, LocalDate departureDate, LocalDate returnData) {
+    void openTourDescription(String tourName, LocalDate departureDate, LocalDate returnData) {
         try {
             GuidedTourBean guidedTourBean = new GuidedTourBean();
             guidedTourBean.setTourName(tourName);
@@ -72,14 +62,14 @@ public class TourListController extends NavigatorController implements Initializ
             guidedTourBean.setReturnDate(returnData);
             guidedTourBean = bookTourController.getTourDescription(guidedTourBean);
             goToPageInit(GUIDEDTOUR, guidedTourBean);
-        } catch (TourNotFoundException | SQLException e) {
+        } catch (TourException | SQLException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog(e.getMessage(), "Tour Visualization Error");
         }
     }
 
     @FXML
-    void openLogoutMenu(MouseEvent event) {
+    void openLogoutMenu() {
 
     }
 
@@ -119,13 +109,14 @@ public class TourListController extends NavigatorController implements Initializ
             Line separatorLine = new Line(0, 0, boxWidth - 3, 0);
             separatorLine.setStroke(Color.WHITE);
             vBox.getChildren().addAll(imageView, tourNameText, separatorLine, departureDateText, returnDateText);
-            vBox.setMargin(separatorLine, new Insets(0, 0, 1, 0));
+            VBox.setMargin(separatorLine, new Insets(0, 0, 1, 0));
+            //management click on book guided tour
             tourNameText.setOnMouseClicked(event -> {
                 String departureDateString = departureDateText.getText().substring(5);
                 LocalDate depDate = LocalDate.parse(departureDateString, formatter);
                 String returnDateString = returnDateText.getText().substring(3);
                 LocalDate retDate = LocalDate.parse(returnDateString, formatter);
-                openTourDescription(event, tourNameText.getText(), depDate, retDate);
+                openTourDescription(tourNameText.getText(), depDate, retDate);
             });
             x += boxWidth + startX;
             i++;

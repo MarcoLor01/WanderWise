@@ -56,4 +56,8 @@ public class Ticket {
     public void setUser(String user) {
         this.user = user;
     }
+
+    public String getUser() {
+        return user;
+    }
 }

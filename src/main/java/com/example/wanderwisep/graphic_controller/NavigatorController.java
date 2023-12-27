@@ -22,7 +22,7 @@ public class NavigatorController {
 
     protected void goToPage(String page){
         try{
-            NavigatorSingleton.getInstance().goToPage(page);
+            NavigatorBase.getInstance().goToPage(page);
         }
         catch(Exception e){
             Logger.getAnonymousLogger().log(
@@ -32,7 +32,7 @@ public class NavigatorController {
     }
     protected void goToPageInit(String page,Object obj){
         try{
-            NavigatorSingleton.getInstance().goToPageInit(page, obj);
+            NavigatorBase.getInstance().goToPageInit(page, obj);
         }
         catch(Exception e){
             Logger.getAnonymousLogger().log(
@@ -65,4 +65,3 @@ public class NavigatorController {
         toSet.setFont(Font.font("Verdana Pro Cond Semibold", fontText));
     }
 }
-

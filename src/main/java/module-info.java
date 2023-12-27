@@ -4,6 +4,7 @@ module com.example.wanderwisep {
     requires java.logging;
     requires java.sql;
     requires java.desktop;
+    requires com.opencsv;
 
 
     opens com.example.wanderwisep to javafx.fxml;

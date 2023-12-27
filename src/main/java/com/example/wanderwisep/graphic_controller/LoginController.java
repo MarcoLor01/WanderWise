@@ -1,31 +1,22 @@
 package com.example.wanderwisep.graphic_controller;
 
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.example.wanderwisep.application_controller.LoginControllerApplication;
 import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.exception.InvalidFormatException;
 import com.example.wanderwisep.exception.UserNotFoundException;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoginController extends NavigatorController{
     private static final Logger logger = Logger.getLogger(LoginController.class.getName());
     LoginControllerApplication loginControllerApp = new LoginControllerApplication();
-    @FXML // ResourceBundle that was given to the FXMLLoader
-    private ResourceBundle resources;
-
-    @FXML // URL location of the FXML file that was given to the FXMLLoader
-    private URL location;
-
     @FXML // fx:id="buttonUserLogin"
     private Button buttonUserLogin; // Value injected by FXMLLoader
 
@@ -43,26 +34,27 @@ public class LoginController extends NavigatorController{
 
     @FXML // fx:id="passwordUserLogin"
     private PasswordField passwordUserLogin; // Value injected by FXMLLoader
+
     @FXML
-    void doLoginGuide(ActionEvent event) {
-        try{
+    void doLoginGuide() {
+        try {
             LoginBean loginBean = new LoginBean();
             loginBean.setEmail(emailGuideLogin.getText());
             loginBean.setPassword(passwordGuideLogin.getText());
-            loginBean.checkField(loginBean.getEmail(),loginBean.getPassword());
+            loginBean.checkField(loginBean.getEmail(), loginBean.getPassword());
             loginControllerApp.loginGuide(loginBean);
             goToPage(GUIDECONFIRM);
-        }catch (InvalidFormatException | UserNotFoundException e){
+        } catch (InvalidFormatException | UserNotFoundException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog(e.getMessage(), "Login Error");
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             logger.log(Level.INFO, e.getMessage());
-            showErrorDialog("Database Error", "Login Error");
+            showErrorDialog("Please retry later", "Login Error");
         }
     }
 
     @FXML
-    void doLoginUser(ActionEvent event) {
+    void doLoginUser() {
         try {
             LoginBean loginBean = new LoginBean();
             loginBean.setEmail(emailUserLogin.getText());
@@ -76,6 +68,8 @@ public class LoginController extends NavigatorController{
         } catch (SQLException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog("Database Error", "Login Error");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

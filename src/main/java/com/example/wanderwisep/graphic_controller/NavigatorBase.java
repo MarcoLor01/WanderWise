@@ -7,39 +7,44 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class NavigatorSingleton {
-    private Stage stg;
+public class NavigatorBase { //I have to use this Navigator because with a normal class when I use extends the class calls the Constructor and stg = null
+    private final Stage stg;
 
     public Stage getStg() {
         return stg;
     }
-    private static NavigatorSingleton instance;
+
+    private static NavigatorBase instance;
 
     // Metodo statico per ottenere l'istanza del Singleton
-    public static synchronized NavigatorSingleton getInstance(Stage stg) {
+    public static synchronized NavigatorBase getInstance(Stage stg) {
         // Inizializza l'istanza se non è ancora stata creata
         if (instance == null) {
-            instance = new NavigatorSingleton(stg);
+            instance = new NavigatorBase(stg);
         }
         return instance;
     }
-    public static synchronized NavigatorSingleton getInstance() {
+
+    public static synchronized NavigatorBase getInstance() {
         return instance;
     }
-    private NavigatorSingleton(Stage stage) {
+
+    private NavigatorBase(Stage stage) {
         this.stg = stage;
     }
+
     public void goToPage(String page) throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource(page));
         Parent root = loader.load();
         stg.getScene().setRoot(root);
     }
+
     public void goToPageInit(String page, Object controllerData) throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource(page));
         Parent root = loader.load();
 
         if (controllerData != null && loader.getController() instanceof InitializableController) {
-            InitializableController controller = (InitializableController) loader.getController();
+            InitializableController controller = loader.getController();
             controller.initializeData(controllerData);
         }
 

@@ -3,22 +3,26 @@ package com.example.wanderwisep.application_controller;
 import com.example.wanderwisep.bean.*;
 import com.example.wanderwisep.dao.SearchTourDAO;
 import com.example.wanderwisep.exception.DAOException;
+import com.example.wanderwisep.exception.DuplicateTourException;
 import com.example.wanderwisep.exception.TicketNotFoundException;
-import com.example.wanderwisep.exception.TourNotFoundException;
+import com.example.wanderwisep.exception.TourException;
 import com.example.wanderwisep.model.GuidedTour;
 import com.example.wanderwisep.model.Ticket;
 import com.example.wanderwisep.pattern.TicketDAOFactory;
+import com.example.wanderwisep.sessionmanagement.SessionManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+
+import static com.example.wanderwisep.application_controller.LoginControllerApplication.idSession;
 
 public class BookTourControllerApplication {
 
     public BookTourControllerApplication() {
     }
 
-    public GuidedTourBean getTourDescription(GuidedTourBean guidedTourBean) throws TourNotFoundException, SQLException {
+    public GuidedTourBean getTourDescription(GuidedTourBean guidedTourBean) throws TourException, SQLException {
         SearchTourDAO searchTourDAO = new SearchTourDAO();
         GuidedTour myTour = searchTourDAO.retrieveTour(guidedTourBean.getTourName(), guidedTourBean.getDepartureDate(), guidedTourBean.getReturnDate());
         GuidedTourBean guidedTourB = new GuidedTourBean();
@@ -28,10 +32,12 @@ public class BookTourControllerApplication {
         guidedTourB.setReturnDate(myTour.getReturnDate());
         guidedTourB.setPhoto(myTour.getPhoto());
         guidedTourB.setListOfAttraction(myTour.getListOfAttraction());
-        guidedTourB.setTouristGuideName(myTour.getMyTouristGuide());
+        guidedTourB.setTouristGuideName(myTour.getMyTouristGuideName());
+        guidedTourB.setTouristGuideSurname(myTour.getMyTouristGuideSurname());
         return guidedTourB;
     }
-    public TourListBean searchTour(SearchBean searchBean) throws TourNotFoundException, SQLException {
+
+    public TourListBean searchTour(SearchBean searchBean) throws TourException, SQLException {
         SearchTourDAO searchTourDAO = new SearchTourDAO();
         List<GuidedTour> guidedTourList = searchTourDAO.findTours(searchBean.getCityName(), searchBean.getDepartureDate(), searchBean.getReturnDate());
         TourListBean tourListBean = new TourListBean();
@@ -47,12 +53,11 @@ public class BookTourControllerApplication {
         return tourListBean;
     }
 
-    public TicketBean createTicket(TicketBean ticketBean) throws IOException, DAOException, SQLException {
+    public void createTicket(TicketBean ticketBean) throws IOException, DAOException, SQLException, DuplicateTourException {
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
-        //SessionManagerSingleton.getInstance().getSession();
-        int result = ticketDAOFactory.createTicketDAO().createTicket(ticketBean.getGuidedTour(), ticketBean.getEmailSender(), ticketBean.getPrenotationDate(), ticketBean.getStateTicket());
-        ticketBean.setResult(result);
-        return ticketBean;
+        String emailSender = SessionManager.getInstance().getSession(idSession).getEmail();
+        ticketDAOFactory.createTicketDAO().createTicket(ticketBean.getGuidedTour(), emailSender, ticketBean.getPrenotationDate(), ticketBean.getStateTicket());
+        //Gestisci ora invio alla guida
     }
 
     public TicketListBean createMyArea(TicketListBean ticketListBean) throws IOException, TicketNotFoundException, SQLException {

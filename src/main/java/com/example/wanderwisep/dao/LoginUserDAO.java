@@ -8,11 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
-
 public  class LoginUserDAO {
-    private static final Logger logger = Logger.getLogger(LoginUserDAO.class.getName());
-
 
     public User findUser(String email, String password) throws SQLException, UserNotFoundException {
         PreparedStatement stmt = null;
@@ -36,8 +32,11 @@ public  class LoginUserDAO {
             user = new User(name, surname, email);
             rs.close();
         } finally {
-            // STEP 5.2: Clean-up dell'ambiente
-            LoginGuideDAO.closeDAO(stmt, conn, logger);
+            if (stmt != null)
+                stmt.close();
+
+            if (conn != null)
+                conn.close();
         }
         return user;
     }
