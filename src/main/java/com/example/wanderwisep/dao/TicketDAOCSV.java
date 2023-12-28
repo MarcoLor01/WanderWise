@@ -68,20 +68,20 @@ public class TicketDAOCSV implements TicketDAO {
     }
 
     private static synchronized void insertTicket(File fd, String idTicket, stateEnum state, LocalDate prenotationDate, String myGuidedTour, String myTouristGuide, String user) throws IOException {
-        CSVWriter csvWriter = new CSVWriter(new BufferedWriter(new FileWriter(fd, true)));
-
-        String[] ticketRecord = new String[6];
-        ticketRecord[INDEX_ID_TICKET] = valueOf(idTicket);
-        ticketRecord[INDEX_STATE] = stateEnum.toString(state);
-        ticketRecord[INDEX_PRENOTATION_DATE] = prenotationDate.toString();
-        ticketRecord[INDEX_MY_GUIDED_TOUR] = myGuidedTour;
-        ticketRecord[INDEX_USER] = user;
-        ticketRecord[INDEX_TOURIST_GUIDE] = myTouristGuide;
-
-        csvWriter.writeNext(ticketRecord);
-        csvWriter.flush();
-        csvWriter.close();
+        try (CSVWriter csvWriter = new CSVWriter(new BufferedWriter(new FileWriter(fd, true)))) {
+            String[] ticketRecord = new String[6];
+            ticketRecord[INDEX_ID_TICKET] = valueOf(idTicket);
+            ticketRecord[INDEX_STATE] = stateEnum.toString(state);
+            ticketRecord[INDEX_PRENOTATION_DATE] = prenotationDate.toString();
+            ticketRecord[INDEX_MY_GUIDED_TOUR] = myGuidedTour;
+            ticketRecord[INDEX_USER] = user;
+            ticketRecord[INDEX_TOURIST_GUIDE] = myTouristGuide;
+            csvWriter.writeNext(ticketRecord);
+            csvWriter.flush();
         }
+    }
+
+
     public List<Ticket> retrieveByIdTicket(File fd, String idTicket) throws DAOException, CsvValidationException, IOException {
         List<Ticket> ticketsList = new ArrayList<>();
 
