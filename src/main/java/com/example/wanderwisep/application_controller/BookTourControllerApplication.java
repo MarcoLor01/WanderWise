@@ -64,7 +64,7 @@ public class BookTourControllerApplication {
     public void createTicket(TicketBean ticketBean) throws IOException, DAOException, SQLException, DuplicateTourException, CsvValidationException {
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
         String user = SessionManager.getInstance().getSession(idSession).getEmail();
-        String idTicket = generateUniqueID(ticketBean.getGuidedTour(), ticketBean.getMyTouristGuide(), user);
+        String idTicket = generateUniqueID(ticketBean.getGuidedTour(), ticketBean.getMyTouristGuide(), user); //LA FACTORY E' FATTA BENE?
         ticketDAOFactory.createTicketDAO().createTicket(idTicket, stateEnum.fromString(ticketBean.getStateTicket()), ticketBean.getPrenotationDate(), ticketBean.getGuidedTour(), ticketBean.getMyTouristGuide(), user);
         //Gestisci ora invio alla guida
     }

@@ -25,35 +25,41 @@ public class TicketDAOJDBC implements TicketDAO {
     public void createTicket(String idTicket, stateEnum state, LocalDate prenotationDate, String myGuidedTour, String myTouristGuide, String user) throws DAOException, SQLException, DuplicateTourException {
         PreparedStatement selectStmt = null;
         PreparedStatement insertStmt = null;
-        Connection conn = null;
+        Connection conn;
         ResultSet resultSet;
         int result;
 
         // Verifica se esistono già ticket con lo stesso nome e tourName
-        String selectSql = "SELECT idTicket FROM ticket WHERE myGuidedTour = ? AND user = ?";
+        String selectSql = "SELECT idTicket FROM ticket WHERE idTicket = ?";
 
         // Inserisce il nuovo ticket se non esistono già
-        String insertSql = "INSERT INTO ticket (myGuidedTour, prenotationDate, state, user) VALUES (?, ?, ?, ?)";
+        String insertSql = "INSERT INTO ticket (idTicket, state, prenotationDate, myGuidedTour, user, touristGuide) VALUES (?,?,?,?,?,?)";
 
         try {
             conn = DBConnection.getConnection();
 
             // Esegui la query di selezione
             selectStmt = conn.prepareStatement(selectSql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            selectStmt.setString(1, myGuidedTour);
-            selectStmt.setString(2, user);
+            selectStmt.setString(1, idTicket);
             resultSet = selectStmt.executeQuery();
 
             if (resultSet.next()) {
                 throw new DuplicateTourException("Tour already booked");
             }
-            //AGGIUNGI IDTICKET
-            // Esegui l'inserimento del nuovo ticket
+        } finally {
+            if (selectStmt != null)
+                selectStmt.close();
+        }
+        try {
+
             insertStmt = conn.prepareStatement(insertSql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            insertStmt.setString(1, myGuidedTour);
-            insertStmt.setDate(2, java.sql.Date.valueOf(prenotationDate));
-            insertStmt.setString(3, state.getStateName());
-            insertStmt.setString(4, user);
+
+            insertStmt.setString(1, idTicket);
+            insertStmt.setDate(3, java.sql.Date.valueOf(prenotationDate));
+            insertStmt.setString(2, state.getStateName());
+            insertStmt.setString(4, myGuidedTour);
+            insertStmt.setString(5, user);
+            insertStmt.setString(6, myTouristGuide);
             result = insertStmt.executeUpdate();
 
             if (result == 1) {
@@ -62,8 +68,6 @@ public class TicketDAOJDBC implements TicketDAO {
                 throw new DAOException("Error creating ticket");
             }
         } finally {
-            if (selectStmt != null)
-                selectStmt.close();
             if (insertStmt != null)
                 insertStmt.close();
             if (conn != null)

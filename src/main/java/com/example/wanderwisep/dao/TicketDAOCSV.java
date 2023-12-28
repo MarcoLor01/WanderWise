@@ -33,7 +33,10 @@ public class TicketDAOCSV implements TicketDAO {
         this.fd = new File(CSV_FILE_NAME);
 
         if (!fd.exists()) {
-            fd.createNewFile();
+            boolean fileCreated = fd.createNewFile();
+            if (!fileCreated) {
+                throw new IOException("Failed to create the file: " + CSV_FILE_NAME);
+            }
         }
 
         this.localCache = new HashMap<>();
@@ -48,7 +51,7 @@ public class TicketDAOCSV implements TicketDAO {
 
         if (!duplicatedRecordId) {
             try {
-                List<Ticket> ticketsList = retreiveByIdTicket(this.fd, idTicket);
+                List<Ticket> ticketsList = retrieveByIdTicket(this.fd, idTicket);
                 duplicatedRecordId = (ticketsList.size() != 0);
             } catch (DAOException e) {
                 duplicatedRecordId = false;
@@ -65,47 +68,46 @@ public class TicketDAOCSV implements TicketDAO {
     }
 
     private static synchronized void insertTicket(File fd, String idTicket, stateEnum state, LocalDate prenotationDate, String myGuidedTour, String myTouristGuide, String user) throws IOException {
-        CSVWriter csvWriter = new CSVWriter(new BufferedWriter(new FileWriter(fd, true)));
-        String[] ticketRecord = new String[6];
-        ticketRecord[INDEX_ID_TICKET] = valueOf(idTicket);
-        ticketRecord[INDEX_STATE] = stateEnum.toString(state);
-        ticketRecord[INDEX_PRENOTATION_DATE] = prenotationDate.toString();
-        ticketRecord[INDEX_MY_GUIDED_TOUR] = myGuidedTour;
-        ticketRecord[INDEX_USER] = user;
-        ticketRecord[INDEX_TOURIST_GUIDE] = myTouristGuide;
-        csvWriter.writeNext(ticketRecord);
-        csvWriter.flush();
-        csvWriter.close();
+        try (CSVWriter csvWriter = new CSVWriter(new BufferedWriter(new FileWriter(fd, true)))) {
+            String[] ticketRecord = new String[6];
+            ticketRecord[INDEX_ID_TICKET] = valueOf(idTicket);
+            ticketRecord[INDEX_STATE] = stateEnum.toString(state);
+            ticketRecord[INDEX_PRENOTATION_DATE] = prenotationDate.toString();
+            ticketRecord[INDEX_MY_GUIDED_TOUR] = myGuidedTour;
+            ticketRecord[INDEX_USER] = user;
+            ticketRecord[INDEX_TOURIST_GUIDE] = myTouristGuide;
+            csvWriter.writeNext(ticketRecord);
+            csvWriter.flush();
+        }
     }
 
-    public List<Ticket> retreiveByIdTicket(File fd, String idTicket) throws DAOException, CsvValidationException, IOException {
-        CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)));
-        String[] record;
+
+    public List<Ticket> retrieveByIdTicket(File fd, String idTicket) throws DAOException, CsvValidationException, IOException {
         List<Ticket> ticketsList = new ArrayList<>();
 
-        while ((record = csvReader.readNext()) != null) {
-            int posIndice = INDEX_ID_TICKET;
-            boolean recordFound = record[posIndice].equals(valueOf(idTicket));
-            if (recordFound) {
-                String id = record[INDEX_ID_TICKET];
-                String state = record[INDEX_STATE];
-                LocalDate prenotationDate = LocalDate.parse(record[INDEX_PRENOTATION_DATE]);
-                String myTouristGuide = record[INDEX_TOURIST_GUIDE];
-                String myGuidedTour = record[INDEX_MY_GUIDED_TOUR];
-                String user = record[INDEX_USER];
-                Ticket ticket = new Ticket(id, stateEnum.fromString(state), prenotationDate, myGuidedTour, myTouristGuide, user);
-                ticketsList.add(ticket);
-
+        try (CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
+            String[] record;
+            while ((record = csvReader.readNext()) != null) {
+                int posIndice = INDEX_ID_TICKET;
+                boolean recordFound = record[posIndice].equals(valueOf(idTicket));
+                if (recordFound) {
+                    String id = record[INDEX_ID_TICKET];
+                    String state = record[INDEX_STATE];
+                    LocalDate prenotationDate = LocalDate.parse(record[INDEX_PRENOTATION_DATE]);
+                    String myTouristGuide = record[INDEX_TOURIST_GUIDE];
+                    String myGuidedTour = record[INDEX_MY_GUIDED_TOUR];
+                    String user = record[INDEX_USER];
+                    Ticket ticket = new Ticket(id, stateEnum.fromString(state), prenotationDate, myGuidedTour, myTouristGuide, user);
+                    ticketsList.add(ticket);
+                }
             }
         }
-        csvReader.close();
-        System.out.println(ticketsList);
         if (ticketsList.isEmpty()) {
-            DAOException e = new DAOException("No Ticket Found matching with ID: " + idTicket);
-            throw e;
+            throw new DAOException("No Ticket Found matching with ID: " + idTicket);
         }
         return ticketsList;
     }
+
 
     public List<Ticket> retrieveTicket(String touristGuideName) throws SQLException, TicketNotFoundException {
         return null;
