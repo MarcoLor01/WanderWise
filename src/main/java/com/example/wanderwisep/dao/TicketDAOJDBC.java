@@ -22,7 +22,7 @@ public class TicketDAOJDBC implements TicketDAO {
 
 
     @Override
-    public void createTicket(String tourName, String user, LocalDate prenotationDate, String stateTicket) throws DAOException, SQLException, DuplicateTourException {
+    public void createTicket(String idTicket, stateEnum state, LocalDate prenotationDate, String myGuidedTour, String myTouristGuide, String user) throws DAOException, SQLException, DuplicateTourException {
         PreparedStatement selectStmt = null;
         PreparedStatement insertStmt = null;
         Connection conn = null;
@@ -40,19 +40,19 @@ public class TicketDAOJDBC implements TicketDAO {
 
             // Esegui la query di selezione
             selectStmt = conn.prepareStatement(selectSql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            selectStmt.setString(1, tourName);
+            selectStmt.setString(1, myGuidedTour);
             selectStmt.setString(2, user);
             resultSet = selectStmt.executeQuery();
 
             if (resultSet.next()) {
                 throw new DuplicateTourException("Tour already booked");
             }
-
+            //AGGIUNGI IDTICKET
             // Esegui l'inserimento del nuovo ticket
             insertStmt = conn.prepareStatement(insertSql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            insertStmt.setString(1, tourName);
+            insertStmt.setString(1, myGuidedTour);
             insertStmt.setDate(2, java.sql.Date.valueOf(prenotationDate));
-            insertStmt.setString(3, stateTicket);
+            insertStmt.setString(3, state.getStateName());
             insertStmt.setString(4, user);
             result = insertStmt.executeUpdate();
 
@@ -86,12 +86,13 @@ public class TicketDAOJDBC implements TicketDAO {
             }
             rs.first();
             do {
-                Integer idTicket = rs.getInt("idTicket");
+                String idTicket = rs.getString("idTicket");
                 String stateTicket = rs.getString("state");
-                java.util.Date prenotationDate = rs.getDate("prenotationDate");
+                LocalDate prenotationDate = rs.getDate("prenotationDate").toLocalDate();
                 String tourName = rs.getString("myGuidedTour");
                 stateEnum state = stateEnum.fromString(stateTicket);
-                Ticket a = new Ticket(idTicket, state, prenotationDate, tourName, emailUser);
+                String myTouristGuide = rs.getString("myTouristGuide");
+                Ticket a = new Ticket(idTicket, state, prenotationDate, tourName, myTouristGuide, emailUser);
                 ticketsUser.add(a);
             } while (rs.next());
             rs.close();

@@ -23,5 +23,9 @@ public enum stateEnum {
         }
         throw new IllegalArgumentException("No enum constant for string: " + stateName);
     }
+
+    public static String toString(stateEnum state) {
+        return state.getStateName();
+    }
 }
 

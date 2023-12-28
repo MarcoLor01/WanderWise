@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -84,10 +84,10 @@ public class MyAreaController extends NavigatorController implements Initializab
     private void startView(TicketListBean ticketListBean) {
         try {
             ticketListBean = bookTourControllerApplication.createMyArea(ticketListBean);
-            List<Date> datePrenotation = ticketListBean.getPrenotationDate();
+            List<LocalDate> datePrenotation = ticketListBean.getPrenotationDate();
             List<String> tourName = ticketListBean.getTourName();
             List<stateEnum> stateEn = ticketListBean.getStateEnum();
-            List<Integer> idTicket = ticketListBean.getIdTicket();
+            List<String> idTicket = ticketListBean.getIdTicket();
             //List<String> touristGuide = ticketListBean.getTouristGuide();
             String email = ticketListBean.getEmail();
             int ticketNumber = tourName.size();

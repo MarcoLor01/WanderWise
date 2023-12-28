@@ -2,30 +2,34 @@ package com.example.wanderwisep.model;
 
 import com.example.wanderwisep.enumeration.stateEnum;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.logging.Logger;
+
 
 public class Ticket {
-    private Integer idTicket; //
-    private stateEnum state; //
-    private Date prenotationDate; //
+    private String idTicket;
+    private stateEnum state;
+    private LocalDate prenotationDate;
     private String myGuidedTour;
     private String user;
+    private String myTouristGuide;
+    private static final Logger logger = Logger.getLogger(Ticket.class.getName());
 
 
-    public Ticket(Integer idTicket, stateEnum state, Date prenotationDate, String myGuidedTour, String user) {
+    public Ticket(String idTicket, stateEnum state, LocalDate prenotationDate, String myGuidedTour, String myTouristGuide, String user) {
         this.idTicket = idTicket;
         this.state = state;
         this.prenotationDate = prenotationDate;
         this.myGuidedTour = myGuidedTour;
         this.user = user;
+        this.myTouristGuide = myTouristGuide;
     }
 
-    public Integer getIdTicket() {
-
+    public String getIdTicket() {
         return idTicket;
     }
 
-    public void setIdTicket(Integer idTicket) {
+    public void setIdTicket(String idTicket) {
         this.idTicket = idTicket;
     }
 
@@ -37,11 +41,11 @@ public class Ticket {
         this.state = state;
     }
 
-    public Date getPrenotationDate() {
+    public LocalDate getPrenotationDate() {
         return prenotationDate;
     }
 
-    public void setPrenotationDate(Date prenotationDate) {
+    public void setPrenotationDate(LocalDate prenotationDate) {
         this.prenotationDate = prenotationDate;
     }
 
@@ -60,4 +64,13 @@ public class Ticket {
     public String getUser() {
         return user;
     }
+
+    public String getMyTouristGuide() {
+        return myTouristGuide;
+    }
+
+    public void setMyTouristGuide(String myTouristGuide) {
+        this.myTouristGuide = myTouristGuide;
+    }
+
 }

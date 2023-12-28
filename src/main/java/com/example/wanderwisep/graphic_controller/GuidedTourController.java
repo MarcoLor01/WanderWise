@@ -6,6 +6,7 @@ import com.example.wanderwisep.bean.TicketBean;
 import com.example.wanderwisep.bean.TicketListBean;
 import com.example.wanderwisep.exception.DAOException;
 import com.example.wanderwisep.exception.DuplicateTourException;
+import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -74,7 +75,7 @@ public class GuidedTourController extends NavigatorController implements Initial
         String touristGuideSurname = guidedTourBean.getTouristGuideSurname();
         tourTitleText.setText(tourName);
         setTextN(0, tourTitleText, 20);
-        guideNameText.setText("Hosted by " + touristGuideName + touristGuideSurname);
+        guideNameText.setText(touristGuideName + " " + touristGuideSurname);
         setTextN(0, guideNameText, 12);
         tourTitleText.setTextAlignment(TextAlignment.LEFT);
         guideNameText.setTextAlignment(TextAlignment.LEFT);
@@ -106,12 +107,13 @@ public class GuidedTourController extends NavigatorController implements Initial
             ticketBean.setGuidedTour(tourTitleText.getText());
             ticketBean.setPrenotationDate(LocalDate.now());
             ticketBean.setStateTicket("waiting for confirmation");
+            ticketBean.setMyTouristGuide(guideNameText.getText());
             bookTourControllerApplication.createTicket(ticketBean);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Guided Tour");
             alert.setContentText("Guided Tour Booked");
             alert.showAndWait();
-        } catch (IOException | DAOException | SQLException e) {
+        } catch (IOException | DAOException | SQLException | CsvValidationException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("error in booking the tour", "Error guided tour");
         } catch (DuplicateTourException e) {

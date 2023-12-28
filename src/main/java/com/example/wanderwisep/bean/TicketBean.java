@@ -8,8 +8,17 @@ public class TicketBean implements Serializable {
     private String guidedTour;
     private Integer idTicket;
     private String stateTicket;
+    private String myTouristGuide;
 
     public TicketBean() {
+    }
+
+    public String getMyTouristGuide() {
+        return myTouristGuide;
+    }
+
+    public void setMyTouristGuide(String myTouristGuide) {
+        this.myTouristGuide = myTouristGuide;
     }
 
     public String getStateTicket() {

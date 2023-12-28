@@ -1,3 +1,2 @@
-idTicket,state,prenotationDate,myGuidedTour,user
-"1","waiting for confirmation","2023-12-26","Barcelona Tour","not implemented yet"
-"1","waiting for confirmation","2023-12-27","Barcelona Tour","not implemented yet"
+idTicket,state,prenotationDate,myGuidedTour,user,myTouristGuide
+"7a93a67ac531ea27a467dd5c8ba707111e244f51d025d91734da5514a76ed200","Waiting for confirmation","2023-12-28","Barcelona Tour","user@user.com","Martina Abate"

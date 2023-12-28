@@ -3,15 +3,15 @@ package com.example.wanderwisep.bean;
 import com.example.wanderwisep.enumeration.stateEnum;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TicketListBean implements Serializable {
     private String email;
-    private List<Integer> idTicket = new ArrayList<>();
+    private List<String> idTicket = new ArrayList<>();
     private List<stateEnum> stateEnum = new ArrayList<>();
-    private List<Date> prenotationDate = new ArrayList<>();
+    private List<LocalDate> prenotationDate = new ArrayList<>();
     private List<String> tourName = new ArrayList<>();
 
 
@@ -30,11 +30,11 @@ public class TicketListBean implements Serializable {
         (this.tourName).add(i, tourName);
     }
 
-    public void setIdTicket(Integer idTicket, Integer i) {
+    public void setIdTicket(String idTicket, Integer i) {
         (this.idTicket).add(i, idTicket);
     }
 
-    public void setPrenotationDate(Date prenotationDate, Integer i) {
+    public void setPrenotationDate(LocalDate prenotationDate, Integer i) {
         (this.prenotationDate).add(i, prenotationDate);
     }
 
@@ -42,7 +42,7 @@ public class TicketListBean implements Serializable {
         (this.stateEnum).add(i, stateTicket);
     }
 
-    public List<Integer> getIdTicket() {
+    public List<String> getIdTicket() {
         return idTicket;
     }
 
@@ -50,7 +50,7 @@ public class TicketListBean implements Serializable {
         return stateEnum;
     }
 
-    public List<Date> getPrenotationDate() {
+    public List<LocalDate> getPrenotationDate() {
         return prenotationDate;
     }
 
