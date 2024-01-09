@@ -10,6 +10,15 @@ public class LoginBean implements Serializable {
 
     private String email;
     private String password;
+    private String idSession;
+
+    public String getIdSession() {
+        return idSession;
+    }
+
+    public void setIdSession(String idSession) {
+        this.idSession = idSession;
+    }
 
     public String getEmail() {
         return email;

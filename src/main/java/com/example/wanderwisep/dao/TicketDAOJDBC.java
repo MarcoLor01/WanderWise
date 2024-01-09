@@ -33,7 +33,7 @@ public class TicketDAOJDBC implements TicketDAO {
         String selectSql = "SELECT idTicket FROM ticket WHERE idTicket = ?";
 
         // Inserisce il nuovo ticket se non esistono già
-        String insertSql = "INSERT INTO ticket (idTicket, state, prenotationDate, myGuidedTour, user, touristGuide) VALUES (?,?,?,?,?,?)";
+        String insertSql = "INSERT INTO ticket (idTicket, state, prenotationDate, myGuidedTour_id, user, touristGuide) VALUES (?,?,?,?,?,?)";
 
         try {
             conn = DBConnection.getConnection();
@@ -93,10 +93,40 @@ public class TicketDAOJDBC implements TicketDAO {
                 String idTicket = rs.getString("idTicket");
                 String stateTicket = rs.getString("state");
                 LocalDate prenotationDate = rs.getDate("prenotationDate").toLocalDate();
-                String tourName = rs.getString("myGuidedTour");
+                String idTour = rs.getString("myGuidedTour_id");
                 stateEnum state = stateEnum.fromString(stateTicket);
-                String myTouristGuide = rs.getString("myTouristGuide");
-                Ticket a = new Ticket(idTicket, state, prenotationDate, tourName, myTouristGuide, emailUser);
+                String myTouristGuide = rs.getString("TouristGuide");
+                LocalDate departureDate = rs.getDate("departureDate").toLocalDate();
+                LocalDate returnDate = rs.getDate("returnDate").toLocalDate();
+                Ticket a = new Ticket(idTicket, state, prenotationDate, idTour, myTouristGuide, emailUser);
+                ticketsUser.add(a);
+            } while (rs.next());
+            rs.close();
+        }
+        return ticketsUser;
+    }
+
+    public List<Ticket> retrieveTicketForGuide(String touristGuide) throws SQLException, TicketNotFoundException {
+        List<Ticket> ticketsUser = new ArrayList<>();
+        ResultSet rs;
+        String sql = "SELECT * FROM ticket WHERE touristGuide = ? AND state = ?";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
+            stmt.setString(1, touristGuide);
+            stmt.setString(2, stateEnum.toString(stateEnum.WAITING));
+            rs = stmt.executeQuery();
+            if (!rs.first()) {
+                throw new TicketNotFoundException("No request available");
+            }
+            rs.first();
+            do {
+                String idTicket = rs.getString("idTicket");
+                String stateTicket = rs.getString("state");
+                String idTour = rs.getString("myGuidedTour_id");
+                String user = rs.getString("user");
+                LocalDate departureDate = rs.getDate("departureDate").toLocalDate();
+                LocalDate returnDate = rs.getDate("returnDate").toLocalDate();
+                Ticket a = new Ticket(idTicket, stateEnum.fromString(stateTicket), idTour, touristGuide, user);
                 ticketsUser.add(a);
             } while (rs.next());
             rs.close();

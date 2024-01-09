@@ -1,4 +1,4 @@
-package com.example.wanderwisep.sessionmanagement;
+package com.example.wanderwisep.sessionManagement;
 
 import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.User;
@@ -6,9 +6,6 @@ import com.example.wanderwisep.model.User;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import static com.example.wanderwisep.application_controller.LoginControllerApplication.idSession;
-
 public class SessionManager {
     private static SessionManager instance;
     private Map<String, Session> activeSessions;
@@ -24,23 +21,22 @@ public class SessionManager {
         return instance;
     }
 
-    public void addSession(User user) {
+    public String addSession(User user) {
         String sessionId = generateSessionId();
         Session session = new Session(user, sessionId);
         activeSessions.put(sessionId, session);
-        idSession = sessionId;
+        return sessionId;
     }
 
-    public void addSession(TouristGuide touristGuide) {
+    public String addSession(TouristGuide touristGuide) {
         String sessionId = generateSessionId();
         Session session = new Session(touristGuide, sessionId);
         activeSessions.put(sessionId, session);
-        idSession = sessionId;
+        return sessionId;
     }
 
     public void removeSession(String idSession) {
         activeSessions.remove(idSession);
-        idSession = null;
     }
 
     public Session getSession(String sessionId) {

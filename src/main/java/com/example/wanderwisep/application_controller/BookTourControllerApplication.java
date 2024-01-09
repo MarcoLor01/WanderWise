@@ -10,7 +10,7 @@ import com.example.wanderwisep.exception.TourException;
 import com.example.wanderwisep.model.GuidedTour;
 import com.example.wanderwisep.model.Ticket;
 import com.example.wanderwisep.pattern.TicketDAOFactory;
-import com.example.wanderwisep.sessionmanagement.SessionManager;
+import com.example.wanderwisep.sessionManagement.SessionManager;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
@@ -22,11 +22,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.example.wanderwisep.application_controller.LoginControllerApplication.idSession;
-
 public class BookTourControllerApplication {
-
-    private static final Logger logger = Logger.getLogger(BookTourControllerApplication.class.getName());
+    Logger logger = Logger.getLogger(BookTourControllerApplication.class.getName());
     public BookTourControllerApplication() {
     }
 
@@ -34,6 +31,7 @@ public class BookTourControllerApplication {
         SearchTourDAO searchTourDAO = new SearchTourDAO();
         GuidedTour myTour = searchTourDAO.retrieveTour(guidedTourBean.getTourName(), guidedTourBean.getDepartureDate(), guidedTourBean.getReturnDate());
         GuidedTourBean guidedTourB = new GuidedTourBean();
+        guidedTourB.setIdTour(myTour.getGuidedTourId());
         guidedTourB.setCityName(myTour.getCityName());
         guidedTourB.setTourName(myTour.getNameTour());
         guidedTourB.setDepartureDate(myTour.getDepartureDate());
@@ -42,6 +40,8 @@ public class BookTourControllerApplication {
         guidedTourB.setListOfAttraction(myTour.getListOfAttraction());
         guidedTourB.setTouristGuideName(myTour.getMyTouristGuideName());
         guidedTourB.setTouristGuideSurname(myTour.getMyTouristGuideSurname());
+        SessionManager.getInstance().getSession(guidedTourBean.getIdSession()).setActualGuidedTour(myTour);
+        guidedTourB.setIdSession(guidedTourBean.getIdSession());
         return guidedTourB;
     }
 
@@ -49,6 +49,7 @@ public class BookTourControllerApplication {
         SearchTourDAO searchTourDAO = new SearchTourDAO();
         List<GuidedTour> guidedTourList = searchTourDAO.findTours(searchBean.getCityName(), searchBean.getDepartureDate(), searchBean.getReturnDate());
         TourListBean tourListBean = new TourListBean();
+        tourListBean.setIdSession(searchBean.getIdSession());
         int dimensione = guidedTourList.size();
         int i = 0;
         while (i < dimensione) {
@@ -62,11 +63,26 @@ public class BookTourControllerApplication {
     }
 
     public void createTicket(TicketBean ticketBean) throws IOException, DAOException, SQLException, DuplicateTourException, CsvValidationException {
+        String user = SessionManager.getInstance().getSession(ticketBean.getIdSession()).getEmail();
+        GuidedTour tour = SessionManager.getInstance().getSession(ticketBean.getIdSession()).getActualGuidedTour();
+        String idTicket = generateUniqueID(tour.getGuidedTourId(), tour.getMyTouristGuideName(), tour.getMyTouristGuideSurname(), user); //LA FACTORY E' FATTA BENE?
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
-        String user = SessionManager.getInstance().getSession(idSession).getEmail();
-        String idTicket = generateUniqueID(ticketBean.getGuidedTour(), ticketBean.getMyTouristGuide(), user); //LA FACTORY E' FATTA BENE?
-        ticketDAOFactory.createTicketDAO().createTicket(idTicket, stateEnum.fromString(ticketBean.getStateTicket()), ticketBean.getPrenotationDate(), ticketBean.getGuidedTour(), ticketBean.getMyTouristGuide(), user);
-        //Gestisci ora invio alla guida
+        ticketDAOFactory.createTicketDAO().createTicket(idTicket, stateEnum.fromString(ticketBean.getStateTicket()), ticketBean.getPrenotationDate(), tour.getGuidedTourId(), tour.getMyTouristGuideName() + tour.getMyTouristGuideSurname(), user);
+    }
+
+    public TouristGuideRequestsBean createTouristGuideArea(TouristGuideRequestsBean requestBean) throws IOException, TicketNotFoundException, SQLException {
+        String name = SessionManager.getInstance().getSession(requestBean.getIdSession()).getName();
+        String surname = SessionManager.getInstance().getSession(requestBean.getIdSession()).getSurname();
+        TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
+        List<Ticket> tickets = ticketDAOFactory.createTicketDAO().retrieveTicketForGuide(name + " " + surname);
+        int dimensione = tickets.size();
+        int i = 0;
+        while (i < dimensione) {
+            requestBean.setGuidedTourId(tickets.get(i).getMyGuidedTour(), i);
+            requestBean.setUserEmail(tickets.get(i).getUser(), i);
+            i++;
+        }
+        return requestBean;
     }
 
     public TicketListBean createMyArea(TicketListBean ticketListBean) throws IOException, TicketNotFoundException, SQLException {
@@ -75,7 +91,6 @@ public class BookTourControllerApplication {
         int dimensione = ticketList.size();
         int i = 0;
         while (i < dimensione) {
-            ticketListBean.setTourName(ticketList.get(i).getMyGuidedTour(), i);
             ticketListBean.setIdTicket(ticketList.get(i).getIdTicket(), i);
             ticketListBean.setEmail(ticketListBean.getEmail());
             ticketListBean.setPrenotationDate(ticketList.get(i).getPrenotationDate(), i);
@@ -85,11 +100,12 @@ public class BookTourControllerApplication {
         return ticketListBean;
     }
 
-    private String generateUniqueID(String myGuidedTour, String myTouristGuide, String user) {
+    //Da spostare all'interno di ticket
+    public String generateUniqueID(String myGuidedTour_id, String myTouristGuideName, String myTouristGuideSurname, String user) {
         StringBuilder hexString = null;
         try {
             // Concatena i valori dei campi per formare una stringa univoca
-            String uniqueString = myGuidedTour + myTouristGuide + user;
+            String uniqueString = myGuidedTour_id + myTouristGuideName + myTouristGuideSurname + user;
             // Calcola l'hash SHA-256 della stringa univoca
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(uniqueString.getBytes(StandardCharsets.UTF_8));

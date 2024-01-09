@@ -1,7 +1,6 @@
 package com.example.wanderwisep.enumeration;
 
 public enum stateEnum {
-
     WAITING("Waiting for confirmation"),
     CONFIRMED("Confirmed"),
     REFUSED("Refused");

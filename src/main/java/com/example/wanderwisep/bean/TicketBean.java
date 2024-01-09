@@ -9,8 +9,17 @@ public class TicketBean implements Serializable {
     private Integer idTicket;
     private String stateTicket;
     private String myTouristGuide;
+    private String idSession;
 
     public TicketBean() {
+    }
+
+    public String getIdSession() {
+        return idSession;
+    }
+
+    public void setIdSession(String idSession) {
+        this.idSession = idSession;
     }
 
     public String getMyTouristGuide() {

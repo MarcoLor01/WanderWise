@@ -10,21 +10,35 @@ public class GuidedTour {
     private List<String> listOfAttraction;
     private LocalDate departureDate;
     private LocalDate returnDate;
-
+    private String guidedTourId;
     private String myTouristGuideName;
     private String myTouristGuideSurname;
     private ArrayList<Ticket> tourTicket;
     private String nameTour;
     private Blob photo;
 
-    public GuidedTour(String nameTour, Blob photo, LocalDate departureDate, LocalDate returnDate) {
+
+    public String getGuidedTourId() {
+        return guidedTourId;
+    }
+
+    public void setGuidedTourId(String guidedTourId) {
+        this.guidedTourId = guidedTourId;
+    }
+
+    public GuidedTour(String guidedTourId) {
+        this.guidedTourId = guidedTourId;
+    }
+
+    public GuidedTour(String nameTour, Blob photo, LocalDate departureDate, LocalDate returnDate, String idTour) {
         this.cityName = nameTour;
         this.photo = photo;
         this.departureDate = departureDate;
         this.returnDate = returnDate;
+        this.guidedTourId = idTour;
     }
 
-    public GuidedTour(String cityName, List<String> listOfAttraction, LocalDate departureDate, LocalDate returnDate, String myTouristGuideName, String myTouristGuideSurname, Blob photo, String tourName) {
+    public GuidedTour(String cityName, List<String> listOfAttraction, LocalDate departureDate, LocalDate returnDate, String myTouristGuideName, String myTouristGuideSurname, Blob photo, String tourName, String idTour) {
         this.cityName = cityName;
         this.listOfAttraction = listOfAttraction;
         this.departureDate = departureDate;
@@ -33,6 +47,7 @@ public class GuidedTour {
         this.myTouristGuideSurname = myTouristGuideSurname;
         this.photo = photo;
         this.nameTour = tourName;
+        this.guidedTourId = idTour;
     }
 
     public String getNameTour() {

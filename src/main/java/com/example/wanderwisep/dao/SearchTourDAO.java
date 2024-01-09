@@ -33,7 +33,8 @@ public class SearchTourDAO {
                 Blob photoBlob = rs.getBlob("photo");
                 LocalDate departureD = rs.getDate("departureDate").toLocalDate();
                 LocalDate returnD = rs.getDate("returnDate").toLocalDate();
-                GuidedTour a = new GuidedTour(tourName, photoBlob, departureD, returnD);
+                String idTour = rs.getString("idGuidedTour");
+                GuidedTour a = new GuidedTour(tourName, photoBlob, departureD, returnD, idTour);
                 tours.add(a);
             } while (rs.next());
             rs.close();
@@ -65,6 +66,7 @@ public class SearchTourDAO {
                 throw new TourException("Error in tour retrieving");
             }
             rs.first();
+            String idTour = rs.getString("idGuidedTour");
             String nameTour = rs.getString("nametour");
             Blob photoBlob = rs.getBlob("photo");
             LocalDate departureD = rs.getDate("departureDate").toLocalDate();
@@ -74,7 +76,7 @@ public class SearchTourDAO {
             String touristGuideName = rs.getString("touristGuideName");
             String touristGuideSurname = rs.getString("touristGuideSurname");
             List<String> attractionsArray = List.of(listOfAttraction.split(","));
-            guidedTour = new GuidedTour(cityName, attractionsArray, departureD, returnD, touristGuideName, touristGuideSurname, photoBlob, nameTour);
+            guidedTour = new GuidedTour(cityName, attractionsArray, departureD, returnD, touristGuideName, touristGuideSurname, photoBlob, nameTour, idTour);
             rs.close();
         } finally {
             if (stmt != null)

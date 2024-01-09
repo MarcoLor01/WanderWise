@@ -6,13 +6,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class NavigatorController {
-    private static final Logger logger = Logger.getLogger(TourListController.class.getName());
+    private static final Logger logger = Logger.getLogger(NavigatorController.class.getName());
     public static final String LOGIN = "view/Login.fxml";
     public static final String SEARCHBAR = "view/SearchBar.fxml";
     public static final String GUIDECONFIRM = "view/GuideConfirm.fxml";
@@ -20,21 +21,14 @@ public class NavigatorController {
     public static final String TOURLIST = "view/TourList.fxml";
     public static final String MYAREA = "view/MyArea.fxml";
 
-    protected void goToPage(String page){
-        try{
-            NavigatorBase.getInstance().goToPage(page);
-        }
-        catch(Exception e){
-            Logger.getAnonymousLogger().log(
-                    Level.INFO, e.getMessage()
-            );
-        }
+    protected void goToPage(String page) throws IOException {
+        NavigatorBase.getInstance().goToPage(page);
     }
-    protected void goToPageInit(String page,Object obj){
-        try{
+
+    protected void goToPageInit(String page, Object obj) {
+        try {
             NavigatorBase.getInstance().goToPageInit(page, obj);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             Logger.getAnonymousLogger().log(
                     Level.INFO, e.getMessage()
             );

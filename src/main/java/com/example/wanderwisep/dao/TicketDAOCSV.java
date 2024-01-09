@@ -112,4 +112,9 @@ public class TicketDAOCSV implements TicketDAO {
     public List<Ticket> retrieveTicket(String touristGuideName) throws SQLException, TicketNotFoundException {
         return null;
     }
+
+    @Override
+    public List<Ticket> retrieveTicketForGuide(String touristGuide) throws SQLException, TicketNotFoundException {
+        return null;
+    }
 }

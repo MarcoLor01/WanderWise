@@ -9,8 +9,17 @@ public class SearchBean implements Serializable {
     private String cityName;
     private LocalDate departureDate;
     private LocalDate returnDate;
+    private String idSession;
 
     public SearchBean() {
+    }
+
+    public String getIdSession() {
+        return idSession;
+    }
+
+    public void setIdSession(String idSession) {
+        this.idSession = idSession;
     }
 
     public String getCityName() {

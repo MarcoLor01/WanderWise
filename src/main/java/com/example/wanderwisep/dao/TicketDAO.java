@@ -15,5 +15,7 @@ import java.util.List;
 public interface TicketDAO {
     void createTicket(String idTicket, stateEnum state, LocalDate prenotationDate, String myGuidedTour, String myTouristGuide, String user) throws DAOException, SQLException, IOException, DuplicateTourException, CsvValidationException;
 
-    List<Ticket> retrieveTicket(String touristGuideName) throws SQLException, TicketNotFoundException;
+    List<Ticket> retrieveTicket(String userEmail) throws SQLException, TicketNotFoundException;
+
+    List<Ticket> retrieveTicketForGuide(String touristGuide) throws SQLException, TicketNotFoundException;
 }

@@ -9,12 +9,13 @@ import java.io.IOException;
 
 public class NavigatorBase { //I have to use this Navigator because with a normal class when I use extends the class calls the Constructor and stg = null
     private final Stage stg;
+    private static NavigatorBase instance;
 
     public Stage getStg() {
         return stg;
     }
 
-    private static NavigatorBase instance;
+
 
     // Metodo statico per ottenere l'istanza del Singleton
     public static synchronized NavigatorBase getInstance(Stage stg) {
@@ -36,7 +37,9 @@ public class NavigatorBase { //I have to use this Navigator because with a norma
     public void goToPage(String page) throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource(page));
         Parent root = loader.load();
+        System.out.println("3");
         stg.getScene().setRoot(root);
+        System.out.println("4");
     }
 
     public void goToPageInit(String page, Object controllerData) throws IOException {

@@ -12,10 +12,27 @@ public class GuidedTourBean implements Serializable {
     private LocalDate departureDate;
     private LocalDate returnDate;
     private String touristGuideName;
-
     private String touristGuideSurname;
     private transient Blob photo;
     private String cityName;
+    private String idTour;
+    private String idSession;
+
+    public String getIdSession() {
+        return idSession;
+    }
+
+    public void setIdSession(String idSession) {
+        this.idSession = idSession;
+    }
+
+    public String getIdTour() {
+        return idTour;
+    }
+
+    public void setIdTour(String idTour) {
+        this.idTour = idTour;
+    }
 
     public GuidedTourBean() {
     }

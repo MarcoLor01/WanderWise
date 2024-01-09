@@ -1,27 +1,14 @@
 package com.example.wanderwisep.graphic_controller;
 
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
-import com.example.wanderwisep.bean.TicketListBean;
-import com.example.wanderwisep.enumeration.stateEnum;
-import com.example.wanderwisep.exception.TicketNotFoundException;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
-
-import static javafx.scene.paint.Color.*;
 
 public class MyAreaController extends NavigatorController implements InitializableController {
 
@@ -62,7 +49,8 @@ public class MyAreaController extends NavigatorController implements Initializab
 
     }
 
-    @FXML // This method is called by the FXMLLoader when initialization is complete
+    @FXML
+        // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert confirmationCircle != null : "fx:id=\"confirmationCircle\" was not injected: check your FXML file 'MyArea.fxml'.";
         assert guidedTourName != null : "fx:id=\"guidedTourName\" was not injected: check your FXML file 'MyArea.fxml'.";
@@ -76,22 +64,20 @@ public class MyAreaController extends NavigatorController implements Initializab
 
     @Override
     public void initializeData(Object data) {
-        if (data instanceof TicketListBean ticketListBean) {
-            startView(ticketListBean);
+        if (data instanceof String email) {
+            startView(email);
         }
     }
 
-    private void startView(TicketListBean ticketListBean) {
-        try {
+    private void startView(String email) {
+ /*       try {
+            TicketListBean ticketListBean = new TicketListBean();
+            ticketListBean.setEmail(email);
             ticketListBean = bookTourControllerApplication.createMyArea(ticketListBean);
+
             List<LocalDate> datePrenotation = ticketListBean.getPrenotationDate();
-            List<String> tourName = ticketListBean.getTourName();
             List<stateEnum> stateEn = ticketListBean.getStateEnum();
             List<String> idTicket = ticketListBean.getIdTicket();
-            //List<String> touristGuide = ticketListBean.getTouristGuide();
-            String email = ticketListBean.getEmail();
-            int ticketNumber = tourName.size();
-            System.out.println(ticketNumber);
             int i = 0;
             double x = 0;
             while (i < ticketNumber) {
@@ -135,6 +121,7 @@ public class MyAreaController extends NavigatorController implements Initializab
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }*/
     }
 }
 

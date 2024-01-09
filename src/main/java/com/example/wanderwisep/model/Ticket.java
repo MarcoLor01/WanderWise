@@ -10,19 +10,27 @@ public class Ticket {
     private String idTicket;
     private stateEnum state;
     private LocalDate prenotationDate;
-    private String myGuidedTour;
+    private String myGuidedTourId;
     private String user;
     private String myTouristGuide;
     private static final Logger logger = Logger.getLogger(Ticket.class.getName());
 
 
-    public Ticket(String idTicket, stateEnum state, LocalDate prenotationDate, String myGuidedTour, String myTouristGuide, String user) {
+    public Ticket(String idTicket, stateEnum state, LocalDate prenotationDate, String myGuidedTourId, String myTouristGuide, String user) {
         this.idTicket = idTicket;
         this.state = state;
         this.prenotationDate = prenotationDate;
-        this.myGuidedTour = myGuidedTour;
+        this.myGuidedTourId = myGuidedTourId;
         this.user = user;
         this.myTouristGuide = myTouristGuide;
+    }
+
+    public Ticket(String idTicket, stateEnum state, String idTour, String touristGuide, String user) {
+        this.idTicket = idTicket;
+        this.user = user;
+        this.myTouristGuide = touristGuide;
+        this.myGuidedTourId = idTour;
+        this.state = state;
     }
 
     public String getIdTicket() {
@@ -50,11 +58,11 @@ public class Ticket {
     }
 
     public String getMyGuidedTour() {
-        return myGuidedTour;
+        return myGuidedTourId;
     }
 
-    public void setMyGuidedTour(String myGuidedTour) {
-        this.myGuidedTour = myGuidedTour;
+    public void setMyGuidedTour(String myGuidedTourId) {
+        this.myGuidedTourId = myGuidedTourId;
     }
 
     public void setUser(String user) {

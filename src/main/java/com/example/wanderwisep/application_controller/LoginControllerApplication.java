@@ -6,29 +6,35 @@ import com.example.wanderwisep.dao.LoginUserDAO;
 import com.example.wanderwisep.exception.UserNotFoundException;
 import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.User;
-import com.example.wanderwisep.sessionmanagement.SessionManager;
+import com.example.wanderwisep.sessionManagement.SessionManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 public class LoginControllerApplication {
 
-    public static String idSession;
+    private String idSession;
 
-    public void loginUser(LoginBean loginBean) throws UserNotFoundException, SQLException, IOException {
+    public LoginBean loginUser(LoginBean loginBean) throws UserNotFoundException, SQLException, IOException {
         LoginUserDAO loginUserDAO = new LoginUserDAO();
         User user = loginUserDAO.findUser(loginBean.getEmail(), loginBean.getPassword());
-        SessionManager.getInstance().addSession(user);
-
+        idSession = SessionManager.getInstance().addSession(user);
+        loginBean.setIdSession(idSession);
+        return loginBean;
     }
 
-    public void loginGuide(LoginBean loginBean) throws UserNotFoundException, SQLException, IOException {
+    public LoginBean loginGuide(LoginBean loginBean) throws UserNotFoundException, SQLException, IOException {
         LoginGuideDAO loginGuideDAO = new LoginGuideDAO();
         TouristGuide touristGuide = loginGuideDAO.findGuide(loginBean.getEmail(), loginBean.getPassword());
-        SessionManager.getInstance().addSession(touristGuide);
+        idSession = SessionManager.getInstance().addSession(touristGuide);
+        loginBean.setIdSession(idSession);
+        return loginBean;
     }
 
-    public void logout() {
-        SessionManager.getInstance().removeSession(idSession);
+    public void logout(LoginBean loginBean) {
+        SessionManager.getInstance().removeSession(loginBean.getIdSession());
+    }
+
+    public String getSessionEmail() {
+        return SessionManager.getInstance().getSession(idSession).getEmail();
     }
 }

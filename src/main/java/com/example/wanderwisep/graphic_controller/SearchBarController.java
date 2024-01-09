@@ -1,6 +1,8 @@
 package com.example.wanderwisep.graphic_controller;
+
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
 import com.example.wanderwisep.application_controller.LoginControllerApplication;
+import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.SearchBean;
 import com.example.wanderwisep.bean.TourListBean;
 import com.example.wanderwisep.exception.InvalidFormatException;
@@ -17,11 +19,12 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SearchBarController extends NavigatorController {
+public class SearchBarController extends NavigatorController implements InitializableController {
 
     BookTourControllerApplication bookTourController = new BookTourControllerApplication();
     LoginControllerApplication loginController = new LoginControllerApplication();
-    private static final Logger logger = Logger.getLogger(SearchBarController.class.getName());
+    Logger logger = Logger.getLogger(SearchBarController.class.getName());
+    private String idSession;
     @FXML // fx:id="citySearch"
     private TextField citySearch; // Value injected by FXMLLoader
     @FXML // fx:id="dateFinal"
@@ -42,14 +45,18 @@ public class SearchBarController extends NavigatorController {
     public SearchBarController() {
     }
 
+
     @FXML
-    void logout() {
-        loginController.logout();
-        goToPage(LOGIN);
+    public void logout() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.setIdSession(idSession);
+        System.out.println("Ultimo idSession uguale = " + idSession);
+        loginController.logout(loginBean);
+        goToPageInit(LOGIN, loginBean);
     }
 
     @FXML
-    void openLogout() {
+    public void openLogout() {
         if (loginAnchor.isVisible() || loginLine.isVisible() || logoutSearchBar.isVisible()) {
             // Se la casella di logout è già aperta, la chiudo
             loginAnchor.setVisible(false);
@@ -64,18 +71,19 @@ public class SearchBarController extends NavigatorController {
     }
 
     @FXML
-    void openMyArea() {
+    public void openMyArea() {
 
     }
 
     @FXML
-    void searchDestination() {
+    public void searchDestination() {
         try {
             SearchBean newSearch = new SearchBean();
             newSearch.checkField(citySearch.getText(), dateInitial.getValue(), dateFinal.getValue());
             newSearch.setCityName((citySearch.getText()));
             newSearch.setDepartureDate(dateInitial.getValue());
             newSearch.setReturnDate(dateFinal.getValue());
+            newSearch.setIdSession(idSession);
             TourListBean tourListBean = bookTourController.searchTour(newSearch);
             goToPageInit(TOURLIST, tourListBean);
         } catch (InvalidFormatException | TourException | SQLException e) {
@@ -93,5 +101,12 @@ public class SearchBarController extends NavigatorController {
         assert loginSearch != null : "fx:id=\"loginSearch\" was not injected: check your FXML file 'SearchBar.fxml'.";
         assert logoutSearchBar != null : "fx:id=\"logoutSearchBar\" was not injected: check your FXML file 'SearchBar.fxml'.";
         assert myAreaSearchBar != null : "fx:id=\"myAreaSearchBar\" was not injected: check your FXML file 'SearchBar.fxml'.";
+    }
+
+    @Override
+    public void initializeData(Object data) {
+        if (data instanceof LoginBean loginBean) {
+            idSession = loginBean.getIdSession();
+        }
     }
 }

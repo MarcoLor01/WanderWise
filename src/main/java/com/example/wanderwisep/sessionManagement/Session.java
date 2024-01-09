@@ -1,4 +1,4 @@
-package com.example.wanderwisep.sessionmanagement;
+package com.example.wanderwisep.sessionManagement;
 
 import com.example.wanderwisep.model.GuidedTour;
 import com.example.wanderwisep.model.Ticket;
@@ -12,8 +12,9 @@ public class Session {
     private String name;
     private String surname;
     private String email;
+    private GuidedTour actualGuidedTour;
     private ArrayList<Ticket> myTicket;
-    private String sessionId;
+    private final String sessionId;
     private List<String> spokenLanguages;
     private ArrayList<GuidedTour> myTour;
 
@@ -40,5 +41,29 @@ public class Session {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public GuidedTour getActualGuidedTour() {
+        return actualGuidedTour;
+    }
+
+    public void setActualGuidedTour(GuidedTour actualGuidedTour) {
+        this.actualGuidedTour = actualGuidedTour;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 }

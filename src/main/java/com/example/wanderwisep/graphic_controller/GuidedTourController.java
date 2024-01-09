@@ -1,9 +1,10 @@
 package com.example.wanderwisep.graphic_controller;
 
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
+import com.example.wanderwisep.application_controller.LoginControllerApplication;
 import com.example.wanderwisep.bean.GuidedTourBean;
+import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.TicketBean;
-import com.example.wanderwisep.bean.TicketListBean;
 import com.example.wanderwisep.exception.DAOException;
 import com.example.wanderwisep.exception.DuplicateTourException;
 import com.opencsv.exceptions.CsvValidationException;
@@ -30,16 +31,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GuidedTourController extends NavigatorController implements InitializableController {
-
-    private static final Logger logger = Logger.getLogger(SearchBarController.class.getName());
+    Logger logger = Logger.getLogger(GuidedTourController.class.getName());
     BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
-
-    @Override
-    public void initializeData(Object data) {
-        if (data instanceof GuidedTourBean) {
-            startView((GuidedTourBean) data);
-        }
-    }
+    LoginControllerApplication loginControllerApplication = new LoginControllerApplication();
+    private String idSession;
     @FXML
     private Text tourTitleText;
 
@@ -67,7 +62,16 @@ public class GuidedTourController extends NavigatorController implements Initial
     @FXML // fx:id="tourImage"
     private ImageView tourImage; // Value injected by FXMLLoader
 
-    void startView(GuidedTourBean guidedTourBean) {
+    @Override
+    public void initializeData(Object data) {
+        if (data instanceof GuidedTourBean guidedTourBean) {
+            System.out.println("All'interno del GuidedTourController grafico = " + guidedTourBean.getIdSession());
+            idSession = guidedTourBean.getIdSession();
+            startView(guidedTourBean);
+        }
+    }
+
+    public void startView(GuidedTourBean guidedTourBean) {
         String tourName = guidedTourBean.getTourName();
         Blob photo = guidedTourBean.getPhoto();
         List<String> listOfAttraction = guidedTourBean.getListOfAttraction();
@@ -98,17 +102,22 @@ public class GuidedTourController extends NavigatorController implements Initial
             vbox.getChildren().add(container);
         }
         flowPaneId.getChildren().add(vbox);
+        bookTour.setOnAction(event -> {
+            if (event.getSource() == bookTour) {
+                bookTour();
+            }
+        });
     }
 
     @FXML
-    void bookTour() {
+    public void bookTour() {
         try {
             TicketBean ticketBean = new TicketBean();
-            ticketBean.setGuidedTour(tourTitleText.getText());
             ticketBean.setPrenotationDate(LocalDate.now());
             ticketBean.setStateTicket("waiting for confirmation");
-            ticketBean.setMyTouristGuide(guideNameText.getText());
+            ticketBean.setIdSession(idSession);
             bookTourControllerApplication.createTicket(ticketBean);
+            System.out.println("Post creazione Ticket = " + idSession);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Guided Tour");
             alert.setContentText("Guided Tour Booked");
@@ -123,28 +132,30 @@ public class GuidedTourController extends NavigatorController implements Initial
     }
 
     @FXML
-    void logout() {
-        goToPage(LOGIN);
+    public void logout() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.setIdSession(idSession);
+        loginControllerApplication.logout(loginBean);
+        goToPageInit(LOGIN, loginBean);
     }
 
     @FXML
-    void openHome() {
-        goToPage(SEARCHBAR);
+    public void openHome() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.setIdSession(idSession);
+        goToPageInit(SEARCHBAR, loginBean);
     }
 
     @FXML
-    void openLogout() {
+    public void openLogout() {
 
     }
 
     @FXML
-    void openMyArea() {
-        TicketListBean ticketBeanList = new TicketListBean();
-        ticketBeanList.setEmail("user@user.com"); //Da prendere con la Session
-        goToPageInit(MYAREA, ticketBeanList);
+    public void openMyArea() {
+        String emailUser = loginControllerApplication.getSessionEmail();
+        goToPageInit(MYAREA, emailUser);
     }
-
-
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {

@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LoginController extends NavigatorController{
-    private static final Logger logger = Logger.getLogger(LoginController.class.getName());
+    Logger logger = Logger.getLogger(LoginController.class.getName());
     LoginControllerApplication loginControllerApp = new LoginControllerApplication();
     @FXML // fx:id="buttonUserLogin"
     private Button buttonUserLogin; // Value injected by FXMLLoader
@@ -36,40 +36,38 @@ public class LoginController extends NavigatorController{
     private PasswordField passwordUserLogin; // Value injected by FXMLLoader
 
     @FXML
-    void doLoginGuide() {
+    public void doLoginGuide() {
         try {
             LoginBean loginBean = new LoginBean();
             loginBean.setEmail(emailGuideLogin.getText());
             loginBean.setPassword(passwordGuideLogin.getText());
             loginBean.checkField(loginBean.getEmail(), loginBean.getPassword());
-            loginControllerApp.loginGuide(loginBean);
-            goToPage(GUIDECONFIRM);
+            loginBean = loginControllerApp.loginGuide(loginBean);
+            goToPageInit(GUIDECONFIRM, loginBean);
         } catch (InvalidFormatException | UserNotFoundException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog(e.getMessage(), "Login Error");
         } catch (SQLException | IOException e) {
-            logger.log(Level.INFO, e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Please retry later", "Login Error");
         }
     }
 
     @FXML
-    void doLoginUser() {
+    public void doLoginUser() {
         try {
             LoginBean loginBean = new LoginBean();
             loginBean.setEmail(emailUserLogin.getText());
             loginBean.setPassword(passwordUserLogin.getText());
             loginBean.checkField(loginBean.getEmail(), loginBean.getPassword());
-            loginControllerApp.loginUser(loginBean);
-            goToPage(SEARCHBAR);
+            loginBean = loginControllerApp.loginUser(loginBean);
+            goToPageInit(SEARCHBAR, loginBean);
         } catch (InvalidFormatException | UserNotFoundException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog(e.getMessage(), "Login Error");
-        } catch (SQLException e) {
-            logger.log(Level.INFO, e.getMessage());
+        } catch (SQLException | IOException e) {
+            logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Database Error", "Login Error");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
