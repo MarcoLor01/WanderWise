@@ -6,7 +6,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.util.logging.Level;
@@ -20,10 +19,6 @@ public class NavigatorController {
     public static final String GUIDEDTOUR = "view/GuidedTour.fxml";
     public static final String TOURLIST = "view/TourList.fxml";
     public static final String MYAREA = "view/MyArea.fxml";
-
-    protected void goToPage(String page) throws IOException {
-        NavigatorBase.getInstance().goToPage(page);
-    }
 
     protected void goToPageInit(String page, Object obj) {
         try {
@@ -53,9 +48,9 @@ public class NavigatorController {
         return null;
     }
 
-    protected void setTextN(Integer i, Text toSet, Integer fontText) {
+    protected void setTextN(Integer translateY, Text toSet, Integer fontText) {
         toSet.setTextAlignment(TextAlignment.CENTER);
-        toSet.setTranslateY(i);
+        toSet.setTranslateY(translateY);
         toSet.setFont(Font.font("Verdana Pro Cond Semibold", fontText));
     }
 }

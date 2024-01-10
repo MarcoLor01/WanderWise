@@ -2,13 +2,15 @@ package com.example.wanderwisep.graphic_controller;
 
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
 import com.example.wanderwisep.bean.LoginBean;
+import com.example.wanderwisep.bean.TouristGuideAnswerBean;
 import com.example.wanderwisep.bean.TouristGuideRequestsBean;
 import com.example.wanderwisep.exception.TicketNotFoundException;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -50,13 +52,22 @@ public class GuideConfirmController extends NavigatorController implements Initi
     private Text textFrom; // Value injected by FXMLLoader
 
     @FXML
-    public void confirmTour(ActionEvent event) {
-
+    public void confirmTour(String user, String guidedTourId) {
+        TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
+        answerBean.setIdSession(idSession);
+        answerBean.setIdTour(guidedTourId);
+        answerBean.setUserEmail(user);
+        answerBean.setGuideDecision("Confirmed");
     }
 
     @FXML
-    public void rejectTour(ActionEvent event) {
-
+    public void rejectTour(String user, String guidedTourId) {
+        TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
+        answerBean.setIdSession(idSession);
+        answerBean.setIdTour(guidedTourId);
+        answerBean.setUserEmail(user);
+        answerBean.setGuideDecision("Refused");
+        bookTourControllerApplication.guideDecision(answerBean);
     }
 
     public void startView() {
@@ -66,25 +77,40 @@ public class GuideConfirmController extends NavigatorController implements Initi
             requestBean = bookTourControllerApplication.createTouristGuideArea(requestBean);
             List<String> userEmail = requestBean.getUserEmail();
             List<String> guidedTourId = requestBean.getGuidedTourId();
-            Text confirmAvailability = new Text("confirm availability ");
             int i = 0;
             double x = 0;
             double startX = 12;
             double startY = 14;
             double boxWidth = 529;
-            double boxHeight = 29;
+            double boxHeight = 30;
             while (i < userEmail.size()) {
-                Text userEmailText = new Text("user: " + userEmail.get(i));
-                Text guidedTourIdText = new Text("tour: " + guidedTourId.get(i));
+                String user = userEmail.get(i);
+                String guidedTour = guidedTourId.get(i);
+                Text userEmailText = new Text("User: " + user);
+                Text guidedTourIdText = new Text("Tour Id: " + guidedTour);
+                setTextN(0, userEmailText, 12);
+                setTextN(0, guidedTourIdText, 12);
+                Text confirmAvailability = new Text("Confirm availability? ");
+                setTextN(-23, confirmAvailability, 12);
+                confirmAvailability.setTranslateX(330);
                 Button yesButton = new Button("Yes");
                 Button noButton = new Button("No");
-                VBox vBox = new VBox(userEmailText, guidedTourIdText, confirmAvailability, yesButton, noButton);
-                anchorPaneRequests.getChildren().add(vBox);
+                HBox hBox = new HBox(confirmAvailability, yesButton, noButton);
+                yesButton.setFont(Font.font(12));
+                yesButton.setTranslateX(335);
+                yesButton.setTranslateY(-28);
+                noButton.setFont(Font.font(12));
+                noButton.setTranslateX(340);
+                noButton.setTranslateY(-28);
+                VBox vBox = new VBox(userEmailText, guidedTourIdText, hBox);
                 vBox.setStyle("-fx-border-color: white; -fx-border-width: 1;");
                 AnchorPane.setLeftAnchor(vBox, startX + x);
                 AnchorPane.setTopAnchor(vBox, startY);
                 vBox.setPrefWidth(boxWidth);
                 vBox.setPrefHeight(boxHeight);
+                anchorPaneRequests.getChildren().add(vBox);
+                yesButton.setOnAction(event -> confirmTour(user, guidedTour));
+                noButton.setOnAction(event -> rejectTour(user, guidedTour));
                 i++;
                 x += 2;
             }

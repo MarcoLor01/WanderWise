@@ -85,6 +85,11 @@ public class BookTourControllerApplication {
         return requestBean;
     }
 
+    public TouristGuideAnswerBean guideDecision(TouristGuideAnswerBean touristAnswerBean) {
+        //Prendi tutti i Ticket tramite DAO e modifica lo state ora
+        return touristAnswerBean;
+    }
+
     public TicketListBean createMyArea(TicketListBean ticketListBean) throws IOException, TicketNotFoundException, SQLException {
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
         List<Ticket> ticketList = ticketDAOFactory.createTicketDAO().retrieveTicket(ticketListBean.getEmail());

@@ -44,17 +44,13 @@ public class SearchBarController extends NavigatorController implements Initiali
 
     public SearchBarController() {
     }
-
-
     @FXML
     public void logout() {
         LoginBean loginBean = new LoginBean();
         loginBean.setIdSession(idSession);
-        System.out.println("Ultimo idSession uguale = " + idSession);
         loginController.logout(loginBean);
         goToPageInit(LOGIN, loginBean);
     }
-
     @FXML
     public void openLogout() {
         if (loginAnchor.isVisible() || loginLine.isVisible() || logoutSearchBar.isVisible()) {
