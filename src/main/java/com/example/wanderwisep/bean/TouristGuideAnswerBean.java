@@ -9,9 +9,6 @@ public class TouristGuideAnswerBean implements Serializable {
     private String guideDecision;
     private String idSession;
 
-    public TouristGuideAnswerBean() {
-    }
-
     public String getIdSession() {
         return idSession;
     }

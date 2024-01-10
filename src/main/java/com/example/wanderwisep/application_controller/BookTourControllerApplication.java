@@ -24,9 +24,6 @@ import java.util.logging.Logger;
 
 public class BookTourControllerApplication {
     Logger logger = Logger.getLogger(BookTourControllerApplication.class.getName());
-    public BookTourControllerApplication() {
-    }
-
     public GuidedTourBean getTourDescription(GuidedTourBean guidedTourBean) throws TourException, SQLException {
         SearchTourDAO searchTourDAO = new SearchTourDAO();
         GuidedTour myTour = searchTourDAO.retrieveTour(guidedTourBean.getTourName(), guidedTourBean.getDepartureDate(), guidedTourBean.getReturnDate());
@@ -106,11 +103,11 @@ public class BookTourControllerApplication {
     }
 
     //Da spostare all'interno di ticket
-    public String generateUniqueID(String myGuidedTour_id, String myTouristGuideName, String myTouristGuideSurname, String user) {
+    public String generateUniqueID(String myGuidedTourId, String myTouristGuideName, String myTouristGuideSurname, String user) {
         StringBuilder hexString = null;
         try {
             // Concatena i valori dei campi per formare una stringa univoca
-            String uniqueString = myGuidedTour_id + myTouristGuideName + myTouristGuideSurname + user;
+            String uniqueString = myGuidedTourId + myTouristGuideName + myTouristGuideSurname + user;
             // Calcola l'hash SHA-256 della stringa univoca
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(uniqueString.getBytes(StandardCharsets.UTF_8));

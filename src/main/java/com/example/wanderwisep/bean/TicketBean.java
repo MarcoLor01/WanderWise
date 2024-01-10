@@ -11,9 +11,6 @@ public class TicketBean implements Serializable {
     private String myTouristGuide;
     private String idSession;
 
-    public TicketBean() {
-    }
-
     public String getIdSession() {
         return idSession;
     }

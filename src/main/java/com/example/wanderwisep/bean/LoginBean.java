@@ -5,9 +5,6 @@ import com.example.wanderwisep.exception.InvalidFormatException;
 import java.io.Serializable;
 
 public class LoginBean implements Serializable {
-    public LoginBean() {
-    }
-
     private String email;
     private String password;
     private String idSession;

@@ -11,9 +11,6 @@ public class SearchBean implements Serializable {
     private LocalDate returnDate;
     private String idSession;
 
-    public SearchBean() {
-    }
-
     public String getIdSession() {
         return idSession;
     }

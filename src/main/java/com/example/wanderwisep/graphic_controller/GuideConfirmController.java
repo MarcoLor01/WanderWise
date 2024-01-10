@@ -25,8 +25,6 @@ public class GuideConfirmController extends NavigatorController implements Initi
     BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
     Logger logger = Logger.getLogger(GuideConfirmController.class.getName());
     private String idSession;
-    @FXML
-    private Text nameGuideText;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;

@@ -8,13 +8,12 @@ import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.User;
 import com.example.wanderwisep.sessionManagement.SessionManager;
 
-import java.io.IOException;
 import java.sql.SQLException;
 public class LoginControllerApplication {
 
     private String idSession;
 
-    public LoginBean loginUser(LoginBean loginBean) throws UserNotFoundException, SQLException, IOException {
+    public LoginBean loginUser(LoginBean loginBean) throws UserNotFoundException, SQLException {
         LoginUserDAO loginUserDAO = new LoginUserDAO();
         User user = loginUserDAO.findUser(loginBean.getEmail(), loginBean.getPassword());
         idSession = SessionManager.getInstance().addSession(user);
@@ -22,7 +21,7 @@ public class LoginControllerApplication {
         return loginBean;
     }
 
-    public LoginBean loginGuide(LoginBean loginBean) throws UserNotFoundException, SQLException, IOException {
+    public LoginBean loginGuide(LoginBean loginBean) throws UserNotFoundException, SQLException {
         LoginGuideDAO loginGuideDAO = new LoginGuideDAO();
         TouristGuide touristGuide = loginGuideDAO.findGuide(loginBean.getEmail(), loginBean.getPassword());
         idSession = SessionManager.getInstance().addSession(touristGuide);

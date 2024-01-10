@@ -34,9 +34,6 @@ public class GuidedTourBean implements Serializable {
         this.idTour = idTour;
     }
 
-    public GuidedTourBean() {
-    }
-
     public String getTourName() {
         return tourName;
     }

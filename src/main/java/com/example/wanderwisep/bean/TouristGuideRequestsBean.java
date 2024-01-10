@@ -9,9 +9,6 @@ public class TouristGuideRequestsBean implements Serializable {
     private List<String> guidedTourId = new ArrayList<>();
     private String idSession;
 
-    public TouristGuideRequestsBean() {
-    }
-
     public String getIdSession() {
         return idSession;
     }

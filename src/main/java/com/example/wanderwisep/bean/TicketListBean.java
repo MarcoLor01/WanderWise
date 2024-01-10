@@ -15,9 +15,6 @@ public class TicketListBean implements Serializable {
     private List<String> tourName = new ArrayList<>();
 
 
-    public TicketListBean() {
-    }
-
     public String getEmail() {
         return email;
     }

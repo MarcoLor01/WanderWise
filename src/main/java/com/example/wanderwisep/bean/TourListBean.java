@@ -14,9 +14,6 @@ public class TourListBean implements Serializable {
     private transient List<Blob> photo = new ArrayList<>();
     private String idSession;
 
-    public TourListBean() {
-    }
-
     public String getIdSession() {
         return idSession;
     }
