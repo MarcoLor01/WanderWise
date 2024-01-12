@@ -153,8 +153,7 @@ public class GuidedTourController extends NavigatorController implements Initial
 
     @FXML
     public void openMyArea() {
-        String emailUser = loginControllerApplication.getSessionEmail();
-        goToPageInit(MYAREA, emailUser);
+        goToPageInit(MYAREA, idSession);
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete

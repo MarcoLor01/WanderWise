@@ -6,7 +6,7 @@ public enum stateEnum {
     REFUSED("Refused");
     private final String stateName;
 
-    stateEnum(String stateName) {
+    private stateEnum(String stateName) {
         this.stateName = stateName;
     }
 

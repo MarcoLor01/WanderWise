@@ -1,19 +1,33 @@
 package com.example.wanderwisep.graphic_controller;
 
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
+import com.example.wanderwisep.bean.TicketListBean;
+import com.example.wanderwisep.exception.TicketNotFoundException;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static javafx.scene.paint.Color.*;
 
 public class MyAreaController extends NavigatorController implements InitializableController {
-
+    private static final Logger logger = Logger.getLogger(MyAreaController.class.getName());
     BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
-
+    String idSession;
     @FXML
     private AnchorPane anchorPaneBase;
 
@@ -59,25 +73,29 @@ public class MyAreaController extends NavigatorController implements Initializab
         assert status != null : "fx:id=\"status\" was not injected: check your FXML file 'MyArea.fxml'.";
         assert touristGuideName != null : "fx:id=\"touristGuideName\" was not injected: check your FXML file 'MyArea.fxml'.";
         assert viewGuidedTour != null : "fx:id=\"viewGuidedTour\" was not injected: check your FXML file 'MyArea.fxml'.";
-
     }
 
     @Override
     public void initializeData(Object data) {
-        if (data instanceof String email) {
-            startView(email);
+        if (data instanceof String id) {
+            idSession = id;
+            startView();
         }
     }
 
-    private void startView(String email) {
- /*       try {
+    private void startView() {
+        try {
             TicketListBean ticketListBean = new TicketListBean();
-            ticketListBean.setEmail(email);
+            ticketListBean.setIdSession(idSession);
             ticketListBean = bookTourControllerApplication.createMyArea(ticketListBean);
-
-            List<LocalDate> datePrenotation = ticketListBean.getPrenotationDate();
-            List<stateEnum> stateEn = ticketListBean.getStateEnum();
             List<String> idTicket = ticketListBean.getIdTicket();
+            List<String> stateEn = ticketListBean.getStateEnum();
+            List<LocalDate> datePrenotation = ticketListBean.getPrenotationDate();
+            List<String> tourName = ticketListBean.getTourName();
+            List<LocalDate> departureDate = ticketListBean.getDepartureDate();
+            List<LocalDate> returnDate = ticketListBean.getReturnDate();
+
+            int ticketNumber = idTicket.size();
             int i = 0;
             double x = 0;
             while (i < ticketNumber) {
@@ -93,18 +111,18 @@ public class MyAreaController extends NavigatorController implements Initializab
                 vBox.setPrefWidth(boxWidth); // Imposta la larghezza preferita del VBox
                 vBox.setPrefHeight(boxHeight); // Imposta l'altezza preferita del VBox
                 Text tourN = new Text("Tour name: " + tourName.get(i));
-                stateEnum ticketState = stateEn.get(i);
+                String ticketState = stateEn.get(i);
                 Circle circle;
-                if (Objects.equals(ticketState.getStateName(), "Waiting for confirmation")) {
+                if (Objects.equals(ticketState, "Waiting for confirmation")) {
                     circle = new Circle(4, GREY);
-                } else if (Objects.equals(ticketState.getStateName(), "Confirmed")) {
+                } else if (Objects.equals(ticketState, "Confirmed")) {
                     circle = new Circle(4, BLUE);
                 } else {
                     circle = new Circle(4, RED);
                 }
                 circle.setStroke(BLACK);
                 Text prenotationD = new Text(("Prenotation Date: " + datePrenotation.get(i).toString()));
-                Text stateEnum = new Text(" State: " + stateEn.get(i).getStateName());
+                Text stateEnum = new Text(" State: " + stateEn.get(i));
                 setTextN(-2, tourN, 10);
                 setTextN(-2, prenotationD, 10);
                 setTextN(-2, stateEnum, 10);
@@ -114,14 +132,12 @@ public class MyAreaController extends NavigatorController implements Initializab
                 x += boxWidth + startX;
                 i++;
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | SQLException e) {
+            logger.log(Level.INFO, e.getMessage());
         } catch (TicketNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.log(Level.INFO, e.getMessage());
+            showErrorDialog("No requests available", "Request Available");
         }
-    }*/
     }
 }
 

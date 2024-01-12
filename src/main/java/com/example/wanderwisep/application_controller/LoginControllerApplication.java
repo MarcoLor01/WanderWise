@@ -33,7 +33,4 @@ public class LoginControllerApplication {
         SessionManager.getInstance().removeSession(loginBean.getIdSession());
     }
 
-    public String getSessionEmail() {
-        return SessionManager.getInstance().getSession(idSession).getEmail();
-    }
 }

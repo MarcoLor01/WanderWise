@@ -3,10 +3,7 @@ package com.example.wanderwisep.application_controller;
 import com.example.wanderwisep.bean.*;
 import com.example.wanderwisep.dao.SearchTourDAO;
 import com.example.wanderwisep.enumeration.stateEnum;
-import com.example.wanderwisep.exception.DAOException;
-import com.example.wanderwisep.exception.DuplicateTourException;
-import com.example.wanderwisep.exception.TicketNotFoundException;
-import com.example.wanderwisep.exception.TourException;
+import com.example.wanderwisep.exception.*;
 import com.example.wanderwisep.model.GuidedTour;
 import com.example.wanderwisep.model.Ticket;
 import com.example.wanderwisep.pattern.TicketDAOFactory;
@@ -14,16 +11,10 @@ import com.example.wanderwisep.sessionManagement.SessionManager;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class BookTourControllerApplication {
-    Logger logger = Logger.getLogger(BookTourControllerApplication.class.getName());
     public GuidedTourBean getTourDescription(GuidedTourBean guidedTourBean) throws TourException, SQLException {
         SearchTourDAO searchTourDAO = new SearchTourDAO();
         GuidedTour myTour = searchTourDAO.retrieveTour(guidedTourBean.getTourName(), guidedTourBean.getDepartureDate(), guidedTourBean.getReturnDate());
@@ -62,9 +53,10 @@ public class BookTourControllerApplication {
     public void createTicket(TicketBean ticketBean) throws IOException, DAOException, SQLException, DuplicateTourException, CsvValidationException {
         String user = SessionManager.getInstance().getSession(ticketBean.getIdSession()).getEmail();
         GuidedTour tour = SessionManager.getInstance().getSession(ticketBean.getIdSession()).getActualGuidedTour();
-        String idTicket = generateUniqueID(tour.getGuidedTourId(), tour.getMyTouristGuideName(), tour.getMyTouristGuideSurname(), user); //LA FACTORY E' FATTA BENE?
+        Ticket ticket = new Ticket(stateEnum.fromString(ticketBean.getStateTicket()), ticketBean.getPrenotationDate(), tour.getGuidedTourId(), tour.getMyTouristGuideName() + " " + tour.getMyTouristGuideSurname(), user, tour.getDepartureDate(), tour.getReturnDate(), tour.getNameTour());
+        ticket.setIdTicket(tour.getGuidedTourId(), tour.getMyTouristGuideName() + tour.getMyTouristGuideSurname(), user);
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
-        ticketDAOFactory.createTicketDAO().createTicket(idTicket, stateEnum.fromString(ticketBean.getStateTicket()), ticketBean.getPrenotationDate(), tour.getGuidedTourId(), tour.getMyTouristGuideName() + tour.getMyTouristGuideSurname(), user);
+        ticketDAOFactory.createTicketDAO(1).createTicket(ticket);
     }
 
     public TouristGuideRequestsBean createTouristGuideArea(TouristGuideRequestsBean requestBean) throws IOException, TicketNotFoundException, SQLException {
@@ -82,51 +74,31 @@ public class BookTourControllerApplication {
         return requestBean;
     }
 
-    public TouristGuideAnswerBean guideDecision(TouristGuideAnswerBean touristAnswerBean) {
-        //Prendi tutti i Ticket tramite DAO e modifica lo state ora
-        return touristAnswerBean;
+    public void guideDecision(TouristGuideAnswerBean touristAnswerBean) throws IOException, SQLException, RequestNotFoundException {
+        TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
+        String touristGuideName = SessionManager.getInstance().getSession(touristAnswerBean.getIdSession()).getName();
+        String touristGuideSurname = SessionManager.getInstance().getSession(touristAnswerBean.getIdSession()).getSurname();
+        ticketDAOFactory.createTicketDAO().retrieveTicketFromTourGuide(touristGuideName + " " + touristGuideSurname, touristAnswerBean.getUserEmail(), touristAnswerBean.getIdTour(), touristAnswerBean.getGuideDecision());
     }
 
     public TicketListBean createMyArea(TicketListBean ticketListBean) throws IOException, TicketNotFoundException, SQLException {
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
-        List<Ticket> ticketList = ticketDAOFactory.createTicketDAO().retrieveTicket(ticketListBean.getEmail());
+        String email = SessionManager.getInstance().getSession(ticketListBean.getIdSession()).getEmail();
+        List<Ticket> ticketList = ticketDAOFactory.createTicketDAO().retrieveTicket(email);
         int dimensione = ticketList.size();
+        System.out.println("Dimensione: " + dimensione);
         int i = 0;
         while (i < dimensione) {
             ticketListBean.setIdTicket(ticketList.get(i).getIdTicket(), i);
-            ticketListBean.setEmail(ticketListBean.getEmail());
             ticketListBean.setPrenotationDate(ticketList.get(i).getPrenotationDate(), i);
-            ticketListBean.setStateEnum(ticketList.get(i).getState(), i);
+            ticketListBean.setStateEnum(ticketList.get(i).getState().getStateName(), i);
+            ticketListBean.setTouristGuideName(ticketList.get(i).getMyTouristGuide(), i);
+            ticketListBean.setTourId(ticketList.get(i).getMyGuidedTourId(), i);
+            ticketListBean.setTourName(ticketList.get(i).getTourName(), i);
+            ticketListBean.setDepartureDate(ticketList.get(i).getDepartureDate(), i);
+            ticketListBean.setReturnDate(ticketList.get(i).getReturnDate(), i);
             i++;
         }
         return ticketListBean;
-    }
-
-    //Da spostare all'interno di ticket
-    public String generateUniqueID(String myGuidedTourId, String myTouristGuideName, String myTouristGuideSurname, String user) {
-        StringBuilder hexString = null;
-        try {
-            // Concatena i valori dei campi per formare una stringa univoca
-            String uniqueString = myGuidedTourId + myTouristGuideName + myTouristGuideSurname + user;
-            // Calcola l'hash SHA-256 della stringa univoca
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(uniqueString.getBytes(StandardCharsets.UTF_8));
-            // Converti l'array di byte in una rappresentazione esadecimale
-            hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-
-        } catch (NoSuchAlgorithmException e) {
-            logger.log(Level.INFO, e.getMessage());
-        }
-        // Restituisci l'ID univoco
-        if (hexString != null) {
-            return hexString.toString();
-        } else {
-            throw new NullPointerException("hexString is null");
-        }
     }
 }

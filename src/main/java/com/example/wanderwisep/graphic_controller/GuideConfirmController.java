@@ -4,8 +4,10 @@ import com.example.wanderwisep.application_controller.BookTourControllerApplicat
 import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.TouristGuideAnswerBean;
 import com.example.wanderwisep.bean.TouristGuideRequestsBean;
+import com.example.wanderwisep.exception.RequestNotFoundException;
 import com.example.wanderwisep.exception.TicketNotFoundException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -51,21 +53,44 @@ public class GuideConfirmController extends NavigatorController implements Initi
 
     @FXML
     public void confirmTour(String user, String guidedTourId) {
-        TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
-        answerBean.setIdSession(idSession);
-        answerBean.setIdTour(guidedTourId);
-        answerBean.setUserEmail(user);
-        answerBean.setGuideDecision("Confirmed");
+        try {
+            TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
+            answerBean.setIdSession(idSession);
+            answerBean.setIdTour(guidedTourId);
+            answerBean.setUserEmail(user);
+            answerBean.setGuideDecision("Confirmed");
+            bookTourControllerApplication.guideDecision(answerBean);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Tour Confirmation");
+            alert.setContentText("Request accepted");
+            alert.showAndWait();
+        } catch (IOException | SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+            showErrorDialog("Please retry", "Tour confirmation");
+        } catch (RequestNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        }
     }
 
     @FXML
     public void rejectTour(String user, String guidedTourId) {
-        TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
-        answerBean.setIdSession(idSession);
-        answerBean.setIdTour(guidedTourId);
-        answerBean.setUserEmail(user);
-        answerBean.setGuideDecision("Refused");
-        bookTourControllerApplication.guideDecision(answerBean);
+        try {
+            TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
+            answerBean.setIdSession(idSession);
+            answerBean.setIdTour(guidedTourId);
+            answerBean.setUserEmail(user);
+            answerBean.setGuideDecision("Refused");
+            bookTourControllerApplication.guideDecision(answerBean);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Tour Confirmation");
+            alert.setContentText("Request rejected");
+            alert.showAndWait();
+        } catch (IOException | SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+            showErrorDialog("Please retry", "Tour confirmation");
+        } catch (RequestNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        }
     }
 
     public void startView() {

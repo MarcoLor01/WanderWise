@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +46,7 @@ public class LoginController extends NavigatorController{
         } catch (InvalidFormatException | UserNotFoundException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog(e.getMessage(), "Login Error");
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Please retry later", "Login Error");
         }
@@ -65,7 +64,7 @@ public class LoginController extends NavigatorController{
         } catch (InvalidFormatException | UserNotFoundException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog(e.getMessage(), "Login Error");
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Database Error", "Login Error");
         }
