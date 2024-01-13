@@ -10,11 +10,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DBConnection {
-   private static Connection connection;
-//
-    private DBConnection() {
+    private Connection connection;
+
+    public DBConnection() {
     }
-//
+
+    //
 //    public static Connection getConnection() {
 //        System.out.println("STATO CONNESSIONE:" + connection);
 //        return connection;
@@ -33,15 +34,15 @@ public class DBConnection {
 //            logger.log(Level.INFO, e.getMessage());
 //        }
 //    }
-public static Connection getConnection() throws SQLException {
-    if (connection == null || connection.isClosed()) {
-        // Se la connessione è nulla o chiusa, creane una nuova
-        initializeConnection();
+    public Connection getConnection() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            // Se la connessione è nulla o chiusa, creane una nuova
+            initializeConnection();
+        }
+        return connection;
     }
-    return connection;
-}
 
-    private static void initializeConnection() throws SQLException {
+    private void initializeConnection() throws SQLException {
         try (InputStream propsInput = new FileInputStream("src/main/resources/com/example/wanderwisep/config.properties")) {
             Properties props = new Properties();
             props.load(propsInput);
