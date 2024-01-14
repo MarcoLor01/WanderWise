@@ -1,3 +1,2 @@
-idTicket,state,prenotationDate,myGuidedTour,user,myTouristGuide
-"7a93a67ac531ea27a467dd5c8ba707111e244f51d025d91734da5514a76ed200","Waiting for confirmation","2023-12-28","Barcelona Tour","user@user.com","Martina Abate"
-"da90004be8915179b52c3275b31a0e471bd406f5e7d712cd45eca1e42ea01f1c","Waiting for confirmation","2023-12-28","Barcelona Tour2","user@user.com","Martina Abate"
+idTicket,state,prenotationDate,user,touristGuide,myGuidedTourId,departureDate,returnDate,nameTour
+,,,,,,,,

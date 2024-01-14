@@ -17,5 +17,5 @@ public interface TicketDAO {
 
     List<Ticket> retrieveTicketForGuide(String touristGuide) throws SQLException, TicketNotFoundException;
 
-    void retrieveTicketFromTourGuide(String touristGuide, String userEmail, String idTour, String decision) throws SQLException, RequestNotFoundException;
+    void retrieveTicketFromTourGuide(String touristGuide, String userEmail, String idTour, String decision) throws SQLException, RequestNotFoundException, CsvValidationException, IOException;
 }

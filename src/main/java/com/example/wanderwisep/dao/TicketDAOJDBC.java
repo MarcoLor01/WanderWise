@@ -144,10 +144,6 @@ public class TicketDAOJDBC implements TicketDAO {
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY)
         ) {
-            System.out.println(decision);
-            System.out.println(touristGuide);
-            System.out.println(userEmail);
-            System.out.println(idTour);
 
             stmt.setString(1, decision);
             stmt.setString(2, touristGuide);

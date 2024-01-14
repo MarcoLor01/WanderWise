@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import static javafx.scene.paint.Color.*;
 
 public class MyAreaController extends NavigatorController implements InitializableController {
-    private static final Logger logger = Logger.getLogger(MyAreaController.class.getName());
+    Logger logger = Logger.getLogger(MyAreaController.class.getName());
     BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
     String idSession;
     @FXML

@@ -3,9 +3,12 @@ package com.example.wanderwisep.pattern;
 import com.example.wanderwisep.dao.TicketDAO;
 import com.example.wanderwisep.dao.TicketDAOCSV;
 import com.example.wanderwisep.dao.TicketDAOJDBC;
+
+import java.io.IOException;
+
 public class TicketDAOFactory {
 
-    public TicketDAO createTicketDAO(int type) throws IllegalArgumentException {
+    public TicketDAO createTicketDAO(int type) throws IllegalArgumentException, IOException {
 
         return switch (type) {
             case 1 -> new TicketDAOJDBC();
@@ -22,7 +25,7 @@ public class TicketDAOFactory {
         return new TicketDAOJDBC();
     }
 
-    public TicketDAO createTicketDAOCSV() {
+    public TicketDAO createTicketDAOCSV() throws IOException {
         return new TicketDAOCSV();
     }
 }
