@@ -33,7 +33,7 @@ public class LoginBean implements Serializable {
         this.password = password;
     }
     public void checkField(String email, String password) throws InvalidFormatException{
-        if(email.isEmpty() | password.isEmpty()){
+        if (email.isEmpty() || password.isEmpty()) {
             throw new InvalidFormatException("Please fill all the fields");
         }
     }

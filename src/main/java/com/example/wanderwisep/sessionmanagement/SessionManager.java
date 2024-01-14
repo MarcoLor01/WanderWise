@@ -1,4 +1,4 @@
-package com.example.wanderwisep.sessionManagement;
+package com.example.wanderwisep.sessionmanagement;
 
 import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.User;

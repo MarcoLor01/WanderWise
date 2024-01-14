@@ -18,7 +18,7 @@ public class LoginGuideDAO {
         try (
                 Connection conn = new DBConnection().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(
-                        Queries.findGuide,
+                        Queries.FIND_GUIDE,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY)
         ) {

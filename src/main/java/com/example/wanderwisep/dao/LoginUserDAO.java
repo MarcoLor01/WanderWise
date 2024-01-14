@@ -15,7 +15,7 @@ public  class LoginUserDAO {
         try (
                 Connection conn = new DBConnection().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(
-                        Queries.findUser,
+                        Queries.FIND_USER,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY)
         ) {

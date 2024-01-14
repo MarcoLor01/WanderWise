@@ -1,12 +1,11 @@
 package com.example.wanderwisep.model;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     private String name;
     private String surname;
     private String email;
-    private ArrayList<Ticket> myTicket;
+    private List<Ticket> myTicket;
 
     public User(String name, String surname, String email) {
         this.name = name;
@@ -38,11 +37,11 @@ public class User {
         this.email = email;
     }
 
-    public ArrayList<Ticket> getMyTicket() {
+    public List<Ticket> getMyTicket() {
         return myTicket;
     }
 
-    public void setMyTicket(ArrayList<Ticket> myTicket) {
+    public void setMyTicket(List<Ticket> myTicket) {
         this.myTicket = myTicket;
     }
 }

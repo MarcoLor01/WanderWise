@@ -24,11 +24,11 @@ public class TicketDAOJDBC implements TicketDAO {
         try (
                 Connection conn = new DBConnection().getConnection();
                 PreparedStatement selectStmt = conn.prepareStatement(
-                        Queries.ticketDuplicate,
+                        Queries.TICKET_DUPLICATE,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 PreparedStatement insertStmt = conn.prepareStatement(
-                        Queries.insertTicket,
+                        Queries.INSERT_TICKET,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY)
         ) {
@@ -67,7 +67,7 @@ public class TicketDAOJDBC implements TicketDAO {
         try (
                 Connection conn = new DBConnection().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(
-                        Queries.retrieveTicket,
+                        Queries.RETRIEVE_TICKET,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY)
         ) {
@@ -103,7 +103,7 @@ public class TicketDAOJDBC implements TicketDAO {
         try (
                 Connection conn = new DBConnection().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(
-                        Queries.retrievePrenotation,
+                        Queries.RETRIEVE_PRENOTATION,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY)
         ) {
@@ -140,7 +140,7 @@ public class TicketDAOJDBC implements TicketDAO {
         try (
                 Connection conn = new DBConnection().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(
-                        Queries.modifyTicketFromTourGuide,
+                        Queries.MODIFY_TICKET_FROM_TOUR_GUIDE,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY)
         ) {

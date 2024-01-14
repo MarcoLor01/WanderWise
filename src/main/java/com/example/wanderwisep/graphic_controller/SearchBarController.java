@@ -42,8 +42,6 @@ public class SearchBarController extends NavigatorController implements Initiali
     @FXML // fx:id="myAreaSearchBar"
     private Text myAreaSearchBar; // Value injected by FXMLLoader
 
-    public SearchBarController() {
-    }
     @FXML
     public void logout() {
         LoginBean loginBean = new LoginBean();
@@ -65,12 +63,6 @@ public class SearchBarController extends NavigatorController implements Initiali
             logoutSearchBar.setVisible(true);
         }
     }
-
-    @FXML
-    public void openMyArea() {
-
-    }
-
     @FXML
     public void searchDestination() {
         try {

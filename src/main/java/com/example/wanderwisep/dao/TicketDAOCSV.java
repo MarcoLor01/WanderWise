@@ -14,8 +14,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static java.util.logging.Level.INFO;
 
 public class TicketDAOCSV implements TicketDAO {
     private static Integer indexIdTicket = 0;
@@ -36,9 +37,9 @@ public class TicketDAOCSV implements TicketDAO {
         if (!fd.exists()) {
             boolean fileCreated = fd.createNewFile();
             if (fileCreated) {
-                System.out.println("File created: " + CSV_FILE_NAME);
+                logger.log(INFO, "File created: " + CSV_FILE_NAME);
             } else {
-                System.out.println("File already exists: " + CSV_FILE_NAME);
+                logger.log(INFO, "File already exists: " + CSV_FILE_NAME);
             }
         }
     }
@@ -49,11 +50,11 @@ public class TicketDAOCSV implements TicketDAO {
 
         try {
             List<Ticket> ticketsList = retrieveByIdTicket(this.fd, ticket.getIdTicket());
-            if (ticketsList.size() > 0) {
+            if (!ticketsList.isEmpty()) {
                 throw new DuplicateTourException("Tour already booked");
             }
         } catch (TicketNotFoundException e) {
-            logger.log(Level.INFO, e.getMessage());
+            logger.log(INFO, e.getMessage());
         }
         insertTicket(this.fd, ticket);
     }
@@ -79,21 +80,21 @@ public class TicketDAOCSV implements TicketDAO {
 
     private static synchronized List<Ticket> retrieveByIdTicket(File fd, String idTicket) throws IOException, CsvValidationException, TicketNotFoundException {
         try (CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
-            String[] record;
+            String[] recordToTake;
             List<Ticket> ticketList = new ArrayList<>();
 
-            while ((record = csvReader.readNext()) != null) {
-                boolean recordFound = record[indexIdTicket].equals(String.valueOf(idTicket));
+            while ((recordToTake = csvReader.readNext()) != null) {
+                boolean recordFound = recordToTake[indexIdTicket].equals(String.valueOf(idTicket));
                 if (recordFound) {
-                    String id = String.valueOf(record[indexIdTicket]);
-                    stateEnum state = stateEnum.fromString(record[indexState]);
-                    LocalDate prenotationDate = LocalDate.parse(String.valueOf(record[indexPrenotationDate]));
-                    String user = String.valueOf(record[indexUser]);
-                    String touristGuide = String.valueOf(record[indexTouristGuide]);
-                    String guidedTour = String.valueOf(record[indexMyGuidedTourId]);
-                    LocalDate departureDate = LocalDate.parse(String.valueOf(record[indexDepartureDate]));
-                    LocalDate returnDate = LocalDate.parse(String.valueOf(record[indexReturnDate]));
-                    String nameTour = String.valueOf(record[indexNameTour]);
+                    String id = String.valueOf(recordToTake[indexIdTicket]);
+                    stateEnum state = stateEnum.fromString(recordToTake[indexState]);
+                    LocalDate prenotationDate = LocalDate.parse(String.valueOf(recordToTake[indexPrenotationDate]));
+                    String user = String.valueOf(recordToTake[indexUser]);
+                    String touristGuide = String.valueOf(recordToTake[indexTouristGuide]);
+                    String guidedTour = String.valueOf(recordToTake[indexMyGuidedTourId]);
+                    LocalDate departureDate = LocalDate.parse(String.valueOf(recordToTake[indexDepartureDate]));
+                    LocalDate returnDate = LocalDate.parse(String.valueOf(recordToTake[indexReturnDate]));
+                    String nameTour = String.valueOf(recordToTake[indexNameTour]);
                     Ticket ticket = new Ticket(id, state, prenotationDate, user, touristGuide, guidedTour, departureDate, returnDate, nameTour);
                     ticketList.add(ticket);
                 }

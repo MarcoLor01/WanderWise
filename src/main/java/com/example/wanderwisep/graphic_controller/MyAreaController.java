@@ -6,7 +6,6 @@ import com.example.wanderwisep.exception.TicketNotFoundException;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -60,11 +59,6 @@ public class MyAreaController extends NavigatorController implements Initializab
     private Text viewGuidedTour; // Value injected by FXMLLoader
 
     @FXML
-    void openGuidedTour(MouseEvent event) {
-
-    }
-
-    @FXML
         // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert confirmationCircle != null : "fx:id=\"confirmationCircle\" was not injected: check your FXML file 'MyArea.fxml'.";
@@ -93,8 +87,6 @@ public class MyAreaController extends NavigatorController implements Initializab
             List<String> stateEn = ticketListBean.getStateEnum();
             List<LocalDate> datePrenotation = ticketListBean.getPrenotationDate();
             List<String> tourName = ticketListBean.getTourName();
-            List<LocalDate> departureDate = ticketListBean.getDepartureDate();
-            List<LocalDate> returnDate = ticketListBean.getReturnDate();
 
             int ticketNumber = idTicket.size();
             int i = 0;

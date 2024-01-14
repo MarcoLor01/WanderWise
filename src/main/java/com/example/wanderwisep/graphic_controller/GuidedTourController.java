@@ -65,7 +65,6 @@ public class GuidedTourController extends NavigatorController implements Initial
     @Override
     public void initializeData(Object data) {
         if (data instanceof GuidedTourBean guidedTourBean) {
-            System.out.println("All'interno del GuidedTourController grafico = " + guidedTourBean.getIdSession());
             idSession = guidedTourBean.getIdSession();
             startView(guidedTourBean);
         }
@@ -117,7 +116,6 @@ public class GuidedTourController extends NavigatorController implements Initial
             ticketBean.setStateTicket("waiting for confirmation");
             ticketBean.setIdSession(idSession);
             bookTourControllerApplication.createTicket(ticketBean);
-            System.out.println("Post creazione Ticket = " + idSession);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Guided Tour");
             alert.setContentText("Guided Tour Booked");
@@ -145,12 +143,6 @@ public class GuidedTourController extends NavigatorController implements Initial
         loginBean.setIdSession(idSession);
         goToPageInit(SEARCHBAR, loginBean);
     }
-
-    @FXML
-    public void openLogout() {
-
-    }
-
     @FXML
     public void openMyArea() {
         goToPageInit(MYAREA, idSession);

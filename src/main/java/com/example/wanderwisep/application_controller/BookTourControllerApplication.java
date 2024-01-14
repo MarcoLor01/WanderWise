@@ -7,7 +7,7 @@ import com.example.wanderwisep.exception.*;
 import com.example.wanderwisep.model.GuidedTour;
 import com.example.wanderwisep.model.Ticket;
 import com.example.wanderwisep.pattern.TicketDAOFactory;
-import com.example.wanderwisep.sessionManagement.SessionManager;
+import com.example.wanderwisep.sessionmanagement.SessionManager;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
@@ -67,7 +67,7 @@ public class BookTourControllerApplication {
         int dimensione = tickets.size();
         int i = 0;
         while (i < dimensione) {
-            requestBean.setGuidedTourId(tickets.get(i).getMyGuidedTour(), i);
+            requestBean.setGuidedTourId(tickets.get(i).getMyGuidedTourId(), i);
             requestBean.setUserEmail(tickets.get(i).getUser(), i);
             i++;
         }
@@ -86,7 +86,6 @@ public class BookTourControllerApplication {
         String email = SessionManager.getInstance().getSession(ticketListBean.getIdSession()).getEmail();
         List<Ticket> ticketList = ticketDAOFactory.createTicketDAO().retrieveTicket(email);
         int dimensione = ticketList.size();
-        System.out.println("Dimensione: " + dimensione);
         int i = 0;
         while (i < dimensione) {
             ticketListBean.setIdTicket(ticketList.get(i).getIdTicket(), i);

@@ -102,10 +102,6 @@ public class Ticket {
         this.prenotationDate = prenotationDate;
     }
 
-    public String getMyGuidedTour() {
-        return myGuidedTourId;
-    }
-
     public void setMyGuidedTour(String myGuidedTourId) {
         this.myGuidedTourId = myGuidedTourId;
     }

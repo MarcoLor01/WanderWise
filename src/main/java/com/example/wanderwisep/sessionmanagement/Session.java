@@ -1,11 +1,10 @@
-package com.example.wanderwisep.sessionManagement;
+package com.example.wanderwisep.sessionmanagement;
 
 import com.example.wanderwisep.model.GuidedTour;
 import com.example.wanderwisep.model.Ticket;
 import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Session {
@@ -13,10 +12,10 @@ public class Session {
     private String surname;
     private String email;
     private GuidedTour actualGuidedTour;
-    private ArrayList<Ticket> myTicket;
+    private List<Ticket> myTicket;
     private final String sessionId;
     private List<String> spokenLanguages;
-    private ArrayList<GuidedTour> myTour;
+    private List<GuidedTour> myTour;
 
     public Session(User user, String sessionId) {
         this.sessionId = sessionId;

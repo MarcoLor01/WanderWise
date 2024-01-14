@@ -30,7 +30,6 @@ public class TourListController extends NavigatorController implements Initializ
 
     public void initializeData(Object data) {
         if (data instanceof TourListBean tourListBean) {
-            System.out.println("Nel tourListController quindi grafico: =" + tourListBean.getIdSession());
             idSession = tourListBean.getIdSession();
             startView(tourListBean);
         }
@@ -53,31 +52,19 @@ public class TourListController extends NavigatorController implements Initializ
     @FXML // fx:id="userIconTourlist"
     private ImageView userIconTourlist; // Value injected by FXMLLoader
 
-    @FXML
-    public void logout() {
-
-    }
-
     public void openTourDescription(String tourName, LocalDate departureDate, LocalDate returnData) {
         try {
             GuidedTourBean guidedTourBean = new GuidedTourBean();
             guidedTourBean.setTourName(tourName);
             guidedTourBean.setDepartureDate(departureDate);
             guidedTourBean.setReturnDate(returnData);
-            System.out.println("nell'openTourDescription che dava null = " + idSession);
             guidedTourBean.setIdSession(idSession);
             guidedTourBean = bookTourController.getTourDescription(guidedTourBean);
-            System.out.println("nell'openTourDescription prima del GuidedTour = " + idSession);
             goToPageInit(GUIDEDTOUR, guidedTourBean);
         } catch (TourException | SQLException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog(e.getMessage(), "Tour Visualization Error");
         }
-    }
-
-    @FXML
-    public void openLogoutMenu() {
-
     }
 
     public void startView(TourListBean tourListBean) {

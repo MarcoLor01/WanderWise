@@ -24,7 +24,7 @@ public class TicketListBean implements Serializable {
     }
 
     public void setTourId(String tourId, Integer i) {
-        (this.tourId).add(tourId);
+        (this.tourId).add(i, tourId);
     }
 
     public List<String> getTouristGuideName() {
@@ -32,7 +32,7 @@ public class TicketListBean implements Serializable {
     }
 
     public void setTouristGuideName(String touristGuideName, Integer i) {
-        (this.touristGuideName).add(touristGuideName);
+        (this.touristGuideName).add(i, touristGuideName);
     }
 
     public List<LocalDate> getDepartureDate() {

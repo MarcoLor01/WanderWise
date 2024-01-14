@@ -16,7 +16,7 @@ public class SearchTourDAO {
         try (
                 Connection conn = new DBConnection().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(
-                        Queries.findTours,
+                        Queries.FIND_TOURS,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY)
         ) {
@@ -51,7 +51,7 @@ public class SearchTourDAO {
         try (
                 Connection conn = new DBConnection().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(
-                        Queries.retrieveTour,
+                        Queries.RETRIEVE_TOUR,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY)
         ) {

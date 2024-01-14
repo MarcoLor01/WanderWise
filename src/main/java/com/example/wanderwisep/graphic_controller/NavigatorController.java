@@ -29,9 +29,10 @@ public class NavigatorController {
             );
         }
     }
-    protected void showErrorDialog(String message,String Title) {
+
+    protected void showErrorDialog(String message, String title) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(Title);
+        alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

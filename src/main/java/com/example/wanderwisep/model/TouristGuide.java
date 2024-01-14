@@ -8,7 +8,7 @@ public class TouristGuide {
     private String surname;
     private String email;
     private List<String> spokenLanguages;
-    private ArrayList<GuidedTour> myTour;
+    private List<GuidedTour> myTour;
 
     public TouristGuide(String name, String surname, String email, List<String> spokenLanguages) {
         this.name = name;
@@ -49,7 +49,7 @@ public class TouristGuide {
         this.spokenLanguages = spokenLanguages;
     }
 
-    public ArrayList<GuidedTour> getMyTour() {
+    public List<GuidedTour> getMyTour() {
         return myTour;
     }
 
