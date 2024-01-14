@@ -1,6 +1,5 @@
 package com.example.wanderwisep.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TouristGuide {
@@ -53,7 +52,7 @@ public class TouristGuide {
         return myTour;
     }
 
-    public void setMyTour(ArrayList<GuidedTour> myTour) {
+    public void setMyTour(List<GuidedTour> myTour) {
         this.myTour = myTour;
     }
 }

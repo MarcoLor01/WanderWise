@@ -116,22 +116,22 @@ public class TicketDAOCSV implements TicketDAO {
 
     private static synchronized List<Ticket> retrieveByUserName(File fd, String userName) throws IOException, CsvValidationException, TicketNotFoundException {
         try (CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
-            String[] record;
+            String[] recordToTake;
 
             List<Ticket> ticketList = new ArrayList<>();
 
-            while ((record = csvReader.readNext()) != null) {
-                boolean recordFound = record[indexUser].equals(userName);
+            while ((recordToTake = csvReader.readNext()) != null) {
+                boolean recordFound = recordToTake[indexUser].equals(userName);
                 if (recordFound) {
-                    String id = String.valueOf(record[indexIdTicket]);
-                    stateEnum state = stateEnum.fromString(record[indexState]);
-                    LocalDate prenotationDate = LocalDate.parse(String.valueOf(record[indexPrenotationDate]));
-                    String user = String.valueOf(record[indexUser]);
-                    String touristGuide = String.valueOf(record[indexTouristGuide]);
-                    String guidedTour = String.valueOf(record[indexMyGuidedTourId]);
-                    LocalDate departureDate = LocalDate.parse(String.valueOf(record[indexDepartureDate]));
-                    LocalDate returnDate = LocalDate.parse(String.valueOf(record[indexReturnDate]));
-                    String nameTour = String.valueOf(record[indexNameTour]);
+                    String id = String.valueOf(recordToTake[indexIdTicket]);
+                    stateEnum state = stateEnum.fromString(recordToTake[indexState]);
+                    LocalDate prenotationDate = LocalDate.parse(String.valueOf(recordToTake[indexPrenotationDate]));
+                    String user = String.valueOf(recordToTake[indexUser]);
+                    String touristGuide = String.valueOf(recordToTake[indexTouristGuide]);
+                    String guidedTour = String.valueOf(recordToTake[indexMyGuidedTourId]);
+                    LocalDate departureDate = LocalDate.parse(String.valueOf(recordToTake[indexDepartureDate]));
+                    LocalDate returnDate = LocalDate.parse(String.valueOf(recordToTake[indexReturnDate]));
+                    String nameTour = String.valueOf(recordToTake[indexNameTour]);
                     Ticket ticket = new Ticket(id, state, prenotationDate, user, touristGuide, guidedTour, departureDate, returnDate, nameTour);
                     ticketList.add(ticket);
                 }
@@ -153,22 +153,22 @@ public class TicketDAOCSV implements TicketDAO {
 
     private static synchronized List<Ticket> retrieveTicketFromTourGuideName(File fd, String touristGuideName) throws IOException, CsvValidationException, TicketNotFoundException {
         try (CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
-            String[] record;
+            String[] recordToTake;
 
             List<Ticket> ticketList = new ArrayList<>();
 
-            while ((record = csvReader.readNext()) != null) {
-                boolean recordFound = record[indexTouristGuide].equals(touristGuideName);
+            while ((recordToTake = csvReader.readNext()) != null) {
+                boolean recordFound = recordToTake[indexTouristGuide].equals(touristGuideName);
                 if (recordFound) {
-                    String id = String.valueOf(record[indexIdTicket]);
-                    stateEnum state = stateEnum.fromString(record[indexState]);
-                    LocalDate prenotationDate = LocalDate.parse(String.valueOf(record[indexPrenotationDate]));
-                    String user = String.valueOf(record[indexUser]);
-                    String touristGuide = String.valueOf(record[indexTouristGuide]);
-                    String guidedTour = String.valueOf(record[indexMyGuidedTourId]);
-                    LocalDate departureDate = LocalDate.parse(String.valueOf(record[indexDepartureDate]));
-                    LocalDate returnDate = LocalDate.parse(String.valueOf(record[indexReturnDate]));
-                    String nameTour = String.valueOf(record[indexNameTour]);
+                    String id = String.valueOf(recordToTake[indexIdTicket]);
+                    stateEnum state = stateEnum.fromString(recordToTake[indexState]);
+                    LocalDate prenotationDate = LocalDate.parse(String.valueOf(recordToTake[indexPrenotationDate]));
+                    String user = String.valueOf(recordToTake[indexUser]);
+                    String touristGuide = String.valueOf(recordToTake[indexTouristGuide]);
+                    String guidedTour = String.valueOf(recordToTake[indexMyGuidedTourId]);
+                    LocalDate departureDate = LocalDate.parse(String.valueOf(recordToTake[indexDepartureDate]));
+                    LocalDate returnDate = LocalDate.parse(String.valueOf(recordToTake[indexReturnDate]));
+                    String nameTour = String.valueOf(recordToTake[indexNameTour]);
                     Ticket ticket = new Ticket(id, state, prenotationDate, user, touristGuide, guidedTour, departureDate, returnDate, nameTour);
                     ticketList.add(ticket);
                 }
@@ -189,14 +189,14 @@ public class TicketDAOCSV implements TicketDAO {
 
     public void retrieveFromTourGuide(File fd, String touristGuide, String userEmail, String idTour, String decision) throws CsvValidationException, IOException {
         try (CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
-            String[] record;
-            while ((record = csvReader.readNext()) != null) {
-                boolean recordFound = record[indexUser].equals(userEmail) &&
-                        record[indexTouristGuide].equals(touristGuide) &&
-                        record[indexIdTicket].equals(idTour) &&
-                        record[indexState].equals("WAITING");
+            String[] recordToTake;
+            while ((recordToTake = csvReader.readNext()) != null) {
+                boolean recordFound = recordToTake[indexUser].equals(userEmail) &&
+                        recordToTake[indexTouristGuide].equals(touristGuide) &&
+                        recordToTake[indexIdTicket].equals(idTour) &&
+                        recordToTake[indexState].equals("WAITING");
                 if (recordFound) {
-                    record[indexState] = decision;
+                    recordToTake[indexState] = decision;
                 }
             }
         }

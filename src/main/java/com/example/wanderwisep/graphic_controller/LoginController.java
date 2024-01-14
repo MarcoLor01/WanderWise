@@ -33,7 +33,7 @@ public class LoginController extends NavigatorController{
 
     @FXML // fx:id="passwordUserLogin"
     private PasswordField passwordUserLogin; // Value injected by FXMLLoader
-    private final String loginError = "Login Error";
+    private static final String loginError = "Login Error";
 
     @FXML
     public void doLoginGuide() {
