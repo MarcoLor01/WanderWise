@@ -3,6 +3,7 @@ package com.example.wanderwisep.graphic_controller;
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
 import com.example.wanderwisep.bean.TicketListBean;
 import com.example.wanderwisep.exception.TicketNotFoundException;
+import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
@@ -132,7 +133,7 @@ public class MyAreaController extends NavigatorController implements Initializab
                 x += boxWidth + startX;
                 i++;
             }
-        } catch (IOException | SQLException e) {
+        } catch (IOException | SQLException | CsvValidationException e) {
             logger.log(Level.INFO, e.getMessage());
         } catch (TicketNotFoundException e) {
             logger.log(Level.INFO, e.getMessage());

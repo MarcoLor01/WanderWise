@@ -56,14 +56,14 @@ public class BookTourControllerApplication {
         Ticket ticket = new Ticket(stateEnum.fromString(ticketBean.getStateTicket()), ticketBean.getPrenotationDate(), tour.getGuidedTourId(), tour.getMyTouristGuideName() + " " + tour.getMyTouristGuideSurname(), user, tour.getDepartureDate(), tour.getReturnDate(), tour.getNameTour());
         ticket.setIdTicket(tour.getGuidedTourId(), tour.getMyTouristGuideName() + tour.getMyTouristGuideSurname(), user);
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
-        ticketDAOFactory.createTicketDAO(1).createTicket(ticket);
+        ticketDAOFactory.createTicketDAO(2).createTicket(ticket);
     }
 
-    public TouristGuideRequestsBean createTouristGuideArea(TouristGuideRequestsBean requestBean) throws IOException, TicketNotFoundException, SQLException {
+    public TouristGuideRequestsBean createTouristGuideArea(TouristGuideRequestsBean requestBean) throws IOException, TicketNotFoundException, SQLException, CsvValidationException {
         String name = SessionManager.getInstance().getSession(requestBean.getIdSession()).getName();
         String surname = SessionManager.getInstance().getSession(requestBean.getIdSession()).getSurname();
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
-        List<Ticket> tickets = ticketDAOFactory.createTicketDAO().retrieveTicketForGuide(name + " " + surname);
+        List<Ticket> tickets = ticketDAOFactory.createTicketDAO(2).retrieveTicketForGuide(name + " " + surname);
         int dimensione = tickets.size();
         int i = 0;
         while (i < dimensione) {
@@ -74,14 +74,14 @@ public class BookTourControllerApplication {
         return requestBean;
     }
 
-    public void guideDecision(TouristGuideAnswerBean touristAnswerBean) throws IOException, SQLException, RequestNotFoundException {
+    public void guideDecision(TouristGuideAnswerBean touristAnswerBean) throws IOException, SQLException, RequestNotFoundException, CsvValidationException {
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
         String touristGuideName = SessionManager.getInstance().getSession(touristAnswerBean.getIdSession()).getName();
         String touristGuideSurname = SessionManager.getInstance().getSession(touristAnswerBean.getIdSession()).getSurname();
-        ticketDAOFactory.createTicketDAO().retrieveTicketFromTourGuide(touristGuideName + " " + touristGuideSurname, touristAnswerBean.getUserEmail(), touristAnswerBean.getIdTour(), touristAnswerBean.getGuideDecision());
+        ticketDAOFactory.createTicketDAO(2).retrieveTicketFromTourGuide(touristGuideName + " " + touristGuideSurname, touristAnswerBean.getUserEmail(), touristAnswerBean.getIdTour(), touristAnswerBean.getGuideDecision());
     }
 
-    public TicketListBean createMyArea(TicketListBean ticketListBean) throws IOException, TicketNotFoundException, SQLException {
+    public TicketListBean createMyArea(TicketListBean ticketListBean) throws IOException, TicketNotFoundException, SQLException, CsvValidationException {
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
         String email = SessionManager.getInstance().getSession(ticketListBean.getIdSession()).getEmail();
         List<Ticket> ticketList = ticketDAOFactory.createTicketDAO().retrieveTicket(email);

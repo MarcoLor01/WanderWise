@@ -6,6 +6,7 @@ import com.example.wanderwisep.bean.TouristGuideAnswerBean;
 import com.example.wanderwisep.bean.TouristGuideRequestsBean;
 import com.example.wanderwisep.exception.RequestNotFoundException;
 import com.example.wanderwisep.exception.TicketNotFoundException;
+import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -64,7 +65,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
             alert.setTitle("Tour Confirmation");
             alert.setContentText("Request accepted");
             alert.showAndWait();
-        } catch (IOException | SQLException e) {
+        } catch (IOException | SQLException | CsvValidationException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Please retry", "Tour confirmation");
         } catch (RequestNotFoundException e) {
@@ -85,7 +86,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
             alert.setTitle("Tour Confirmation");
             alert.setContentText("Request rejected");
             alert.showAndWait();
-        } catch (IOException | SQLException e) {
+        } catch (IOException | SQLException | CsvValidationException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Please retry", "Tour confirmation");
         } catch (RequestNotFoundException e) {
@@ -137,7 +138,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
                 i++;
                 x += 2;
             }
-        } catch (IOException | SQLException e) {
+        } catch (IOException | SQLException | CsvValidationException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog(e.getMessage(), "Request Visualization Error");
         } catch (TicketNotFoundException e) {

@@ -13,9 +13,9 @@ import java.util.List;
 public interface TicketDAO {
     void createTicket(Ticket ticket) throws DAOException, SQLException, IOException, DuplicateTourException, CsvValidationException;
 
-    List<Ticket> retrieveTicket(String userEmail) throws SQLException, TicketNotFoundException;
+    List<Ticket> retrieveTicket(String userEmail) throws SQLException, TicketNotFoundException, CsvValidationException, IOException;
 
-    List<Ticket> retrieveTicketForGuide(String touristGuide) throws SQLException, TicketNotFoundException;
+    List<Ticket> retrieveTicketForGuide(String touristGuide) throws SQLException, TicketNotFoundException, CsvValidationException, IOException;
 
     void retrieveTicketFromTourGuide(String touristGuide, String userEmail, String idTour, String decision) throws SQLException, RequestNotFoundException, CsvValidationException, IOException;
 }
