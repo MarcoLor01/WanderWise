@@ -33,7 +33,7 @@ public class LoginController extends NavigatorController{
 
     @FXML // fx:id="passwordUserLogin"
     private PasswordField passwordUserLogin; // Value injected by FXMLLoader
-    private static final String loginError = "Login Error";
+    private static final String LOGIN_ERROR = "Login Error";
 
     @FXML
     public void doLoginGuide() {
@@ -46,10 +46,10 @@ public class LoginController extends NavigatorController{
             goToPageInit(GUIDECONFIRM, loginBean);
         } catch (InvalidFormatException | UserNotFoundException e) {
             logger.log(Level.INFO, e.getMessage());
-            showErrorDialog(e.getMessage(), loginError);
+            showErrorDialog(e.getMessage(), LOGIN_ERROR);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            showErrorDialog("Please retry later", loginError);
+            showErrorDialog("Please retry later", LOGIN_ERROR);
         }
     }
 
@@ -64,10 +64,10 @@ public class LoginController extends NavigatorController{
             goToPageInit(SEARCHBAR, loginBean);
         } catch (InvalidFormatException | UserNotFoundException e) {
             logger.log(Level.INFO, e.getMessage());
-            showErrorDialog(e.getMessage(), loginError);
+            showErrorDialog(e.getMessage(), LOGIN_ERROR);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            showErrorDialog("Database Error", loginError);
+            showErrorDialog("Database Error", LOGIN_ERROR);
         }
     }
 

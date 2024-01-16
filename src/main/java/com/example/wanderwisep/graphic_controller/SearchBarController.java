@@ -74,8 +74,11 @@ public class SearchBarController extends NavigatorController implements Initiali
             newSearch.setIdSession(idSession);
             TourListBean tourListBean = bookTourController.searchTour(newSearch);
             goToPageInit(TOURLIST, tourListBean);
-        } catch (InvalidFormatException | TourException | SQLException e) {
-            logger.log(Level.INFO, e.getMessage());
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+            showErrorDialog(e.getMessage(), "Search Tour Error");
+        } catch (InvalidFormatException | TourException e) {
+            logger.log(Level.WARNING, e.getMessage());
             showErrorDialog(e.getMessage(), "Search Tour Error");
         }
     }

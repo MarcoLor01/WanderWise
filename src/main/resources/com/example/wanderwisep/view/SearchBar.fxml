@@ -126,10 +126,12 @@
          <font>
             <Font name="Verdana Pro Cond Semibold" size="12.0" />
          </font></Text>
-      <Text id="myAreaSearchBar" fx:id="myAreaSearchBar" layoutX="310.0" layoutY="22.0" onMouseClicked="#openMyArea" strokeType="OUTSIDE" strokeWidth="0.0" text="MyArea">
-         <font>
-            <Font name="Verdana Pro Cond Semibold" size="12.0" />
-         </font></Text>
+      <Text id="myAreaSearchBar" fx:id="myAreaSearchBar" layoutX="310.0" layoutY="22.0" strokeType="OUTSIDE"
+            strokeWidth="0.0" text="MyArea">
+          <font>
+              <Font name="Verdana Pro Cond Semibold" size="12.0"/>
+          </font>
+      </Text>
       <AnchorPane id="loginAnchor" fx:id="loginAnchor" layoutX="530.0" layoutY="2.0" prefHeight="64.0" prefWidth="59.0" style="-fx-background-color: white; -fx-border-color: #4682B4;" visible="false">
          <children>
             <Text id="logoutSearchBar" fx:id="logoutSearchBar" layoutX="3.0" layoutY="59.0" onMouseClicked="#logout" strokeType="OUTSIDE" strokeWidth="0.0" text="Log-Out" textAlignment="CENTER" wrappingWidth="52.13671875">
