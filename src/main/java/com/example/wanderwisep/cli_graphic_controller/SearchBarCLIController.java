@@ -29,9 +29,10 @@ public class SearchBarCLIController extends NavigatorCLIController {
 
                 switch (choice) {
                     case 1:
-                        searchTour();
                         shouldExit = true;
+                        searchTour();
                     case 2:
+                        shouldExit = true;
                         System.exit(0);
                     default:
                         throw new InvalidFormatException("Invalid choice");
