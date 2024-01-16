@@ -21,12 +21,17 @@ public class LoginCLIGraphicController extends NavigatorCLIController {
     Logger logger = Logger.getLogger(LoginCLIGraphicController.class.getName());
 
     public void start() {
-        while (true) {
-            int choice;
+        boolean shouldExit = false;
+
+        while (!shouldExit) {
             try {
-                choice = showMenu();
+                int choice = showMenu();
+
                 switch (choice) {
-                    case 1 -> login();
+                    case 1 -> {
+                        login();
+                        shouldExit = true;
+                    }
                     case 2 -> System.exit(0);
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
@@ -35,6 +40,7 @@ public class LoginCLIGraphicController extends NavigatorCLIController {
             }
         }
     }
+
 
     public int showMenu() throws IOException {
         CLIPrinter.printMessage("*** What should I do for you? ***\n");
@@ -54,14 +60,16 @@ public class LoginCLIGraphicController extends NavigatorCLIController {
     }
 
     private void login() {
-        while (true) {
-            int choice;
+        boolean shouldExit = false;
+
+        while (!shouldExit) {
             try {
-                choice = showMenuLogin();
+                int choice = showMenuLogin();
+
                 switch (choice) {
                     case 1 -> loginGuide();
                     case 2 -> loginUser();
-                    case 3 -> System.exit(0);
+                    case 3 -> shouldExit = true;
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (InvalidFormatException e) {
@@ -69,6 +77,7 @@ public class LoginCLIGraphicController extends NavigatorCLIController {
             }
         }
     }
+
 
     private void loginUser() {
         LoginControllerApplication loginController = new LoginControllerApplication();

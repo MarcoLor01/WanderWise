@@ -21,13 +21,15 @@ public class SearchBarCLIController extends NavigatorCLIController {
 
     public void start(String sessionId) {
         idSession = sessionId;
-        while (true) {
-            int choice;
+        boolean shouldExit = false;
+
+        while (!shouldExit) {
             try {
-                choice = insertTour();
+                int choice = insertTour();
+
                 switch (choice) {
                     case 1 -> searchTour();
-                    case 2 -> System.exit(0);
+                    case 2 -> shouldExit = true;
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (InvalidFormatException e) {
@@ -35,6 +37,7 @@ public class SearchBarCLIController extends NavigatorCLIController {
             }
         }
     }
+
 
     private int insertTour() {
         CLIPrinter.printMessage("*** You want to look for a Guided Tour? ***\n");
