@@ -1,10 +1,10 @@
 package com.example.wanderwisep;
 
-import com.example.wanderwisep.cli_graphic_controller.LoginCLIGraphicController;
+import com.example.wanderwisep.cli_graphic_controller.LoginCLIController;
 
 public class MainCLI {
     public static void main(String[] args) {
-        LoginCLIGraphicController applicationController = new LoginCLIGraphicController();
+        LoginCLIController applicationController = new LoginCLIController();
         applicationController.start();
     }
 }

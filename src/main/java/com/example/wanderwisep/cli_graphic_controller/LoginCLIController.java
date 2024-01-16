@@ -14,11 +14,11 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LoginCLIGraphicController extends NavigatorCLIController {
+public class LoginCLIController extends NavigatorCLIController {
 
     private String idSession;
 
-    Logger logger = Logger.getLogger(LoginCLIGraphicController.class.getName());
+    Logger logger = Logger.getLogger(LoginCLIController.class.getName());
 
     public void start() {
         boolean shouldExit = false;
@@ -54,7 +54,7 @@ public class LoginCLIGraphicController extends NavigatorCLIController {
         CLIPrinter.printMessage("*** Are you a User or a Tourist Guide? ***\n");
         CLIPrinter.printMessage("1) I'm a Tourist Guide\n");
         CLIPrinter.printMessage("2) I'm a User\n");
-        CLIPrinter.printMessage("2) Quit\n");
+        CLIPrinter.printMessage("3) Quit\n");
 
         return getMenuChoice(1, 3);
     }
@@ -67,9 +67,19 @@ public class LoginCLIGraphicController extends NavigatorCLIController {
                 int choice = showMenuLogin();
 
                 switch (choice) {
-                    case 1 -> loginGuide();
-                    case 2 -> loginUser();
-                    case 3 -> shouldExit = true;
+
+                    case 1 -> {
+                        shouldExit = true;
+                        loginGuide();
+                    }
+                    case 2 -> {
+                        shouldExit = true;
+                        loginUser();
+                    }
+                    case 3 -> {
+                        System.exit(0);
+                        shouldExit = true;
+                    }
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (InvalidFormatException e) {
@@ -111,7 +121,7 @@ public class LoginCLIGraphicController extends NavigatorCLIController {
             loginBean.setPassword(password);
             loginBean = loginController.loginGuide(loginBean);
             idSession = loginBean.getIdSession();
-            new SearchBarCLIController().start(idSession);
+            new GuideConfirmCLIController().start(idSession);
         } catch (IOException | SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
         } catch (UserNotFoundException e) {

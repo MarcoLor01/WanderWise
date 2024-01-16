@@ -28,9 +28,13 @@ public class SearchBarCLIController extends NavigatorCLIController {
                 int choice = insertTour();
 
                 switch (choice) {
-                    case 1 -> searchTour();
-                    case 2 -> shouldExit = true;
-                    default -> throw new InvalidFormatException("Invalid choice");
+                    case 1:
+                        searchTour();
+                        shouldExit = true;
+                    case 2:
+                        System.exit(0);
+                    default:
+                        throw new InvalidFormatException("Invalid choice");
                 }
             } catch (InvalidFormatException e) {
                 logger.log(Level.SEVERE, e.getMessage());
@@ -52,14 +56,14 @@ public class SearchBarCLIController extends NavigatorCLIController {
             Scanner input = new Scanner(System.in);
             SearchBean guidedTourBean = new SearchBean();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            CLIPrinter.printMessage("*** Please insert city name ***\n");
+            CLIPrinter.printMessage("Please insert city name: ");
             String cityName = input.nextLine();
             guidedTourBean.setCityName(cityName);
-            CLIPrinter.printMessage("*** Please insert departure date in the format DD/MM/YYYY ***\n");
+            CLIPrinter.printMessage("\nPlease insert departure date in the format DD/MM/YYYY: ");
             String departureDate = input.nextLine();
             LocalDate departureD = LocalDate.parse(departureDate, formatter);
             guidedTourBean.setDepartureDate(departureD);
-            CLIPrinter.printMessage("*** Please insert return date in the format DD/MM/YYYY ***\n");
+            CLIPrinter.printMessage("\nPlease insert return date in the format DD/MM/YYYY: ");
             String returnDate = input.nextLine();
             LocalDate returnD = LocalDate.parse(returnDate, formatter);
             guidedTourBean.setReturnDate(returnD);
