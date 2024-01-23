@@ -4,8 +4,6 @@ import com.example.wanderwisep.dao.GuidedTourDAO;
 import com.example.wanderwisep.dao.GuidedTourDAOCSV;
 import com.example.wanderwisep.dao.GuidedTourDAOJDBC;
 
-import java.io.IOException;
-
 public class GuidedTourDAOFactory {
 
     public GuidedTourDAO createGuidedTourDAO(int type) throws IllegalArgumentException {
@@ -24,7 +22,7 @@ public class GuidedTourDAOFactory {
         return new GuidedTourDAOJDBC();
     }
 
-    public GuidedTourDAO createGuidedTourDAOCSV() throws IOException {
+    public GuidedTourDAO createGuidedTourDAOCSV() {
         return new GuidedTourDAOCSV();
     }
 }

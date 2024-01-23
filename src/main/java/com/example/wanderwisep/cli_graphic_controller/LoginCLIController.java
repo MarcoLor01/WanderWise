@@ -35,14 +35,14 @@ public class LoginCLIController extends NavigatorCLIController {
                     case 2 -> System.exit(0);
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
-            } catch (IOException | InvalidFormatException e) {
+            } catch (InvalidFormatException e) {
                 logger.log(Level.SEVERE, e.getMessage());
             }
         }
     }
 
 
-    public int showMenu() throws IOException {
+    public int showMenu() {
         CLIPrinter.printMessage("*** What should I do for you? ***\n");
         CLIPrinter.printMessage("1) Login\n");
         CLIPrinter.printMessage("2) Quit\n");
@@ -122,10 +122,8 @@ public class LoginCLIController extends NavigatorCLIController {
             loginBean = loginController.loginGuide(loginBean);
             idSession = loginBean.getIdSession();
             new GuideConfirmCLIController().start(idSession);
-        } catch (IOException | SQLException e) {
+        } catch (IOException | SQLException | UserNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
-        } catch (UserNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 }

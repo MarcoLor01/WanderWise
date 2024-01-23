@@ -18,8 +18,7 @@ public abstract class GuidedTourDAO {
 
     protected TouristGuide retrieveTouristGuide(String touristGuideEmail) throws SQLException, TouristGuideNotFoundException {
         TouristGuideDAO touristGuideDAO = new TouristGuideDAO();
-        TouristGuide touristGuide = touristGuideDAO.retrieveTouristGuide(touristGuideEmail);
-        return touristGuide;
+        return touristGuideDAO.retrieveTouristGuide(touristGuideEmail);
     }
 
 }

@@ -68,7 +68,7 @@ public class BookTourControllerApplication {
         touristGuideDecisionDAO.createRequest(user, tour.getTouristGuide().getEmail(), tour.getGuidedTourId());
     }
 
-    public TouristGuideRequestsBean createTouristGuideArea(TouristGuideRequestsBean requestBean) throws IOException, SQLException, CsvValidationException, RequestNotFoundException {
+    public TouristGuideRequestsBean createTouristGuideArea(TouristGuideRequestsBean requestBean) throws SQLException, RequestNotFoundException {
         String email = SessionManager.getInstance().getSession(requestBean.getIdSession()).getEmail();
         TouristGuideRequestDAO touristGuideRequestDAO = new TouristGuideRequestDAO();
         List<TouristGuideRequest> requests = touristGuideRequestDAO.retrieveRequestsForGuide(email);
