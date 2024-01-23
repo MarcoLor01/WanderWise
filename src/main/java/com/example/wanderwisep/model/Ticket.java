@@ -28,7 +28,6 @@ public class Ticket {
     }
 
     public Ticket(stateEnum state, LocalDate prenotationDate, GuidedTour tour, String user) {
-        this.idTicket = idTicket;
         this.state = state;
         this.prenotationDate = prenotationDate;
         this.myGuidedTour = tour;
