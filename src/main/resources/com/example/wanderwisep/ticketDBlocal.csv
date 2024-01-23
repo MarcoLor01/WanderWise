@@ -1,2 +1,1 @@
-idTour,state,prenotationDate,user,touristGuide,guidedTourId,departureDate,returnDate,nameTour
-"80e50f13f63f48eef2dc6b7c3c5995cf27d2c719f339401067332b9eb55c3b1f","Waiting for confirmation","2024-01-14","user@user.com","Martina Abate","1","2024-03-04","2024-05-05","Barcelona Tour"
+"80e50f13f63f48eef2dc6b7c3c5995cf27d2c719f339401067332b9eb55c3b1f","Confirmed","2024-01-14","user@user.com","Martina Abate","1","2024-03-04","2024-05-05","Barcelona Tour"

@@ -4,8 +4,8 @@ import com.example.wanderwisep.application_controller.BookTourControllerApplicat
 import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.TouristGuideAnswerBean;
 import com.example.wanderwisep.bean.TouristGuideRequestsBean;
+import com.example.wanderwisep.exception.DAOException;
 import com.example.wanderwisep.exception.RequestNotFoundException;
-import com.example.wanderwisep.exception.TicketNotFoundException;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -65,7 +65,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
             alert.setTitle("Tour Confirmation");
             alert.setContentText("Request accepted");
             alert.showAndWait();
-        } catch (IOException | SQLException | CsvValidationException e) {
+        } catch (IOException | SQLException | CsvValidationException | DAOException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Please retry", "Tour confirmation");
         } catch (RequestNotFoundException e) {
@@ -86,7 +86,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
             alert.setTitle("Tour Confirmation");
             alert.setContentText("Request rejected");
             alert.showAndWait();
-        } catch (IOException | SQLException | CsvValidationException e) {
+        } catch (IOException | SQLException | CsvValidationException | DAOException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Please retry", "Tour confirmation");
         } catch (RequestNotFoundException e) {
@@ -141,7 +141,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
         } catch (IOException | SQLException | CsvValidationException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog(e.getMessage(), "Request Visualization Error");
-        } catch (TicketNotFoundException e) {
+        } catch (RequestNotFoundException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog(e.getMessage(), "No request available");
         }

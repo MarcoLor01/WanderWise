@@ -9,6 +9,12 @@ public class TouristGuide {
     private List<String> spokenLanguages;
     private List<GuidedTour> myTour;
 
+    public TouristGuide(String name, String surname, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+    }
+
     public TouristGuide(String name, String surname, String email, List<String> spokenLanguages) {
         this.name = name;
         this.surname = surname;

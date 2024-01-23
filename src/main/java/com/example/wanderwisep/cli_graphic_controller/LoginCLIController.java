@@ -50,7 +50,7 @@ public class LoginCLIController extends NavigatorCLIController {
         return getMenuChoice(1, 2);
     }
 
-    public int showMenuLogin() {
+    private int showMenuLogin() {
         CLIPrinter.printMessage("*** Are you a User or a Tourist Guide? ***\n");
         CLIPrinter.printMessage("1) I'm a Tourist Guide\n");
         CLIPrinter.printMessage("2) I'm a User\n");

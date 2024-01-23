@@ -3,9 +3,7 @@ package com.example.wanderwisep.cli_graphic_controller;
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
 import com.example.wanderwisep.bean.GuidedTourBean;
 import com.example.wanderwisep.bean.TicketBean;
-import com.example.wanderwisep.exception.DAOException;
-import com.example.wanderwisep.exception.DuplicateTourException;
-import com.example.wanderwisep.exception.InvalidFormatException;
+import com.example.wanderwisep.exception.*;
 import com.example.wanderwisep.utilities.CLIPrinter;
 import com.opencsv.exceptions.CsvValidationException;
 
@@ -41,7 +39,7 @@ public class GuidedTourCLIController extends NavigatorCLIController {
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (IOException | InvalidFormatException | DAOException | CsvValidationException | SQLException |
-                     DuplicateTourException e) {
+                     DuplicateTourException | TourException | TouristGuideNotFoundException e) {
                 logger.log(Level.SEVERE, e.getMessage());
             }
         }
@@ -52,7 +50,7 @@ public class GuidedTourCLIController extends NavigatorCLIController {
         return getMenuChoice(1, 2);
     }
 
-    private void bookTour() throws DAOException, CsvValidationException, SQLException, DuplicateTourException, IOException {
+    private void bookTour() throws DAOException, CsvValidationException, SQLException, DuplicateTourException, IOException, TourException, TouristGuideNotFoundException {
         TicketBean ticketBean = new TicketBean();
         ticketBean.setPrenotationDate(LocalDate.now());
         ticketBean.setStateTicket("waiting for confirmation");

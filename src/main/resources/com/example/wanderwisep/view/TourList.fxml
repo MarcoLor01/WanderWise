@@ -45,18 +45,20 @@
       </Text>
       <AnchorPane id="tourListLogoutAnchor" fx:id="tourListLogoutAnchor" layoutX="530.0" layoutY="2.0" prefHeight="64.0" prefWidth="59.0" style="-fx-background-color: white; -fx-border-color: #4682B4;" visible="false">
          <children>
-            <Text id="logoutTourList" fx:id="logoutTourList" layoutX="3.0" layoutY="59.0" onMouseClicked="#logout" strokeType="OUTSIDE" strokeWidth="0.0" text="Log-Out" textAlignment="CENTER" wrappingWidth="52.13671875">
-               <font>
-                  <Font name="Verdana Pro Semibold" size="8.0" />
-               </font>
+            <Text id="logoutTourList" fx:id="logoutTourList" layoutX="3.0" layoutY="59.0" strokeType="OUTSIDE"
+                  strokeWidth="0.0" text="Log-Out" textAlignment="CENTER" wrappingWidth="52.13671875">
+                <font>
+                    <Font name="Verdana Pro Semibold" size="8.0"/>
+                </font>
             </Text>
          </children>
       </AnchorPane>
       <Line id="logoutTourListLine" fx:id="logoutTourListLine" endX="113.0" layoutX="475.0" layoutY="51.0" startX="56.5" stroke="STEELBLUE" visible="false" />
-      <ImageView id="userIconTourlist" fx:id="userIconTourlist" fitHeight="36.0" fitWidth="32.0" layoutX="544.0" layoutY="2.0" onMouseClicked="#openLogoutMenu" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/free-user-icon-3296-thumb.png" />
-         </image>
-      </ImageView>
+       <ImageView id="userIconTourlist" fx:id="userIconTourlist" fitHeight="36.0" fitWidth="32.0" layoutX="544.0"
+                  layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+           <image>
+               <Image url="@../images/free-user-icon-3296-thumb.png"/>
+           </image>
+       </ImageView>
    </children>
 </AnchorPane>

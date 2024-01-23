@@ -4,12 +4,12 @@ import com.example.wanderwisep.application_controller.BookTourControllerApplicat
 import com.example.wanderwisep.bean.GuidedTourBean;
 import com.example.wanderwisep.bean.TourListBean;
 import com.example.wanderwisep.exception.TourException;
+import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.example.wanderwisep.utilities.CLIPrinter;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,9 +35,7 @@ public class TourListCLIController extends NavigatorCLIController {
                 CLIPrinter.printMessage("Departure Date: " + departureDate.get(i) + "\n");
                 CLIPrinter.printMessage("Return Date: " + returnDate.get(i) + "\n\n");
             }
-            CLIPrinter.printMessage("Insert here your choice: ");
-            Scanner scanner = new Scanner(System.in);
-            int choice = scanner.nextInt();
+            int choice = getMenuChoice(0, 0);
             GuidedTourBean guidedTourBean = new GuidedTourBean();
             guidedTourBean.setIdSession(idSession);
             guidedTourBean.setTourName(cityName.get(choice));
@@ -46,7 +44,7 @@ public class TourListCLIController extends NavigatorCLIController {
             guidedTourBean.setIdSession(idSession);
             guidedTourBean = bookTourControllerApplication.getTourDescription(guidedTourBean);
             new GuidedTourCLIController().start(guidedTourBean);
-        } catch (TourException | SQLException e) {
+        } catch (TourException | SQLException | TouristGuideNotFoundException e) {
             logger.log(Level.WARNING, e.getMessage());
         }
     }

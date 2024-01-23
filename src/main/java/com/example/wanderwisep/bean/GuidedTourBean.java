@@ -74,6 +74,14 @@ public class GuidedTourBean implements Serializable {
         this.touristGuideName = touristGuideName;
     }
 
+    public String getTouristGuideSurname() {
+        return touristGuideSurname;
+    }
+
+    public void setTouristGuideSurname(String touristGuideSurname) {
+        this.touristGuideSurname = touristGuideSurname;
+    }
+
     public Blob getPhoto() {
         return photo;
     }
@@ -90,11 +98,5 @@ public class GuidedTourBean implements Serializable {
         this.cityName = cityName;
     }
 
-    public String getTouristGuideSurname() {
-        return touristGuideSurname;
-    }
 
-    public void setTouristGuideSurname(String touristGuideSurname) {
-        this.touristGuideSurname = touristGuideSurname;
-    }
 }

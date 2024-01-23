@@ -33,6 +33,10 @@ public class SearchBarCLIController extends NavigatorCLIController {
                         searchTour();
                     }
                     case 2 -> System.exit(0);
+                    case 3 -> {
+                        shouldExit = true;
+                        seeMyArea();
+                    }
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (InvalidFormatException e) {
@@ -41,13 +45,16 @@ public class SearchBarCLIController extends NavigatorCLIController {
         }
     }
 
+    private void seeMyArea() {
+        new MyAreaCLIController().start(idSession);
+    }
 
     private int insertTour() {
         CLIPrinter.printMessage("*** You want to look for a Guided Tour? ***\n");
         CLIPrinter.printMessage("1) Yes\n");
         CLIPrinter.printMessage("2) No\n");
-
-        return getMenuChoice(1, 2);
+        CLIPrinter.printMessage("3) See my Tickets\n");
+        return getMenuChoice(1, 3);
     }
 
     private void searchTour() {

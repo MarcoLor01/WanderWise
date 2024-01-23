@@ -3,21 +3,22 @@ package com.example.wanderwisep.dao;
 import com.example.wanderwisep.dao.db_connection.DBConnection;
 import com.example.wanderwisep.dao.db_connection.Queries;
 import com.example.wanderwisep.enumeration.stateEnum;
-import com.example.wanderwisep.exception.DAOException;
-import com.example.wanderwisep.exception.DuplicateTourException;
-import com.example.wanderwisep.exception.RequestNotFoundException;
-import com.example.wanderwisep.exception.TicketNotFoundException;
+import com.example.wanderwisep.exception.*;
+import com.example.wanderwisep.model.GuidedTour;
 import com.example.wanderwisep.model.Ticket;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TicketDAOJDBC implements TicketDAO {
-    private static final Logger logger = Logger.getLogger(TicketDAOJDBC.class.getName());
+public class TicketDAOJDBC extends TicketDAO {
+    Logger logger = Logger.getLogger(TicketDAOJDBC.class.getName());
 
     @Override
     public void createTicket(Ticket ticket) throws DAOException, SQLException, DuplicateTourException {
@@ -41,15 +42,10 @@ public class TicketDAOJDBC implements TicketDAO {
             }
 
             insertStmt.setString(1, ticket.getIdTicket());
-            insertStmt.setDate(3, java.sql.Date.valueOf(ticket.getPrenotationDate()));
             insertStmt.setString(2, ticket.getState().getStateName());
-            insertStmt.setString(4, ticket.getMyGuidedTourId());
-            insertStmt.setString(5, ticket.getUser());
-            insertStmt.setString(6, ticket.getMyTouristGuide());
-            insertStmt.setDate(7, Date.valueOf(ticket.getDepartureDate()));
-            insertStmt.setDate(8, Date.valueOf(ticket.getReturnDate()));
-            insertStmt.setString(9, ticket.getTourName());
-
+            insertStmt.setDate(3, java.sql.Date.valueOf(ticket.getPrenotationDate()));
+            insertStmt.setString(4, ticket.getUser());
+            insertStmt.setString(5, ticket.getMyGuidedTour().getGuidedTourId());
             int result = insertStmt.executeUpdate();
 
             if (result == 1) {
@@ -61,7 +57,7 @@ public class TicketDAOJDBC implements TicketDAO {
     }
 
     @Override
-    public List<Ticket> retrieveTicket(String emailUser) throws SQLException, TicketNotFoundException {
+    public List<Ticket> retrieveTicket(String emailUser) throws SQLException, TicketNotFoundException, TourException, TouristGuideNotFoundException {
         List<Ticket> ticketsUser = new ArrayList<>();
 
         try (
@@ -84,49 +80,10 @@ public class TicketDAOJDBC implements TicketDAO {
                     LocalDate prenotationDate = rs.getDate("prenotationDate").toLocalDate();
                     String idTour = rs.getString("myGuidedTourId");
                     stateEnum state = stateEnum.fromString(stateTicket);
-                    String myTouristGuide = rs.getString("TouristGuide");
-                    LocalDate departureDate = rs.getDate("departureDate").toLocalDate();
-                    LocalDate returnDate = rs.getDate("returnDate").toLocalDate();
-                    String tourName = rs.getString("nameTour");
-                    Ticket a = new Ticket(idTicket, state, prenotationDate, idTour, myTouristGuide, emailUser, departureDate, returnDate, tourName);
-                    ticketsUser.add(a);
-                } while (rs.next());
-            }
-        }
-
-        return ticketsUser;
-    }
-
-    public List<Ticket> retrieveTicketForGuide(String touristGuide) throws SQLException, TicketNotFoundException {
-        List<Ticket> ticketsUser = new ArrayList<>();
-
-        try (
-                Connection conn = new DBConnection().getConnection();
-                PreparedStatement stmt = conn.prepareStatement(
-                        Queries.RETRIEVE_PRENOTATION,
-                        ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY)
-        ) {
-            stmt.setString(1, touristGuide);
-            stmt.setString(2, stateEnum.toString(stateEnum.WAITING));
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (!rs.first()) {
-                    throw new TicketNotFoundException("No request available");
-                }
-
-                rs.first();
-                do {
-                    String idTicket = rs.getString("idTicket");
-                    String stateTicket = rs.getString("state");
-                    LocalDate prenotationDate = rs.getDate("prenotationDate").toLocalDate();
-                    String user = rs.getString("user");
-                    String idTour = rs.getString("myGuidedTourId");
-                    LocalDate departureDate = rs.getDate("departureDate").toLocalDate();
-                    LocalDate returnDate = rs.getDate("returnDate").toLocalDate();
-                    String nameTour = rs.getString("nameTour");
-                    Ticket a = new Ticket(idTicket, stateEnum.fromString(stateTicket), prenotationDate, idTour, touristGuide, user, departureDate, returnDate, nameTour);
-                    ticketsUser.add(a);
+                    GuidedTour guidedTour = createTourGuide(idTour);
+                    Ticket ticket = new Ticket(idTicket, state, prenotationDate, guidedTour, emailUser);
+                    ticket.setIdTicket(emailUser);
+                    ticketsUser.add(ticket);
                 } while (rs.next());
             }
         }
@@ -136,7 +93,7 @@ public class TicketDAOJDBC implements TicketDAO {
 
 
     @Override
-    public void retrieveTicketFromTourGuide(String touristGuide, String userEmail, String idTour, String decision) throws SQLException, RequestNotFoundException {
+    public void retrieveTicketFromTourGuide(String userEmail, String idTour, String decision) throws SQLException, RequestNotFoundException {
         try (
                 Connection conn = new DBConnection().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(
@@ -146,9 +103,8 @@ public class TicketDAOJDBC implements TicketDAO {
         ) {
 
             stmt.setString(1, decision);
-            stmt.setString(2, touristGuide);
-            stmt.setString(3, userEmail);
-            stmt.setString(4, idTour);
+            stmt.setString(2, userEmail);
+            stmt.setString(3, idTour);
 
             int rowsUpdated = stmt.executeUpdate();
 

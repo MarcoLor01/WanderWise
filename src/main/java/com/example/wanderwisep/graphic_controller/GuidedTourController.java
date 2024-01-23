@@ -7,6 +7,8 @@ import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.TicketBean;
 import com.example.wanderwisep.exception.DAOException;
 import com.example.wanderwisep.exception.DuplicateTourException;
+import com.example.wanderwisep.exception.TourException;
+import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -120,7 +122,8 @@ public class GuidedTourController extends NavigatorController implements Initial
             alert.setTitle("Guided Tour");
             alert.setContentText("Guided Tour Booked");
             alert.showAndWait();
-        } catch (IOException | DAOException | SQLException | CsvValidationException e) {
+        } catch (IOException | DAOException | SQLException | CsvValidationException | TourException |
+                 TouristGuideNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("error in booking the tour", "Error guided tour");
         } catch (DuplicateTourException e) {

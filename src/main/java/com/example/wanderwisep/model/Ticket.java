@@ -15,75 +15,32 @@ public class Ticket {
     private String idTicket;
     private stateEnum state;
     private LocalDate prenotationDate;
-    private String myGuidedTourId;
+    private GuidedTour myGuidedTour;
     private String user;
-    private String myTouristGuide;
-    private LocalDate departureDate;
-    private LocalDate returnDate;
-    private String tourName;
 
 
-    public Ticket(stateEnum state, LocalDate prenotationDate, String myGuidedTourId, String myTouristGuide, String user, LocalDate departureDate, LocalDate returnDate, String tourName) {
-        this.state = state;
-        this.prenotationDate = prenotationDate;
-        this.myGuidedTourId = myGuidedTourId;
-        this.user = user;
-        this.myTouristGuide = myTouristGuide;
-        this.returnDate = returnDate;
-        this.departureDate = departureDate;
-        this.tourName = tourName;
-    }
-
-    public Ticket(String idTicket, stateEnum state, LocalDate prenotationDate, String myGuidedTourId, String myTouristGuide, String user, LocalDate departureDate, LocalDate returnDate, String tourName) {
+    public Ticket(String idTicket, stateEnum state, LocalDate prenotationDate, GuidedTour tour, String user) {
         this.idTicket = idTicket;
         this.state = state;
         this.prenotationDate = prenotationDate;
-        this.myGuidedTourId = myGuidedTourId;
+        this.myGuidedTour = tour;
         this.user = user;
-        this.myTouristGuide = myTouristGuide;
-        this.returnDate = returnDate;
-        this.departureDate = departureDate;
-        this.tourName = tourName;
     }
 
-    public String getMyGuidedTourId() {
-        return myGuidedTourId;
-    }
-
-    public void setMyGuidedTourId(String myGuidedTourId) {
-        this.myGuidedTourId = myGuidedTourId;
-    }
-
-    public LocalDate getDepartureDate() {
-        return departureDate;
-    }
-
-    public void setDepartureDate(LocalDate departureDate) {
-        this.departureDate = departureDate;
-    }
-
-    public LocalDate getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(LocalDate returnDate) {
-        this.returnDate = returnDate;
-    }
-
-    public String getTourName() {
-        return tourName;
-    }
-
-    public void setTourName(String tourName) {
-        this.tourName = tourName;
+    public Ticket(stateEnum state, LocalDate prenotationDate, GuidedTour tour, String user) {
+        this.idTicket = idTicket;
+        this.state = state;
+        this.prenotationDate = prenotationDate;
+        this.myGuidedTour = tour;
+        this.user = user;
     }
 
     public String getIdTicket() {
         return idTicket;
     }
 
-    public void setIdTicket(String myGuidedTourId, String myTouristGuide, String user) {
-        this.idTicket = generateUniqueID(myGuidedTourId, myTouristGuide, user);
+    public void setIdTicket(String user) {
+        this.idTicket = generateUniqueID(user);
     }
 
     public stateEnum getState() {
@@ -110,19 +67,19 @@ public class Ticket {
         return user;
     }
 
-    public String getMyTouristGuide() {
-        return myTouristGuide;
+    public GuidedTour getMyGuidedTour() {
+        return myGuidedTour;
     }
 
-    public void setMyTouristGuide(String myTouristGuide) {
-        this.myTouristGuide = myTouristGuide;
+    public void setMyGuidedTour(GuidedTour myGuidedTour) {
+        this.myGuidedTour = myGuidedTour;
     }
 
-    public String generateUniqueID(String myGuidedTourId, String myTouristGuide, String user) {
+    public String generateUniqueID(String user) {
         StringBuilder hexString = null;
         try {
             // Concatena i valori dei campi per formare una stringa univoca
-            String uniqueString = myGuidedTourId + myTouristGuide + user;
+            String uniqueString = myGuidedTour.getGuidedTourId() + myGuidedTour.getTouristGuide().getName() + myGuidedTour.getTouristGuide().getSurname() + user;
             // Calcola l'hash SHA-256 della stringa univoca
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(uniqueString.getBytes(StandardCharsets.UTF_8));

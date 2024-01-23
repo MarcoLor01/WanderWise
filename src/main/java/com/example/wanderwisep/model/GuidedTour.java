@@ -10,8 +10,7 @@ public class GuidedTour {
     private LocalDate departureDate;
     private LocalDate returnDate;
     private String guidedTourId;
-    private String myTouristGuideName;
-    private String myTouristGuideSurname;
+    private TouristGuide touristGuide;
     private List<Ticket> tourTicket;
     private String nameTour;
     private Blob photo;
@@ -33,13 +32,12 @@ public class GuidedTour {
         this.guidedTourId = idTour;
     }
 
-    public GuidedTour(String cityName, List<String> listOfAttraction, LocalDate departureDate, LocalDate returnDate, String myTouristGuideName, String myTouristGuideSurname, Blob photo, String tourName, String idTour) {
+    public GuidedTour(String cityName, List<String> listOfAttraction, LocalDate departureDate, LocalDate returnDate, TouristGuide myTouristGuide, Blob photo, String tourName, String idTour) {
         this.cityName = cityName;
         this.listOfAttraction = listOfAttraction;
         this.departureDate = departureDate;
         this.returnDate = returnDate;
-        this.myTouristGuideName = myTouristGuideName;
-        this.myTouristGuideSurname = myTouristGuideSurname;
+        this.touristGuide = myTouristGuide;
         this.photo = photo;
         this.nameTour = tourName;
         this.guidedTourId = idTour;
@@ -89,20 +87,12 @@ public class GuidedTour {
         this.returnDate = returnDate;
     }
 
-    public String getMyTouristGuideName() {
-        return myTouristGuideName;
+    public TouristGuide getTouristGuide() {
+        return touristGuide;
     }
 
-    public void setMyTouristGuideName(String myTouristGuideName) {
-        this.myTouristGuideName = myTouristGuideName;
-    }
-
-    public String getMyTouristGuideSurname() {
-        return myTouristGuideSurname;
-    }
-
-    public void setMyTouristGuideSurname(String myTouristGuideSurname) {
-        this.myTouristGuideSurname = myTouristGuideSurname;
+    public void setTouristGuide(TouristGuide touristGuide) {
+        this.touristGuide = touristGuide;
     }
 
     public List<Ticket> getTourTicket() {
