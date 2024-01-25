@@ -32,13 +32,12 @@ public class GuidedTour {
         this.guidedTourId = idTour;
     }
 
-    public GuidedTour(String cityName, List<String> listOfAttraction, LocalDate departureDate, LocalDate returnDate, TouristGuide myTouristGuide, Blob photo, String tourName, String idTour) {
+    public GuidedTour(String cityName, List<String> listOfAttraction, LocalDate departureDate, LocalDate returnDate, TouristGuide myTouristGuide, String tourName, String idTour) {
         this.cityName = cityName;
         this.listOfAttraction = listOfAttraction;
         this.departureDate = departureDate;
         this.returnDate = returnDate;
         this.touristGuide = myTouristGuide;
-        this.photo = photo;
         this.nameTour = tourName;
         this.guidedTourId = idTour;
     }
@@ -50,6 +49,7 @@ public class GuidedTour {
     public void setNameTour(String nameTour) {
         this.nameTour = nameTour;
     }
+
 
     public void setPhoto(Blob photo) {
         this.photo = photo;
