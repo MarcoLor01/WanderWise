@@ -138,8 +138,8 @@ public class GuideConfirmController extends NavigatorController implements Initi
                 i++;
                 x += 2;
             }
-        } catch (IOException | SQLException | CsvValidationException e) {
-            logger.log(Level.INFO, e.getMessage());
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog(e.getMessage(), "Request Visualization Error");
         } catch (RequestNotFoundException e) {
             logger.log(Level.INFO, e.getMessage());

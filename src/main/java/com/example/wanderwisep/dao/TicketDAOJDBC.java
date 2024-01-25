@@ -21,7 +21,7 @@ public class TicketDAOJDBC extends TicketDAO {
     Logger logger = Logger.getLogger(TicketDAOJDBC.class.getName());
 
     @Override
-    public void createTicket(Ticket ticket) throws DAOException, SQLException, DuplicateTourException {
+    public void createTicket(Ticket ticket) throws SQLException, DuplicateTourException, DAOException {
         try (
                 Connection conn = new DBConnection().getConnection();
                 PreparedStatement selectStmt = conn.prepareStatement(

@@ -24,9 +24,8 @@ public class NavigatorController {
         try {
             NavigatorBase.getInstance().goToPageInit(page, obj);
         } catch (Exception e) {
-            Logger.getAnonymousLogger().log(
-                    Level.INFO, e.getMessage()
-            );
+            logger.log(Level.SEVERE, e.getMessage());
+            showErrorDialog("Error in the visualization of the page", "Visualization page error");
         }
     }
 
@@ -42,7 +41,7 @@ public class NavigatorController {
         try (InputStream inputStream = blob.getBinaryStream()) {
             return new Image(inputStream);
         } catch (Exception e) {
-            logger.log(Level.INFO, e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Error in the visualization of the tour", "Visualization tour error");
         }
 

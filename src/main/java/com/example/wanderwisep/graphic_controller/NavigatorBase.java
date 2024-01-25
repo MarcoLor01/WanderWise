@@ -31,12 +31,6 @@ public class NavigatorBase { //I have to use this Navigator because with a norma
         this.stg = stage;
     }
 
-    public void goToPage(String page) throws IOException {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource(page));
-        Parent root = loader.load();
-        stg.getScene().setRoot(root);
-    }
-
     public void goToPageInit(String page, Object controllerData) throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource(page));
         Parent root = loader.load();
@@ -45,7 +39,6 @@ public class NavigatorBase { //I have to use this Navigator because with a norma
             InitializableController controller = loader.getController();
             controller.initializeData(controllerData);
         }
-
         stg.getScene().setRoot(root);
     }
 
