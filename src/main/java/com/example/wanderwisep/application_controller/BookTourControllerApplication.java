@@ -20,8 +20,8 @@ import java.util.List;
 
 public class BookTourControllerApplication {
 
-    private final static int JdbcDao = 1;
-    private final static int CsvDao = 2;
+    private static final int JDBC_DAO = 1;
+    private static final int CSV_DAO = 2;
 
     public GuidedTourBean getTourDescription(GuidedTourBean guidedTourBean) throws TourException, SQLException, TouristGuideNotFoundException {
         GuidedTourDAOJDBC searchTourDAO = new GuidedTourDAOJDBC();
@@ -67,7 +67,7 @@ public class BookTourControllerApplication {
         Ticket ticket = new Ticket(stateEnum.fromString(ticketBean.getStateTicket()), ticketBean.getPrenotationDate(), tour, user);
         ticket.setIdTicket(user);
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
-        ticketDAOFactory.createTicketDAO(CsvDao).createTicket(ticket);
+        ticketDAOFactory.createTicketDAO(CSV_DAO).createTicket(ticket);
         TouristGuideRequestDAO touristGuideDecisionDAO = new TouristGuideRequestDAO();
         touristGuideDecisionDAO.createRequest(user, tour.getTouristGuide().getEmail(), tour.getGuidedTourId());
     }
@@ -89,7 +89,7 @@ public class BookTourControllerApplication {
     public void guideDecision(TouristGuideAnswerBean touristAnswerBean) throws IOException, SQLException, RequestNotFoundException, CsvValidationException, DAOException {
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
         String touristGuideEmail = SessionManager.getInstance().getSession(touristAnswerBean.getIdSession()).getEmail();
-        ticketDAOFactory.createTicketDAO(CsvDao).retrieveTicketFromTourGuide(touristAnswerBean.getUserEmail(), touristAnswerBean.getIdTour(), touristAnswerBean.getGuideDecision());
+        ticketDAOFactory.createTicketDAO(CSV_DAO).retrieveTicketFromTourGuide(touristAnswerBean.getUserEmail(), touristAnswerBean.getIdTour(), touristAnswerBean.getGuideDecision());
         TouristGuideRequestDAO touristGuideRequestDAO = new TouristGuideRequestDAO();
         touristGuideRequestDAO.deleteRequest(touristAnswerBean.getUserEmail(), touristGuideEmail, touristAnswerBean.getIdTour());
     }
@@ -97,7 +97,7 @@ public class BookTourControllerApplication {
     public TicketListBean createMyArea(TicketListBean ticketListBean) throws IOException, TicketNotFoundException, SQLException, CsvValidationException, TourException, TouristGuideNotFoundException {
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
         String email = SessionManager.getInstance().getSession(ticketListBean.getIdSession()).getEmail();
-        List<Ticket> ticketList = ticketDAOFactory.createTicketDAO(CsvDao).retrieveTicket(email);
+        List<Ticket> ticketList = ticketDAOFactory.createTicketDAO(CSV_DAO).retrieveTicket(email);
         int dimensione = ticketList.size();
         int i = 0;
         while (i < dimensione) {

@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuidedTourDAOJDBC extends GuidedTourDAO {
-    private final static String nameTourRow = "nametour";
-    private final static String photoRow = "photo";
-    private final static String departureDateRow = "departureDate";
-    private final static String returnDateRow = "returnDate";
-    private final static String idGuidedTourRow = "idGuidedTour";
-    private final static String cityNameRow = "cityName";
-    private final static String listOfAttractionRow = "listOfAttraction";
-    private final static String touristGuideRow = "touristGuide";
+    private static final String NAME_TOUR_ROW = "nametour";
+    private static final String PHOTO_ROW = "photo";
+    private static final String DEPARTURE_DATE_ROW = "departureDate";
+    private static final String RETURN_DATE_ROW = "returnDate";
+    private static final String ID_GUIDED_TOUR_ROW = "idGuidedTour";
+    private static final String CITY_NAME_ROW = "cityName";
+    private static final String LIST_OF_ATTRACTION_ROW = "listOfAttraction";
+    private static final String TOURIST_GUIDE_ROW = "touristGuide";
 
 
     public List<GuidedTour> findTours(String city, LocalDate departureD, LocalDate returnD) throws SQLException, TourException {
@@ -44,11 +44,11 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
 
                 rs.first();
                 do {
-                    String tourName = rs.getString(nameTourRow);
-                    Blob photoBlob = rs.getBlob(photoRow);
-                    LocalDate departure = rs.getDate(departureDateRow).toLocalDate();
-                    LocalDate dateReturn = rs.getDate(returnDateRow).toLocalDate();
-                    String idTour = rs.getString(idGuidedTourRow);
+                    String tourName = rs.getString(NAME_TOUR_ROW);
+                    Blob photoBlob = rs.getBlob(PHOTO_ROW);
+                    LocalDate departure = rs.getDate(DEPARTURE_DATE_ROW).toLocalDate();
+                    LocalDate dateReturn = rs.getDate(RETURN_DATE_ROW).toLocalDate();
+                    String idTour = rs.getString(ID_GUIDED_TOUR_ROW);
                     GuidedTour a = new GuidedTour(tourName, photoBlob, departure, dateReturn, idTour);
                     tours.add(a);
                 } while (rs.next());
@@ -78,14 +78,14 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
                 }
 
                 rs.first();
-                String idTour = rs.getString(idGuidedTourRow);
-                String nameTour = rs.getString(nameTourRow);
-                Blob photoBlob = rs.getBlob(photoRow);
-                LocalDate departureD = rs.getDate(departureDateRow).toLocalDate();
-                LocalDate returnD = rs.getDate(returnDateRow).toLocalDate();
-                String cityName = rs.getString(cityNameRow);
-                String listOfAttraction = rs.getString(listOfAttractionRow);
-                String touristGuideEmail = rs.getString(touristGuideRow);
+                String idTour = rs.getString(ID_GUIDED_TOUR_ROW);
+                String nameTour = rs.getString(NAME_TOUR_ROW);
+                Blob photoBlob = rs.getBlob(PHOTO_ROW);
+                LocalDate departureD = rs.getDate(DEPARTURE_DATE_ROW).toLocalDate();
+                LocalDate returnD = rs.getDate(RETURN_DATE_ROW).toLocalDate();
+                String cityName = rs.getString(CITY_NAME_ROW);
+                String listOfAttraction = rs.getString(LIST_OF_ATTRACTION_ROW);
+                String touristGuideEmail = rs.getString(TOURIST_GUIDE_ROW);
                 List<String> attractionsArray = List.of(listOfAttraction.split(","));
                 TouristGuide touristGuide = retrieveTouristGuide(touristGuideEmail);
                 guidedTour = new GuidedTour(cityName, attractionsArray, departureD, returnD, touristGuide, nameTour, idTour);
@@ -112,14 +112,14 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
                 }
 
                 rs.first();
-                String idTour = rs.getString(idGuidedTourRow);
-                String nameTour = rs.getString(nameTourRow);
-                Blob photoBlob = rs.getBlob(photoRow);
-                LocalDate departureD = rs.getDate(departureDateRow).toLocalDate();
-                LocalDate returnD = rs.getDate(returnDateRow).toLocalDate();
-                String cityName = rs.getString(cityNameRow);
-                String listOfAttraction = rs.getString(listOfAttractionRow);
-                String touristGuideEmail = rs.getString(touristGuideRow);
+                String idTour = rs.getString(ID_GUIDED_TOUR_ROW);
+                String nameTour = rs.getString(NAME_TOUR_ROW);
+                Blob photoBlob = rs.getBlob(PHOTO_ROW);
+                LocalDate departureD = rs.getDate(DEPARTURE_DATE_ROW).toLocalDate();
+                LocalDate returnD = rs.getDate(RETURN_DATE_ROW).toLocalDate();
+                String cityName = rs.getString(CITY_NAME_ROW);
+                String listOfAttraction = rs.getString(LIST_OF_ATTRACTION_ROW);
+                String touristGuideEmail = rs.getString(TOURIST_GUIDE_ROW);
                 List<String> attractionsArray = List.of(listOfAttraction.split(","));
                 TouristGuide touristGuide = retrieveTouristGuide(touristGuideEmail);
                 guidedTour = new GuidedTour(cityName, attractionsArray, departureD, returnD, touristGuide, nameTour, idTour);
