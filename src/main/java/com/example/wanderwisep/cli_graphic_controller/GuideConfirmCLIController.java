@@ -3,9 +3,7 @@ package com.example.wanderwisep.cli_graphic_controller;
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
 import com.example.wanderwisep.bean.TouristGuideAnswerBean;
 import com.example.wanderwisep.bean.TouristGuideRequestsBean;
-import com.example.wanderwisep.exception.DAOException;
-import com.example.wanderwisep.exception.InvalidFormatException;
-import com.example.wanderwisep.exception.RequestNotFoundException;
+import com.example.wanderwisep.exception.*;
 import com.example.wanderwisep.utilities.CLIPrinter;
 import com.opencsv.exceptions.CsvValidationException;
 
@@ -88,7 +86,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
 
         } catch (CsvValidationException | SQLException | IOException | InvalidFormatException | DAOException e) {
             logger.log(Level.SEVERE, e.getMessage());
-        } catch (RequestNotFoundException e) {
+        } catch (RequestNotFoundException | TourException | TouristGuideNotFoundException e) {
             logger.log(Level.INFO, e.getMessage());
         }
     }
@@ -100,7 +98,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
         return getMenuChoice(1, 3);
     }
 
-    private void acceptRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, DAOException {
+    private void acceptRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, DAOException, TourException, TouristGuideNotFoundException {
         TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
         answerBean.setIdSession(idSession);
         answerBean.setIdTour(idTour);
@@ -110,7 +108,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
         CLIPrinter.printMessage("\nRequest Accepted\n");
     }
 
-    private void refuseRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, DAOException {
+    private void refuseRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, DAOException, TourException, TouristGuideNotFoundException {
         TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
         answerBean.setIdSession(idSession);
         answerBean.setIdTour(idTour);

@@ -16,7 +16,6 @@ public class NavigatorBase { //I have to use this Navigator because with a norma
     }
 
     public static synchronized NavigatorBase getInstance(Stage stg) {
-        // Inizializza l'istanza se non è ancora stata creata
         if (instance == null) {
             instance = new NavigatorBase(stg);
         }
@@ -41,6 +40,5 @@ public class NavigatorBase { //I have to use this Navigator because with a norma
         }
         stg.getScene().setRoot(root);
     }
-
 }
 

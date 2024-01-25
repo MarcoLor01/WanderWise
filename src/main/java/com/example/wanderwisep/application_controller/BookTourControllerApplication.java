@@ -1,6 +1,7 @@
 package com.example.wanderwisep.application_controller;
 
 import com.example.wanderwisep.bean.*;
+import com.example.wanderwisep.boundary.EmailBookTourBoundary;
 import com.example.wanderwisep.dao.GuidedTourDAOJDBC;
 import com.example.wanderwisep.dao.TouristGuideDAO;
 import com.example.wanderwisep.dao.TouristGuideRequestDAO;
@@ -11,7 +12,7 @@ import com.example.wanderwisep.model.Ticket;
 import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.TouristGuideRequest;
 import com.example.wanderwisep.pattern.TicketDAOFactory;
-import com.example.wanderwisep.sessionmanagement.SessionManager;
+import com.example.wanderwisep.session_management.SessionManager;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
@@ -86,12 +87,21 @@ public class BookTourControllerApplication {
         return requestBean;
     }
 
-    public void guideDecision(TouristGuideAnswerBean touristAnswerBean) throws IOException, SQLException, RequestNotFoundException, CsvValidationException, DAOException {
+    public void guideDecision(TouristGuideAnswerBean touristAnswerBean) throws IOException, SQLException, RequestNotFoundException, CsvValidationException, DAOException, TourException, TouristGuideNotFoundException {
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
         String touristGuideEmail = SessionManager.getInstance().getSession(touristAnswerBean.getIdSession()).getEmail();
         ticketDAOFactory.createTicketDAO(CSV_DAO).retrieveTicketFromTourGuide(touristAnswerBean.getUserEmail(), touristAnswerBean.getIdTour(), touristAnswerBean.getGuideDecision());
         TouristGuideRequestDAO touristGuideRequestDAO = new TouristGuideRequestDAO();
         touristGuideRequestDAO.deleteRequest(touristAnswerBean.getUserEmail(), touristGuideEmail, touristAnswerBean.getIdTour());
+        GuidedTourDAOJDBC guidedTourDAOJDBC = new GuidedTourDAOJDBC();
+        GuidedTour guidedTour = guidedTourDAOJDBC.retrieveTourFromId(touristAnswerBean.getIdTour());
+        EmailBean emailBean = new EmailBean();
+        emailBean.setDecision(touristAnswerBean.getGuideDecision());
+        emailBean.setGuidedTourName(guidedTour.getNameTour());
+        emailBean.setTouristGuideEmail(touristGuideEmail);
+        emailBean.setUserEmail(touristAnswerBean.getUserEmail());
+        EmailBookTourBoundary emailBookTourBoundary = new EmailBookTourBoundary();
+        emailBookTourBoundary.initializeEmail(emailBean);
     }
 
     public TicketListBean createMyArea(TicketListBean ticketListBean) throws IOException, TicketNotFoundException, SQLException, CsvValidationException, TourException, TouristGuideNotFoundException {

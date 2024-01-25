@@ -6,6 +6,8 @@ import com.example.wanderwisep.bean.TouristGuideAnswerBean;
 import com.example.wanderwisep.bean.TouristGuideRequestsBean;
 import com.example.wanderwisep.exception.DAOException;
 import com.example.wanderwisep.exception.RequestNotFoundException;
+import com.example.wanderwisep.exception.TourException;
+import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -68,7 +70,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
         } catch (IOException | SQLException | CsvValidationException | DAOException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Please retry", "Tour confirmation");
-        } catch (RequestNotFoundException e) {
+        } catch (RequestNotFoundException | TourException | TouristGuideNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
@@ -89,7 +91,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
         } catch (IOException | SQLException | CsvValidationException | DAOException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Please retry", "Tour confirmation");
-        } catch (RequestNotFoundException e) {
+        } catch (RequestNotFoundException | TourException | TouristGuideNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
