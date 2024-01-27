@@ -130,7 +130,7 @@ public class TicketDAOCSV extends TicketDAO {
         }
     }
 
-    public void retrieveTicketFromTourGuide(String userEmail, String idTour, String decision) throws CsvValidationException, IOException {
+    public void modifyTicketState(String userEmail, String idTour, String decision) throws CsvValidationException, IOException {
         retrieveFromTourGuide(this.fd, userEmail, idTour, decision);
     }
 

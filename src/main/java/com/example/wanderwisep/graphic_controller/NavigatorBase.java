@@ -9,25 +9,26 @@ import java.io.IOException;
 
 public class NavigatorBase { //I have to use this Navigator because with a normal class when I use extends the class calls the Constructor and stg = null
     private final Stage stg;
-    private static NavigatorBase instance;
+
+    private static class SingletonHelper {
+        private final static NavigatorBase INSTANCE = new NavigatorBase();
+    }
+
+    public static NavigatorBase getInstance(Stage stg) {
+        SingletonHelper.INSTANCE.stg.setScene(stg.getScene());
+        return SingletonHelper.INSTANCE;
+    }
+
+    public static NavigatorBase getInstance() {
+        return SingletonHelper.INSTANCE;
+    }
+
+    private NavigatorBase() {
+        this.stg = new Stage();
+    }
 
     public Stage getStg() {
         return stg;
-    }
-
-    public static synchronized NavigatorBase getInstance(Stage stg) {
-        if (instance == null) {
-            instance = new NavigatorBase(stg);
-        }
-        return instance;
-    }
-
-    public static synchronized NavigatorBase getInstance() {
-        return instance;
-    }
-
-    private NavigatorBase(Stage stage) {
-        this.stg = stage;
     }
 
     public void goToPageInit(String page, Object controllerData) throws IOException {

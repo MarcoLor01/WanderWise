@@ -13,7 +13,7 @@ public abstract class TicketDAO {
 
     public abstract List<Ticket> retrieveTicket(String userEmail) throws SQLException, TicketNotFoundException, CsvValidationException, IOException, TourException, TouristGuideNotFoundException;
 
-    public abstract void retrieveTicketFromTourGuide(String userEmail, String idTour, String decision) throws SQLException, RequestNotFoundException, CsvValidationException, IOException;
+    public abstract void modifyTicketState(String userEmail, String idTour, String decision) throws SQLException, RequestNotFoundException, CsvValidationException, IOException;
 
     protected GuidedTour createTourGuide(String tourId) throws SQLException, TourException, TouristGuideNotFoundException {
         GuidedTourDAOJDBC guidedTourDAO = new GuidedTourDAOJDBC();

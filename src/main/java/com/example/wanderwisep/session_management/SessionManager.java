@@ -6,22 +6,32 @@ import com.example.wanderwisep.model.User;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class SessionManager {
-    private static SessionManager instance;
-    private Map<String, Session> activeSessions;
+    Logger logger = Logger.getLogger(SessionManager.class.getName());
+    private final Map<String, Session> activeSessions;
 
     private SessionManager() {
         activeSessions = new HashMap<>();
     }
 
-    public static synchronized SessionManager getInstance() {
-        if (instance == null) {
-            instance = new SessionManager();
-        }
-        return instance;
+    private static class SingletonHelper {
+        private static final SessionManager INSTANCE = new SessionManager();
+    }
+
+
+    public static SessionManager getInstance() {
+        return SingletonHelper.INSTANCE;
     }
 
     public String addSession(User user) {
+        Session existingSession = checkDuplicateSession(user);
+        if (existingSession != null) {
+            logger.log(Level.WARNING, "Session already exists");
+            return existingSession.getSessionId();
+        }
         String sessionId = generateSessionId();
         Session session = new Session(user, sessionId);
         activeSessions.put(sessionId, session);
@@ -47,6 +57,13 @@ public class SessionManager {
         return UUID.randomUUID().toString();
     }
 
+    public Session checkDuplicateSession(User user) {
+        return activeSessions.values()
+                .stream()
+                .filter(session -> session.getEmail().equals(user.getEmail()))
+                .findFirst()
+                .orElse(null);
+    }
 
 }
 

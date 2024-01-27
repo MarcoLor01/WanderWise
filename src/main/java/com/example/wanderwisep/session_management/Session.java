@@ -65,4 +65,8 @@ public class Session {
     public void setSurname(String surname) {
         this.surname = surname;
     }
+
+    public String getSessionId() {
+        return sessionId;
+    }
 }

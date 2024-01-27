@@ -93,7 +93,7 @@ public class TicketDAOJDBC extends TicketDAO {
 
 
     @Override
-    public void retrieveTicketFromTourGuide(String userEmail, String idTour, String decision) throws SQLException, RequestNotFoundException {
+    public void modifyTicketState(String userEmail, String idTour, String decision) throws SQLException, RequestNotFoundException {
         try (
                 Connection conn = new DBConnection().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(
