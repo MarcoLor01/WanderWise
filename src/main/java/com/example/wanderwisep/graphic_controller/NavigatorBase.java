@@ -11,7 +11,7 @@ public class NavigatorBase { //I have to use this Navigator because with a norma
     private final Stage stg;
 
     private static class SingletonHelper {
-        private final static NavigatorBase INSTANCE = new NavigatorBase();
+        private static final NavigatorBase INSTANCE = new NavigatorBase();
     }
 
     public static NavigatorBase getInstance(Stage stg) {
