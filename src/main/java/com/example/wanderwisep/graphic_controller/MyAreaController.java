@@ -31,7 +31,7 @@ public class MyAreaController extends NavigatorController implements Initializab
     private final ManageMyBookedGuidedToursController manageMyGuidedTourApplication = new ManageMyBookedGuidedToursController();
     private String idSession;
     private int pageNumber = 0;
-    private static final int maxToursMAX_TOURS_FOR_ROW = 2;
+    private static final int MAX_TOURS_FOR_ROW = 2;
     private static final int MAX_TOURS_FOR_PAGE = 6;
     private TicketListBean ticketListBean;
     private int minTicket = 0;
@@ -127,7 +127,7 @@ public class MyAreaController extends NavigatorController implements Initializab
             VBox.setMargin(circleAndStateBox, new Insets(0, 15, 0, 0)); // Aggiunge un margine tra il cerchio e lo stato
             vBox.getChildren().addAll(tourN, prenotationD, circleAndStateBox);
 
-            if (i % maxToursMAX_TOURS_FOR_ROW == 1) {
+            if (i % MAX_TOURS_FOR_ROW == 1) {
 
                 x = 0;
                 y += boxHeight + startY;
