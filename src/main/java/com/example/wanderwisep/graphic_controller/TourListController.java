@@ -35,7 +35,7 @@ public class TourListController extends NavigatorController implements Initializ
 
     private int maxTicket = 10;
 
-    private final int MAX_TOURS_FOR_PAGE = 10;
+    private final static int MAX_TOURS_FOR_PAGE = 10;
 
     public void initializeData(Object data) {
         if (data instanceof TourListBean tourListBean) {

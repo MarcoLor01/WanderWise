@@ -31,7 +31,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
     private final Logger logger = Logger.getLogger(GuideConfirmController.class.getName());
     private String idSession;
     private TouristGuideRequestsBean requestBean;
-    private final int MAX_REQUEST_FOR_PAGE = 4;
+    private final static int MAX_REQUEST_FOR_PAGE = 4;
     private int minTicket = 0;
     private int maxTicket = 4;
     private int pageNumber = 0;
@@ -183,7 +183,6 @@ public class GuideConfirmController extends NavigatorController implements Initi
     public void previousPage() {
 
         if (pageNumber != 0) {
-            System.out.println("here");
             pageNumber--;
             maxTicket = minTicket;
             minTicket = minTicket - MAX_REQUEST_FOR_PAGE;
