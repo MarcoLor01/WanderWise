@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 
 public class EmailBookTourBoundary {
 
-    String filePath = "src/main/resources/com/example/wanderwisep/email.txt";
-    Logger logger = Logger.getLogger(EmailBookTourBoundary.class.getName());
+    private final String filePath = "src/main/resources/com/example/wanderwisep/email.txt";
+    private final Logger logger = Logger.getLogger(EmailBookTourBoundary.class.getName());
 
     public void initializeEmail(EmailBean emailBean) {
 

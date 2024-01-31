@@ -18,28 +18,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TicketDAOJDBC extends TicketDAO {
-    Logger logger = Logger.getLogger(TicketDAOJDBC.class.getName());
+    private final Logger logger = Logger.getLogger(TicketDAOJDBC.class.getName());
 
     @Override
     public void createTicket(Ticket ticket) throws SQLException, DuplicateTourException, DAOException {
+        duplicateTicket(ticket.getIdTicket());
+        Connection conn = DBConnection.getConnection();
         try (
-                Connection conn = new DBConnection().getConnection();
-                PreparedStatement selectStmt = conn.prepareStatement(
-                        Queries.TICKET_DUPLICATE,
-                        ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
+
                 PreparedStatement insertStmt = conn.prepareStatement(
                         Queries.INSERT_TICKET,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY)
         ) {
-
-            selectStmt.setString(1, ticket.getIdTicket());
-            try (ResultSet resultSet = selectStmt.executeQuery()) {
-                if (resultSet.next()) {
-                    throw new DuplicateTourException("Tour already booked");
-                }
-            }
 
             insertStmt.setString(1, ticket.getIdTicket());
             insertStmt.setString(2, ticket.getState().getStateName());
@@ -56,12 +47,31 @@ public class TicketDAOJDBC extends TicketDAO {
         }
     }
 
+    private void duplicateTicket(String idTicket) throws SQLException, DuplicateTourException {
+        Connection conn = DBConnection.getConnection();
+        try (
+
+                PreparedStatement stmt = conn.prepareStatement(
+                        Queries.TICKET_DUPLICATE,
+                        ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+
+        ) {
+            stmt.setString(1, idTicket);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    throw new DuplicateTourException("Tour already booked");
+                }
+            }
+        }
+    }
+
     @Override
     public List<Ticket> retrieveTicket(String emailUser) throws SQLException, TicketNotFoundException, TourException, TouristGuideNotFoundException {
         List<Ticket> ticketsUser = new ArrayList<>();
-
+        Connection conn = DBConnection.getConnection();
         try (
-                Connection conn = new DBConnection().getConnection();
+
                 PreparedStatement stmt = conn.prepareStatement(
                         Queries.RETRIEVE_TICKET,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -72,8 +82,6 @@ public class TicketDAOJDBC extends TicketDAO {
                 if (!rs.first()) {
                     throw new TicketNotFoundException("No ticket available");
                 }
-
-                rs.first();
                 do {
                     String idTicket = rs.getString("idTicket");
                     String stateTicket = rs.getString("state");
@@ -87,15 +95,15 @@ public class TicketDAOJDBC extends TicketDAO {
                 } while (rs.next());
             }
         }
-
         return ticketsUser;
     }
 
 
     @Override
     public void modifyTicketState(String userEmail, String idTour, String decision) throws SQLException, RequestNotFoundException {
+        Connection conn = DBConnection.getConnection();
         try (
-                Connection conn = new DBConnection().getConnection();
+
                 PreparedStatement stmt = conn.prepareStatement(
                         Queries.MODIFY_TICKET_FROM_TOUR_GUIDE,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,

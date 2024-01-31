@@ -15,8 +15,9 @@ import java.util.List;
 public class LoginGuideDAO {
 
     public TouristGuide findGuide(String email, String password) throws UserNotFoundException, SQLException {
+        Connection conn = DBConnection.getConnection();
         try (
-                Connection conn = new DBConnection().getConnection();
+
                 PreparedStatement stmt = conn.prepareStatement(
                         Queries.FIND_GUIDE,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,

@@ -18,7 +18,7 @@ public class LoginCLIController extends NavigatorCLIController {
 
     private String idSession;
 
-    Logger logger = Logger.getLogger(LoginCLIController.class.getName());
+    private final Logger logger = Logger.getLogger(LoginCLIController.class.getName());
 
     public void start() {
         boolean shouldExit = false;
@@ -43,6 +43,7 @@ public class LoginCLIController extends NavigatorCLIController {
 
 
     public int showMenu() {
+        helloMessage();
         CLIPrinter.printMessage("*** What should I do for you? ***\n");
         CLIPrinter.printMessage("1) Login\n");
         CLIPrinter.printMessage("2) Quit\n");
@@ -125,5 +126,17 @@ public class LoginCLIController extends NavigatorCLIController {
         } catch (IOException | SQLException | UserNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
+    }
+
+    private void helloMessage() {
+        CLIPrinter.printMessage("\n" +
+                " __          __                _           __          __ _            \n" +
+                " \\ \\        / /               | |          \\ \\        / /(_)           \n" +
+                "  \\ \\  /\\  / /__ _  _ __    __| |  ___  _ __\\ \\  /\\  / /  _  ___   ___ \n" +
+                "   \\ \\/  \\/ // _` || '_ \\  / _` | / _ \\| '__|\\ \\/  \\/ /  | |/ __| / _ \\\n" +
+                "    \\  /\\  /| (_| || | | || (_| ||  __/| |    \\  /\\  /   | |\\__ \\|  __/\n" +
+                "     \\/  \\/  \\__,_||_| |_| \\__,_| \\___||_|     \\/  \\/    |_||___/ \\___|\n" +
+                "                                                                       \n" +
+                "                                                                       \n");
     }
 }

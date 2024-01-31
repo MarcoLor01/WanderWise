@@ -22,9 +22,9 @@ public class TicketDAOCSV extends TicketDAO {
     private static Integer indexPrenotationDate = 2;
     private static Integer indexUser = 3;
     private static Integer indexMyGuidedTourId = 4;
-    Logger logger = Logger.getLogger(TicketDAOCSV.class.getName());
+    private final Logger logger = Logger.getLogger(TicketDAOCSV.class.getName());
     private static final String CSV_FILE_NAME = "src/main/resources/com/example/wanderwisep/ticketDBlocal.csv";
-    private File fd;
+    private final File fd;
 
     public TicketDAOCSV() throws IOException {
         this.fd = new File(CSV_FILE_NAME);

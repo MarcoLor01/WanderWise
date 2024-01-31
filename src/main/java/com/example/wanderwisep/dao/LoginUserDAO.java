@@ -12,8 +12,9 @@ import java.sql.SQLException;
 public  class LoginUserDAO {
 
     public User findUser(String email, String password) throws SQLException, UserNotFoundException {
+
+        Connection conn = DBConnection.getConnection();
         try (
-                Connection conn = new DBConnection().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(
                         Queries.FIND_USER,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,

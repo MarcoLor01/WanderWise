@@ -16,8 +16,8 @@ import java.util.logging.Logger;
 public class GuidedTourCLIController extends NavigatorCLIController {
     private String idSession;
 
-    BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
-    Logger logger = Logger.getLogger(GuidedTourCLIController.class.getName());
+    private final BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
+    private final Logger logger = Logger.getLogger(GuidedTourCLIController.class.getName());
 
     public void start(GuidedTourBean guidedTourBean) {
         idSession = guidedTourBean.getIdSession();

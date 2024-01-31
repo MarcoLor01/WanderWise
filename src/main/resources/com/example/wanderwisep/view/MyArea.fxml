@@ -41,5 +41,17 @@
                <Font name="Verdana Pro Cond Semibold" size="18.0"/>
            </font>
        </Text>
+       <Text id="nextPageText" fx:id="nextPageText" layoutX="518.0" layoutY="390.0" onMouseClicked="#nextPage"
+             strokeType="OUTSIDE" strokeWidth="0.0" text="Next Page &gt;|">
+           <font>
+               <Font name="Verdana Pro Cond Semibold" size="10.0"/>
+           </font>
+       </Text>
+       <Text id="previousPageText" fx:id="previousPageText" layoutX="23.0" layoutY="389.0"
+             onMouseClicked="#previousPage" strokeType="OUTSIDE" strokeWidth="0.0" text="|&lt; Previous Page">
+           <font>
+               <Font name="Verdana Pro Cond Semibold" size="10.0"/>
+           </font>
+       </Text>
    </children>
 </AnchorPane>

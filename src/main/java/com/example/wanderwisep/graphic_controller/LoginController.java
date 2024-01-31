@@ -13,9 +13,9 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LoginController extends NavigatorController{
-    Logger logger = Logger.getLogger(LoginController.class.getName());
-    LoginControllerApplication loginControllerApp = new LoginControllerApplication();
+public class LoginController extends NavigatorController {
+    private final Logger logger = Logger.getLogger(LoginController.class.getName());
+    private final LoginControllerApplication loginControllerApp = new LoginControllerApplication();
     @FXML // fx:id="buttonUserLogin"
     private Button buttonUserLogin; // Value injected by FXMLLoader
 

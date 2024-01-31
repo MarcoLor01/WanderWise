@@ -12,8 +12,9 @@ import java.sql.SQLException;
 
 public class TouristGuideDAO {
     public TouristGuide retrieveTouristGuide(String touristGuideEmail) throws SQLException, TouristGuideNotFoundException {
+        Connection conn = DBConnection.getConnection();
         try (
-                Connection conn = new DBConnection().getConnection();
+
                 PreparedStatement stmt = conn.prepareStatement(
                         Queries.RETRIEVE_TOURIST_GUIDE,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,

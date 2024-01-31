@@ -1,6 +1,8 @@
 package com.example.wanderwisep.cli_graphic_controller;
 
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
+import com.example.wanderwisep.application_controller.LoginControllerApplication;
+import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.SearchBean;
 import com.example.wanderwisep.bean.TourListBean;
 import com.example.wanderwisep.exception.InvalidFormatException;
@@ -15,9 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SearchBarCLIController extends NavigatorCLIController {
-    Logger logger = Logger.getLogger(SearchBarCLIController.class.getName());
+    private final Logger logger = Logger.getLogger(SearchBarCLIController.class.getName());
     private String idSession;
-    BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
+    private final BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
 
     public void start(String sessionId) {
         idSession = sessionId;
@@ -37,6 +39,10 @@ public class SearchBarCLIController extends NavigatorCLIController {
                         shouldExit = true;
                         seeMyArea();
                     }
+                    case 4 -> {
+                        shouldExit = true;
+                        logout();
+                    }
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (InvalidFormatException e) {
@@ -50,11 +56,13 @@ public class SearchBarCLIController extends NavigatorCLIController {
     }
 
     private int insertTour() {
+
         CLIPrinter.printMessage("*** You want to look for a Guided Tour? ***\n");
         CLIPrinter.printMessage("1) Yes\n");
         CLIPrinter.printMessage("2) No\n");
         CLIPrinter.printMessage("3) See my Tickets\n");
-        return getMenuChoice(1, 3);
+        CLIPrinter.printMessage("4) Logout\n");
+        return getMenuChoice(1, 4);
     }
 
     private void searchTour() {
@@ -82,5 +90,13 @@ public class SearchBarCLIController extends NavigatorCLIController {
         } catch (InvalidFormatException | TourException e) {
             logger.log(Level.WARNING, e.getMessage());
         }
+    }
+
+    private void logout() {
+        LoginControllerApplication loginControllerApplication = new LoginControllerApplication();
+        LoginBean loginBean = new LoginBean();
+        loginBean.setIdSession(idSession);
+        loginControllerApplication.logout(loginBean);
+        new LoginCLIController().start();
     }
 }

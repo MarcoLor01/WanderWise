@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public class TicketBean implements Serializable {
     private LocalDate prenotationDate;
     private String guidedTour;
-    private Integer idTicket;
+    private String idTicket;
     private String stateTicket;
     private String myTouristGuide;
     private String idSession;
@@ -51,11 +51,11 @@ public class TicketBean implements Serializable {
         this.guidedTour = guidedTour;
     }
 
-    public Integer getIdTicket() {
+    public String getIdTicket() {
         return idTicket;
     }
 
-    public void setIdTicket(Integer idTicket) {
+    public void setIdTicket(String idTicket) {
         this.idTicket = idTicket;
     }
 }

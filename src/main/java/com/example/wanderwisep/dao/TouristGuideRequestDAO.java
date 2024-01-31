@@ -16,11 +16,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TouristGuideRequestDAO {
-    Logger logger = Logger.getLogger(TouristGuideRequestDAO.class.getName());
+    private final Logger logger = Logger.getLogger(TouristGuideRequestDAO.class.getName());
 
     public void createRequest(String userEmail, String touristGuideEmail, String guidedTourId) throws SQLException, DAOException {
+        Connection conn = DBConnection.getConnection();
         try (
-                Connection conn = new DBConnection().getConnection();
+
                 PreparedStatement stmt = conn.prepareStatement(
                         Queries.CREATE_REQUEST,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -42,8 +43,9 @@ public class TouristGuideRequestDAO {
 
     public List<TouristGuideRequest> retrieveRequestsForGuide(String touristGuideEmail) throws SQLException, RequestNotFoundException {
         List<TouristGuideRequest> touristGuideRequests = new ArrayList<>();
+        Connection conn = DBConnection.getConnection();
         try (
-                Connection conn = new DBConnection().getConnection();
+
                 PreparedStatement stmt = conn.prepareStatement(
                         Queries.RETRIEVE_REQUESTS_FOR_TOURIST_GUIDE,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -67,8 +69,9 @@ public class TouristGuideRequestDAO {
     }
 
     public void deleteRequest(String userEmail, String touristGuide, String tourId) throws SQLException, DAOException {
+        Connection conn = DBConnection.getConnection();
         try (
-                Connection conn = new DBConnection().getConnection();
+
                 PreparedStatement stmt = conn.prepareStatement(
                         Queries.DELETE_REQUEST,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,

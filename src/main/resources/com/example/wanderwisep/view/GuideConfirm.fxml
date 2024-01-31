@@ -35,12 +35,14 @@
             <Font name="Verdana Pro Cond Semibold" size="18.0" />
          </font>
       </Text>
-      <Text layoutX="22.0" layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Previous Page">
+      <Text id="previousPage" fx:id="previousPage" layoutX="22.0" layoutY="388.0" onMouseClicked="#previousPage"
+            strokeType="OUTSIDE" strokeWidth="0.0" text="|&lt; Previous Page">
          <font>
             <Font name="Verdana Pro Cond Semibold" size="10.0"/>
          </font>
       </Text>
-      <Text layoutX="532.0" layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Next Page">
+      <Text id="nextPageText" fx:id="nextPageText" layoutX="518.0" layoutY="388.0" onMouseClicked="#nextPage"
+            strokeType="OUTSIDE" strokeWidth="0.0" text="Next Page &gt;|">
          <font>
             <Font name="Verdana Pro Cond Semibold" size="10.0"/>
          </font>

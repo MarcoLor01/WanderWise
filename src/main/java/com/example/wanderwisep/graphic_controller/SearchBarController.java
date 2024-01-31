@@ -21,9 +21,9 @@ import java.util.logging.Logger;
 
 public class SearchBarController extends NavigatorController implements InitializableController {
 
-    BookTourControllerApplication bookTourController = new BookTourControllerApplication();
-    LoginControllerApplication loginController = new LoginControllerApplication();
-    Logger logger = Logger.getLogger(SearchBarController.class.getName());
+    private final BookTourControllerApplication bookTourController = new BookTourControllerApplication();
+    private final LoginControllerApplication loginController = new LoginControllerApplication();
+    private final Logger logger = Logger.getLogger(SearchBarController.class.getName());
     private String idSession;
     @FXML // fx:id="citySearch"
     private TextField citySearch; // Value injected by FXMLLoader

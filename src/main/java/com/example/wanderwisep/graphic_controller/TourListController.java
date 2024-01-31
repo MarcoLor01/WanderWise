@@ -25,9 +25,17 @@ import java.util.logging.Logger;
 
 public class TourListController extends NavigatorController implements InitializableController {
 
-    BookTourControllerApplication bookTourController = new BookTourControllerApplication();
-    Logger logger = Logger.getLogger(TourListController.class.getName());
+    private final BookTourControllerApplication bookTourController = new BookTourControllerApplication();
+    private final Logger logger = Logger.getLogger(TourListController.class.getName());
     private String idSession;
+    private TourListBean tourList;
+    private int pageNumber = 0;
+
+    private int minTicket = 0;
+
+    private int maxTicket = 10;
+
+    private final int MAX_TOURS_FOR_PAGE = 10;
 
     public void initializeData(Object data) {
         if (data instanceof TourListBean tourListBean) {
@@ -69,13 +77,18 @@ public class TourListController extends NavigatorController implements Initializ
     }
 
     public void startView(TourListBean tourListBean) {
-        List<String> tourName = tourListBean.getTourName();
-        List<Blob> tourPhoto = tourListBean.getPhoto();
-        List<LocalDate> departureDate = tourListBean.getDepartureDate();
-        List<LocalDate> returnDate = tourListBean.getReturnDate();
+        tourList = tourListBean;
+        initializePage(tourListBean.getTourName(), tourListBean.getPhoto(), tourListBean.getDepartureDate(), tourListBean.getReturnDate());
+    }
+
+    private void initializePage(List<String> tourName, List<Blob> tourPhoto, List<LocalDate> departureDate, List<LocalDate> returnDate) {
+
+        anchorPaneBase.getChildren().clear();
         int tourNumber = tourName.size();
+
         int i = 0;
         double x = 0;
+        double y = 0;
         double startX = 8.8;
         double startY = 10.0;
         double boxWidth = 100.0;
@@ -83,14 +96,14 @@ public class TourListController extends NavigatorController implements Initializ
         double imageWidth = 98.0;
         double imageHeight = 74.0;
 
-        while (i < tourNumber) {
-
+        int maxNumber = Math.min(tourNumber, MAX_TOURS_FOR_PAGE);
+        while (i < maxNumber) {
 
             VBox vBox = new VBox();
             anchorPaneBase.getChildren().add(vBox);
             vBox.setStyle("-fx-border-color: white; -fx-border-width: 2;");
             AnchorPane.setLeftAnchor(vBox, startX + x);
-            AnchorPane.setTopAnchor(vBox, startY);
+            AnchorPane.setTopAnchor(vBox, startY + y);
             vBox.setPrefWidth(boxWidth);
             vBox.setPrefHeight(boxHeight);
 
@@ -107,20 +120,68 @@ public class TourListController extends NavigatorController implements Initializ
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             Text departureDateText = new Text("From " + departureDateTour.format(formatter));
             Text returnDateText = new Text("To " + returnDateTour.format(formatter));
+
             setTextN(-2, tourNameText, 10);
             setTextN(-2, departureDateText, 10);
             setTextN(-2, returnDateText, 10);
+
             Line separatorLine = new Line(0, 0, boxWidth - 3, 0);
             separatorLine.setStroke(Color.WHITE);
+
             vBox.getChildren().addAll(imageView, tourNameText, separatorLine, departureDateText, returnDateText);
             VBox.setMargin(separatorLine, new Insets(0, 0, 1, 0));
-
             tourNameText.setOnMouseClicked(event -> openTourDescription(nameTour, departureDateTour, returnDateTour));
-            x += boxWidth + startX;
+
+            if (i == 4) {
+                x = 0;
+                y += startY + boxHeight + 2;
+            } else {
+                x += boxWidth + startX;
+            }
             i++;
         }
     }
 
+    @FXML
+    private void nextPage() {
+
+        if (tourList.getTourName().size() > maxTicket) {
+            pageNumber++;
+            minTicket = maxTicket;
+            maxTicket += MAX_TOURS_FOR_PAGE;
+            int maxNumber = Math.min(tourList.getTourName().size(), maxTicket);
+            initializePage(tourList.getTourName().subList(minTicket, maxNumber),
+                    tourList.getPhoto().subList(minTicket, maxNumber),
+                    tourList.getDepartureDate().subList(minTicket, maxNumber),
+                    tourList.getReturnDate().subList(minTicket, maxNumber)
+            );
+
+        } else {
+            logger.log(Level.INFO, "No more tickets");
+            showErrorDialog("No more tickets", "WanderWise");
+
+        }
+    }
+
+    @FXML
+    private void previousPage() {
+
+        if (pageNumber != 0) {
+            pageNumber--;
+            maxTicket = minTicket;
+            minTicket = minTicket - MAX_TOURS_FOR_PAGE;
+
+            initializePage(tourList.getTourName().subList(minTicket, maxTicket),
+                    tourList.getPhoto().subList(minTicket, maxTicket),
+                    tourList.getDepartureDate().subList(minTicket, maxTicket),
+                    tourList.getReturnDate().subList(minTicket, maxTicket)
+            );
+
+        } else {
+            logger.log(Level.INFO, "PAGE 0");
+            showErrorDialog("This is the first page", "WanderWise");
+        }
+    }
 
     @FXML
         // This method is called by the FXMLLoader when initialization is complete

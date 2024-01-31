@@ -63,8 +63,14 @@
             </Text>
             <Button id="bookTour" fx:id="bookTour" layoutX="132.0" layoutY="7.0" mnemonicParsing="false"
                     onAction="#bookTour" prefHeight="25.0" prefWidth="40.0"/>
-      </children>
-   </AnchorPane>
+        </children>
+    </AnchorPane>
     <Text id="guideNameText" fx:id="guideNameText" layoutX="31.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0"
           wrappingWidth="299.7097473144531"/>
+    <Text id="backButton" fx:id="backButton" layoutX="49.0" layoutY="23.0" onMouseClicked="#backToList"
+          strokeType="OUTSIDE" strokeWidth="0.0" text="Back to list">
+        <font>
+            <Font name="Verdana Pro Cond Semibold" size="12.0"/>
+        </font>
+    </Text>
 </AnchorPane>

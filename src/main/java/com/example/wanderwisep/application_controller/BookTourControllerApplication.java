@@ -47,10 +47,12 @@ public class BookTourControllerApplication {
     }
 
     public TourListBean searchTour(SearchBean searchBean) throws TourException, SQLException {
+        String idSession = searchBean.getIdSession();
         GuidedTourDAOJDBC guidedTourDAO = new GuidedTourDAOJDBC();
         List<GuidedTour> guidedTourList = guidedTourDAO.findTours(searchBean.getCityName(), searchBean.getDepartureDate(), searchBean.getReturnDate());
+        SessionManager.getInstance().getSession(idSession).setGuidedTourList(guidedTourList);
         TourListBean tourListBean = new TourListBean();
-        tourListBean.setIdSession(searchBean.getIdSession());
+        tourListBean.setIdSession(idSession);
         int dimensione = guidedTourList.size();
         int i = 0;
         while (i < dimensione) {
@@ -69,7 +71,7 @@ public class BookTourControllerApplication {
         Ticket ticket = new Ticket(stateEnum.fromString(ticketBean.getStateTicket()), ticketBean.getPrenotationDate(), tour, user);
         ticket.setIdTicket(user);
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
-        TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO(CSV_DAO);
+        TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO(JDBC_DAO);
         ticketDAO.createTicket(ticket);
         TouristGuideRequestDAO touristGuideDecisionDAO = new TouristGuideRequestDAO();
         touristGuideDecisionDAO.createRequest(user, tour.getTouristGuide().getEmail(), tour.getGuidedTourId());
@@ -92,7 +94,7 @@ public class BookTourControllerApplication {
     public void guideDecision(TouristGuideAnswerBean touristAnswerBean) throws IOException, SQLException, RequestNotFoundException, CsvValidationException, DAOException, TourException, TouristGuideNotFoundException {
         TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
         String touristGuideEmail = SessionManager.getInstance().getSession(touristAnswerBean.getIdSession()).getEmail();
-        TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO(CSV_DAO);
+        TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO(JDBC_DAO);
         ticketDAO.modifyTicketState(touristAnswerBean.getUserEmail(), touristAnswerBean.getIdTour(), touristAnswerBean.getGuideDecision());
         TouristGuideRequestDAO touristGuideRequestDAO = new TouristGuideRequestDAO();
         touristGuideRequestDAO.deleteRequest(touristAnswerBean.getUserEmail(), touristGuideEmail, touristAnswerBean.getIdTour());
@@ -107,24 +109,18 @@ public class BookTourControllerApplication {
         emailBookTourBoundary.initializeEmail(emailBean);
     }
 
-    public TicketListBean createMyArea(TicketListBean ticketListBean) throws IOException, TicketNotFoundException, SQLException, CsvValidationException, TourException, TouristGuideNotFoundException {
-        TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
-        String email = SessionManager.getInstance().getSession(ticketListBean.getIdSession()).getEmail();
-        TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO(CSV_DAO);
-        List<Ticket> ticketList = ticketDAO.retrieveTicket(email);
-        int dimensione = ticketList.size();
+    public TourListBean getMyTourList(String idSession) {
+        TourListBean tourListBean = new TourListBean();
+        List<GuidedTour> guidedTourList = SessionManager.getInstance().getSession(idSession).getGuidedTourList();
+        int dimensione = guidedTourList.size();
         int i = 0;
         while (i < dimensione) {
-            ticketListBean.setIdTicket(ticketList.get(i).getIdTicket(), i);
-            ticketListBean.setPrenotationDate(ticketList.get(i).getPrenotationDate(), i);
-            ticketListBean.setStateEnum(ticketList.get(i).getState().getStateName(), i);
-            ticketListBean.setTouristGuideName(ticketList.get(i).getMyGuidedTour().getTouristGuide().getName(), i);
-            ticketListBean.setTourId(ticketList.get(i).getMyGuidedTour().getGuidedTourId(), i);
-            ticketListBean.setTourName(ticketList.get(i).getMyGuidedTour().getNameTour(), i);
-            ticketListBean.setDepartureDate(ticketList.get(i).getMyGuidedTour().getDepartureDate(), i);
-            ticketListBean.setReturnDate(ticketList.get(i).getMyGuidedTour().getReturnDate(), i);
+            tourListBean.setTourName(guidedTourList.get(i).getCityName(), i);
+            tourListBean.setPhoto(guidedTourList.get(i).getPhoto(), i);
+            tourListBean.setDepartureDate(guidedTourList.get(i).getDepartureDate(), i);
+            tourListBean.setReturnDate(guidedTourList.get(i).getReturnDate(), i);
             i++;
         }
-        return ticketListBean;
+        return tourListBean;
     }
 }

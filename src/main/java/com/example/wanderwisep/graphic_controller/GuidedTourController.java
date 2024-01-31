@@ -5,6 +5,7 @@ import com.example.wanderwisep.application_controller.LoginControllerApplication
 import com.example.wanderwisep.bean.GuidedTourBean;
 import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.TicketBean;
+import com.example.wanderwisep.bean.TourListBean;
 import com.example.wanderwisep.exception.DAOException;
 import com.example.wanderwisep.exception.DuplicateTourException;
 import com.example.wanderwisep.exception.TourException;
@@ -33,9 +34,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GuidedTourController extends NavigatorController implements InitializableController {
-    Logger logger = Logger.getLogger(GuidedTourController.class.getName());
-    BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
-    LoginControllerApplication loginControllerApplication = new LoginControllerApplication();
+    private final Logger logger = Logger.getLogger(GuidedTourController.class.getName());
+    private final BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
+    private final LoginControllerApplication loginControllerApplication = new LoginControllerApplication();
     private String idSession;
     @FXML
     private Text tourTitleText;
@@ -131,6 +132,13 @@ public class GuidedTourController extends NavigatorController implements Initial
             showErrorDialog("You have already booked this guided tour", "Error guided tour");
         }
     }
+
+    public void backToList() {
+        TourListBean tourListBean = bookTourControllerApplication.getMyTourList(idSession);
+        tourListBean.setIdSession(idSession);
+        goToPageInit(TOURLIST, tourListBean);
+    }
+
 
     @FXML
     public void logout() {

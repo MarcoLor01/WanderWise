@@ -5,12 +5,11 @@ import com.example.wanderwisep.model.User;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SessionManager {
-    Logger logger = Logger.getLogger(SessionManager.class.getName());
+    private final Logger logger = Logger.getLogger(SessionManager.class.getName());
     private final Map<String, Session> activeSessions;
 
     private SessionManager() {
@@ -27,20 +26,25 @@ public class SessionManager {
     }
 
     public String addSession(User user) {
-        Session existingSession = checkDuplicateSession(user);
+        Session existingSession = checkDuplicateSessionUser(user);
         if (existingSession != null) {
             logger.log(Level.WARNING, "Session already exists");
             return existingSession.getSessionId();
         }
-        String sessionId = generateSessionId();
-        Session session = new Session(user, sessionId);
+        Session session = new Session(user);
+        String sessionId = session.getSessionId();
         activeSessions.put(sessionId, session);
         return sessionId;
     }
 
     public String addSession(TouristGuide touristGuide) {
-        String sessionId = generateSessionId();
-        Session session = new Session(touristGuide, sessionId);
+        Session existingSession = checkDuplicateSessionTouristGuide(touristGuide);
+        if (existingSession != null) {
+            logger.log(Level.WARNING, "Session already exists");
+            return existingSession.getSessionId();
+        }
+        Session session = new Session(touristGuide);
+        String sessionId = session.getSessionId();
         activeSessions.put(sessionId, session);
         return sessionId;
     }
@@ -53,14 +57,19 @@ public class SessionManager {
         return activeSessions.get(sessionId);
     }
 
-    private String generateSessionId() {
-        return UUID.randomUUID().toString();
-    }
 
-    public Session checkDuplicateSession(User user) {
+    private Session checkDuplicateSessionUser(User user) {
         return activeSessions.values()
                 .stream()
                 .filter(session -> session.getEmail().equals(user.getEmail()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Session checkDuplicateSessionTouristGuide(TouristGuide touristGuide) {
+        return activeSessions.values()
+                .stream()
+                .filter(session -> session.getEmail().equals(touristGuide.getEmail()))
                 .findFirst()
                 .orElse(null);
     }

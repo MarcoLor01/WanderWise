@@ -1,6 +1,8 @@
 package com.example.wanderwisep.cli_graphic_controller;
 
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
+import com.example.wanderwisep.application_controller.LoginControllerApplication;
+import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.TouristGuideAnswerBean;
 import com.example.wanderwisep.bean.TouristGuideRequestsBean;
 import com.example.wanderwisep.exception.*;
@@ -15,8 +17,8 @@ import java.util.logging.Logger;
 
 public class GuideConfirmCLIController extends NavigatorCLIController {
     private String idSession;
-    BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
-    Logger logger = Logger.getLogger(GuideConfirmCLIController.class.getName());
+    private final BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
+    private final Logger logger = Logger.getLogger(GuideConfirmCLIController.class.getName());
 
     public void start(String sessionId) {
         idSession = sessionId;
@@ -32,6 +34,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
                         showRequests();
                     }
                     case 2 -> System.exit(0);
+                    case 3 -> logout();
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (InvalidFormatException e) {
@@ -44,7 +47,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
         CLIPrinter.printMessage("*** Do you want to see the requests? ***\n");
         CLIPrinter.printMessage("1) Yes\n");
         CLIPrinter.printMessage("2) No\n");
-
+        CLIPrinter.printMessage("3)Logout\n");
         return getMenuChoice(1, 3);
     }
 
@@ -116,6 +119,14 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
         answerBean.setGuideDecision("Refused");
         bookTourControllerApplication.guideDecision(answerBean);
         CLIPrinter.printMessage("\nRequest Refused\n");
+    }
+
+    public void logout() {
+        LoginControllerApplication loginControllerApplication = new LoginControllerApplication();
+        LoginBean loginBean = new LoginBean();
+        loginBean.setIdSession(idSession);
+        loginControllerApplication.logout(loginBean);
+        new LoginCLIController().start();
     }
 
 }

@@ -24,25 +24,24 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
 
 
     public List<GuidedTour> findTours(String city, LocalDate departureD, LocalDate returnD) throws SQLException, TourException {
+        List<GuidedTour> guidedTourList = new ArrayList<>();
+        Connection conn = DBConnection.getConnection();
+
         try (
-                Connection conn = new DBConnection().getConnection();
+
                 PreparedStatement stmt = conn.prepareStatement(
                         Queries.FIND_TOURS,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY)
+                        ResultSet.CONCUR_READ_ONLY);
+
         ) {
             stmt.setString(1, city);
             stmt.setDate(2, Date.valueOf(departureD));
             stmt.setDate(3, Date.valueOf(returnD));
-
             try (ResultSet rs = stmt.executeQuery()) {
-                List<GuidedTour> tours = new ArrayList<>();
-
                 if (!rs.first()) {
                     throw new TourException("No tours available");
                 }
-
-                rs.first();
                 do {
                     String tourName = rs.getString(NAME_TOUR_ROW);
                     Blob photoBlob = rs.getBlob(PHOTO_ROW);
@@ -50,17 +49,17 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
                     LocalDate dateReturn = rs.getDate(RETURN_DATE_ROW).toLocalDate();
                     String idTour = rs.getString(ID_GUIDED_TOUR_ROW);
                     GuidedTour a = new GuidedTour(tourName, photoBlob, departure, dateReturn, idTour);
-                    tours.add(a);
+                    guidedTourList.add(a);
                 } while (rs.next());
-
-                return tours;
             }
         }
+        return guidedTourList;
     }
 
     public GuidedTour retrieveTour(String tourName, LocalDate departureDate, LocalDate returnDate) throws TourException, SQLException, TouristGuideNotFoundException {
+        Connection conn = DBConnection.getConnection();
         try (
-                Connection conn = new DBConnection().getConnection();
+
                 PreparedStatement stmt = conn.prepareStatement(
                         Queries.RETRIEVE_TOUR,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -96,8 +95,9 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
     }
 
     public GuidedTour retrieveTourFromId(String id) throws SQLException, TourException, TouristGuideNotFoundException {
+        Connection conn = DBConnection.getConnection();
         try (
-                Connection conn = new DBConnection().getConnection();
+
                 PreparedStatement stmt = conn.prepareStatement(
                         Queries.RETRIEVE_TOUR_FROM_ID,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,

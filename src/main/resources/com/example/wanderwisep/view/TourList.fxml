@@ -23,14 +23,16 @@
             <Image url="@../images/Cattura-removebg-preview.png" />
          </image>
       </ImageView>
-      <Text layoutX="532.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Next Page">
+      <Text fx:id="nextPageText" layoutX="518.0" layoutY="390.0" onMouseClicked="#nextPage" strokeType="OUTSIDE"
+            strokeWidth="0.0" text="Next Page &gt;|">
          <font>
-            <Font name="Verdana Pro Cond Semibold" size="10.0" />
+            <Font name="Verdana Pro Cond Semibold" size="10.0"/>
          </font>
       </Text>
-      <Text layoutX="22.0" layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Previous Page">
+      <Text fx:id="previousPageText" layoutX="22.0" layoutY="388.0" onMouseClicked="#previousPage" strokeType="OUTSIDE"
+            strokeWidth="0.0" text="|&lt; Previous Page">
          <font>
-            <Font name="Verdana Pro Cond Semibold" size="10.0" />
+            <Font name="Verdana Pro Cond Semibold" size="10.0"/>
          </font>
       </Text>
       <Text id="homeButton" fx:id="homeButton" layoutX="265.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Home">
@@ -47,18 +49,18 @@
          <children>
             <Text id="logoutTourList" fx:id="logoutTourList" layoutX="3.0" layoutY="59.0" strokeType="OUTSIDE"
                   strokeWidth="0.0" text="Log-Out" textAlignment="CENTER" wrappingWidth="52.13671875">
-                <font>
-                    <Font name="Verdana Pro Semibold" size="8.0"/>
-                </font>
+               <font>
+                  <Font name="Verdana Pro Semibold" size="8.0"/>
+               </font>
             </Text>
          </children>
       </AnchorPane>
       <Line id="logoutTourListLine" fx:id="logoutTourListLine" endX="113.0" layoutX="475.0" layoutY="51.0" startX="56.5" stroke="STEELBLUE" visible="false" />
-       <ImageView id="userIconTourlist" fx:id="userIconTourlist" fitHeight="36.0" fitWidth="32.0" layoutX="544.0"
-                  layoutY="2.0" pickOnBounds="true" preserveRatio="true">
-           <image>
-               <Image url="@../images/free-user-icon-3296-thumb.png"/>
-           </image>
-       </ImageView>
+      <ImageView id="userIconTourlist" fx:id="userIconTourlist" fitHeight="36.0" fitWidth="32.0" layoutX="544.0"
+                 layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/free-user-icon-3296-thumb.png"/>
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

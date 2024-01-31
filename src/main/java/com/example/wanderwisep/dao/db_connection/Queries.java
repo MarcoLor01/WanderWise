@@ -3,6 +3,7 @@ package com.example.wanderwisep.dao.db_connection;
 public class Queries {
 
     private Queries() {
+
     }
 
     public static final String RETRIEVE_REQUESTS_FOR_TOURIST_GUIDE =
@@ -27,9 +28,9 @@ public class Queries {
             "INSERT INTO ticket (idTicket, state, prenotationDate, user, myGuidedTourId) VALUES (?,?,?,?,?)";
     public static final String RETRIEVE_TICKET =
             "SELECT * FROM ticket WHERE user = ?";
-    public static final String RETRIEVE_PRENOTATION =
-            "SELECT * FROM ticket WHERE touristGuide = ? AND state = ?";
-    public static final String MODIFY_TICKET_FROM_TOUR_GUIDE = "UPDATE ticket SET state = ? WHERE user = ? AND myGuidedTourId = ?";
+    public static final String MODIFY_TICKET_FROM_TOUR_GUIDE =
+            "UPDATE ticket SET state = ? WHERE user = ? AND myGuidedTourId = ?";
 
-    public static final String DELETE_REQUEST = "DELETE FROM REQUEST WHERE userEmail = ? AND touristGuideEmail = ? AND tourId = ?";
+    public static final String DELETE_REQUEST =
+            "DELETE FROM REQUEST WHERE userEmail = ? AND touristGuideEmail = ? AND tourId = ?";
 }

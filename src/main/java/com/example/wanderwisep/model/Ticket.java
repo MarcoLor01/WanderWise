@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 
 public class Ticket {
-    Logger logger = Logger.getLogger(Ticket.class.getName());
+    private final Logger logger = Logger.getLogger(Ticket.class.getName());
     private String idTicket;
     private stateEnum state;
     private LocalDate prenotationDate;

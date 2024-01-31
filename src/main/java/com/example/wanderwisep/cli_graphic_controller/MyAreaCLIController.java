@@ -1,6 +1,6 @@
 package com.example.wanderwisep.cli_graphic_controller;
 
-import com.example.wanderwisep.application_controller.BookTourControllerApplication;
+import com.example.wanderwisep.application_controller.ManageMyBookedGuidedToursController;
 import com.example.wanderwisep.bean.TicketListBean;
 import com.example.wanderwisep.exception.TicketNotFoundException;
 import com.example.wanderwisep.exception.TourException;
@@ -17,8 +17,8 @@ import java.util.logging.Logger;
 
 public class MyAreaCLIController extends NavigatorCLIController {
 
-    Logger logger = Logger.getLogger(MyAreaCLIController.class.getName());
-    BookTourControllerApplication bookTourControllerApplication = new BookTourControllerApplication();
+    private final Logger logger = Logger.getLogger(MyAreaCLIController.class.getName());
+    private final ManageMyBookedGuidedToursController manageMyGuidedTourApplication = new ManageMyBookedGuidedToursController();
 
     private String idSession;
 
@@ -27,7 +27,7 @@ public class MyAreaCLIController extends NavigatorCLIController {
             idSession = sessionId;
             TicketListBean ticketListBean = new TicketListBean();
             ticketListBean.setIdSession(idSession);
-            ticketListBean = bookTourControllerApplication.createMyArea(ticketListBean);
+            ticketListBean = manageMyGuidedTourApplication.createMyArea(ticketListBean);
             showMyTicket(ticketListBean);
 
         } catch (IOException | SQLException | CsvValidationException | TourException |
