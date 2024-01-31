@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 public class EmailBookTourBoundary {
 
-    private final static String filePath = "src/main/resources/com/example/wanderwisep/email.txt";
+    private static final String FILE_PATH = "src/main/resources/com/example/wanderwisep/email.txt";
     private final Logger logger = Logger.getLogger(EmailBookTourBoundary.class.getName());
 
     public void initializeEmail(EmailBean emailBean) {
@@ -24,7 +24,7 @@ public class EmailBookTourBoundary {
             guideDecision = "refuse";
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
             writer.write("*************************************\n");
             writer.write("Email sent from tourist guide: " + emailBean.getTouristGuideEmail() + "\n");
             writer.write("Email sent to user: " + emailBean.getUserEmail() + "\n");

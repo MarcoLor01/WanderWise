@@ -31,8 +31,8 @@ public class MyAreaController extends NavigatorController implements Initializab
     private final ManageMyBookedGuidedToursController manageMyGuidedTourApplication = new ManageMyBookedGuidedToursController();
     private String idSession;
     private int pageNumber = 0;
-    private final int maxToursForRow = 2;
-    private final int maxToursForPage = 6;
+    private static final int maxToursMAX_TOURS_FOR_ROW = 2;
+    private static final int MAX_TOURS_FOR_PAGE = 6;
     private TicketListBean ticketListBean;
     private int minTicket = 0;
     private int maxTicket = 6;
@@ -84,7 +84,7 @@ public class MyAreaController extends NavigatorController implements Initializab
         double x = 0;
         double y = 0;
         int ticketNumber = idTicket.size();
-        int maxNumber = Math.min(ticketNumber, maxToursForPage);
+        int maxNumber = Math.min(ticketNumber, MAX_TOURS_FOR_PAGE);
         while (i < maxNumber) {
 
             VBox vBox = new VBox();
@@ -127,7 +127,7 @@ public class MyAreaController extends NavigatorController implements Initializab
             VBox.setMargin(circleAndStateBox, new Insets(0, 15, 0, 0)); // Aggiunge un margine tra il cerchio e lo stato
             vBox.getChildren().addAll(tourN, prenotationD, circleAndStateBox);
 
-            if (i % maxToursForRow == 1) {
+            if (i % maxToursMAX_TOURS_FOR_ROW == 1) {
 
                 x = 0;
                 y += boxHeight + startY;
@@ -144,7 +144,7 @@ public class MyAreaController extends NavigatorController implements Initializab
 
             pageNumber++;
             minTicket = maxTicket;
-            maxTicket += maxToursForPage;
+            maxTicket += MAX_TOURS_FOR_PAGE;
             int maxNumber = Math.min(ticketListBean.getIdTicket().size(), maxTicket);
 
             initializePage(ticketListBean.getIdTicket().subList(minTicket, maxNumber),
@@ -166,7 +166,7 @@ public class MyAreaController extends NavigatorController implements Initializab
 
             pageNumber--;
             maxTicket = minTicket;
-            minTicket = minTicket - maxToursForPage;
+            minTicket = minTicket - MAX_TOURS_FOR_PAGE;
 
             initializePage(ticketListBean.getIdTicket().subList(minTicket, maxTicket),
                     ticketListBean.getTourName().subList(minTicket, maxTicket),

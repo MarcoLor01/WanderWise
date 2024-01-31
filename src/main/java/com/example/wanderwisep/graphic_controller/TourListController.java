@@ -28,14 +28,14 @@ public class TourListController extends NavigatorController implements Initializ
     private final BookTourControllerApplication bookTourController = new BookTourControllerApplication();
     private final Logger logger = Logger.getLogger(TourListController.class.getName());
     private String idSession;
-    private TourListBean tourList;
+    private TourListBean toursList;
     private int pageNumber = 0;
 
     private int minTicket = 0;
 
     private int maxTicket = 10;
 
-    private final static int MAX_TOURS_FOR_PAGE = 10;
+    private static final int MAX_TOURS_FOR_PAGE = 10;
 
     public void initializeData(Object data) {
         if (data instanceof TourListBean tourListBean) {
@@ -77,7 +77,7 @@ public class TourListController extends NavigatorController implements Initializ
     }
 
     public void startView(TourListBean tourListBean) {
-        tourList = tourListBean;
+        toursList = tourListBean;
         initializePage(tourListBean.getTourName(), tourListBean.getPhoto(), tourListBean.getDepartureDate(), tourListBean.getReturnDate());
     }
 
@@ -145,15 +145,15 @@ public class TourListController extends NavigatorController implements Initializ
     @FXML
     private void nextPage() {
 
-        if (tourList.getTourName().size() > maxTicket) {
+        if (toursList.getTourName().size() > maxTicket) {
             pageNumber++;
             minTicket = maxTicket;
             maxTicket += MAX_TOURS_FOR_PAGE;
-            int maxNumber = Math.min(tourList.getTourName().size(), maxTicket);
-            initializePage(tourList.getTourName().subList(minTicket, maxNumber),
-                    tourList.getPhoto().subList(minTicket, maxNumber),
-                    tourList.getDepartureDate().subList(minTicket, maxNumber),
-                    tourList.getReturnDate().subList(minTicket, maxNumber)
+            int maxNumber = Math.min(toursList.getTourName().size(), maxTicket);
+            initializePage(toursList.getTourName().subList(minTicket, maxNumber),
+                    toursList.getPhoto().subList(minTicket, maxNumber),
+                    toursList.getDepartureDate().subList(minTicket, maxNumber),
+                    toursList.getReturnDate().subList(minTicket, maxNumber)
             );
 
         } else {
@@ -171,10 +171,10 @@ public class TourListController extends NavigatorController implements Initializ
             maxTicket = minTicket;
             minTicket = minTicket - MAX_TOURS_FOR_PAGE;
 
-            initializePage(tourList.getTourName().subList(minTicket, maxTicket),
-                    tourList.getPhoto().subList(minTicket, maxTicket),
-                    tourList.getDepartureDate().subList(minTicket, maxTicket),
-                    tourList.getReturnDate().subList(minTicket, maxTicket)
+            initializePage(toursList.getTourName().subList(minTicket, maxTicket),
+                    toursList.getPhoto().subList(minTicket, maxTicket),
+                    toursList.getDepartureDate().subList(minTicket, maxTicket),
+                    toursList.getReturnDate().subList(minTicket, maxTicket)
             );
 
         } else {
