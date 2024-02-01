@@ -47,7 +47,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
         CLIPrinter.printMessage("*** Do you want to see the requests? ***\n");
         CLIPrinter.printMessage("1) Yes\n");
         CLIPrinter.printMessage("2) No\n");
-        CLIPrinter.printMessage("3)Logout\n");
+        CLIPrinter.printMessage("3) Logout\n");
         return getMenuChoice(1, 3);
     }
 
@@ -58,7 +58,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
             touristGuideAnswerBean = bookTourControllerApplication.createTouristGuideArea(touristGuideAnswerBean);
             List<String> userEmail = touristGuideAnswerBean.getUserEmail();
             List<String> guidedTourId = touristGuideAnswerBean.getGuidedTourId();
-            CLIPrinter.printMessage("*** List of your Requests ***\nPress 1) For accept the request\nPress 2) For refuse the request\nPress 3) For see the next request\n");
+            CLIPrinter.printMessage("*** List of your Requests ***\nPress 1) For accept the request\nPress 2) For refuse the request\nPress 3) For see the next request\nPress 4) For exit\nPress 5) For logout\n");
             int i = 0;
             while (i < guidedTourId.size()) {
                 boolean shouldExit = false;
@@ -80,6 +80,14 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
                             shouldExit = true;
                             i++;
                         }
+                        case 4 -> {
+                            shouldExit = true;
+                            System.exit(0);
+                        }
+                        case 5 -> {
+                            shouldExit = true;
+                            logout();
+                        }
 
                         default -> throw new InvalidFormatException("Invalid choice");
                     }
@@ -98,7 +106,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
         CLIPrinter.printMessage("*** Request number " + i + " ****\n");
         CLIPrinter.printMessage("User email: " + userEmail + "\n");
         CLIPrinter.printMessage("Guided Tour Id: " + idTour + "\n");
-        return getMenuChoice(1, 3);
+        return getMenuChoice(1, 5);
     }
 
     private void acceptRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, DAOException, TourException, TouristGuideNotFoundException {

@@ -2,17 +2,13 @@ package com.example.wanderwisep.application_controller;
 
 import com.example.wanderwisep.bean.*;
 import com.example.wanderwisep.boundary.EmailBookTourBoundary;
-import com.example.wanderwisep.dao.GuidedTourDAOJDBC;
-import com.example.wanderwisep.dao.TicketDAO;
-import com.example.wanderwisep.dao.TouristGuideDAO;
-import com.example.wanderwisep.dao.TouristGuideRequestDAO;
+import com.example.wanderwisep.dao.*;
 import com.example.wanderwisep.enumeration.stateEnum;
 import com.example.wanderwisep.exception.*;
 import com.example.wanderwisep.model.GuidedTour;
 import com.example.wanderwisep.model.Ticket;
 import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.TouristGuideRequest;
-import com.example.wanderwisep.pattern.TicketDAOFactory;
 import com.example.wanderwisep.session_management.SessionManager;
 import com.opencsv.exceptions.CsvValidationException;
 
@@ -70,7 +66,7 @@ public class BookTourControllerApplication {
         GuidedTour tour = SessionManager.getInstance().getSession(ticketBean.getIdSession()).getActualGuidedTour();
         Ticket ticket = new Ticket(stateEnum.fromString(ticketBean.getStateTicket()), ticketBean.getPrenotationDate(), tour, user);
         ticket.setIdTicket(user);
-        TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
+        TicketDAOFactorySingleton ticketDAOFactory = TicketDAOFactorySingleton.getInstance();
         TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO(JDBC_DAO);
         ticketDAO.createTicket(ticket);
         TouristGuideRequestDAO touristGuideDecisionDAO = new TouristGuideRequestDAO();
@@ -92,7 +88,7 @@ public class BookTourControllerApplication {
     }
 
     public void guideDecision(TouristGuideAnswerBean touristAnswerBean) throws IOException, SQLException, RequestNotFoundException, CsvValidationException, DAOException, TourException, TouristGuideNotFoundException {
-        TicketDAOFactory ticketDAOFactory = new TicketDAOFactory();
+        TicketDAOFactorySingleton ticketDAOFactory = TicketDAOFactorySingleton.getInstance();
         String touristGuideEmail = SessionManager.getInstance().getSession(touristAnswerBean.getIdSession()).getEmail();
         TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO(JDBC_DAO);
         ticketDAO.modifyTicketState(touristAnswerBean.getUserEmail(), touristAnswerBean.getIdTour(), touristAnswerBean.getGuideDecision());

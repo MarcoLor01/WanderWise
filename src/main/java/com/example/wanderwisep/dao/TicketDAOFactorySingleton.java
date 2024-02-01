@@ -1,12 +1,21 @@
-package com.example.wanderwisep.pattern;
-
-import com.example.wanderwisep.dao.TicketDAO;
-import com.example.wanderwisep.dao.TicketDAOCSV;
-import com.example.wanderwisep.dao.TicketDAOJDBC;
+package com.example.wanderwisep.dao;
 
 import java.io.IOException;
 
-public class TicketDAOFactory {
+public class TicketDAOFactorySingleton {
+
+    private TicketDAOFactorySingleton() {
+
+    }
+
+    private static class SingletonHelper {
+        private static final TicketDAOFactorySingleton INSTANCE = new TicketDAOFactorySingleton();
+
+    }
+
+    public static TicketDAOFactorySingleton getInstance() {
+        return SingletonHelper.INSTANCE;
+    }
 
     public TicketDAO createTicketDAO(int type) throws IllegalArgumentException, IOException {
 
@@ -14,11 +23,8 @@ public class TicketDAOFactory {
             case 1 -> new TicketDAOJDBC();
             case 2 -> new TicketDAOCSV();
             default -> throw new IllegalArgumentException("Invalid type : " + type);
-        };
-    }
 
-    public TicketDAO createTicketDAO() {
-        return new TicketDAOJDBC();
+        };
     }
 
     public TicketDAO createTicketDAOJDBC() {
@@ -28,6 +34,7 @@ public class TicketDAOFactory {
     public TicketDAO createTicketDAOCSV() throws IOException {
         return new TicketDAOCSV();
     }
+
 }
 
 

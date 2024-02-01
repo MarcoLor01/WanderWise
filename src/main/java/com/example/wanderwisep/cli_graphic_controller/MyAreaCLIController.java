@@ -50,7 +50,8 @@ public class MyAreaCLIController extends NavigatorCLIController {
             CLIPrinter.printMessage("Ticket Id: " + idTicket.get(i) + "\n");
             CLIPrinter.printMessage("Ticket State: " + stateEn.get(i) + "\n");
             CLIPrinter.printMessage("Prenotation Date: " + datePrenotation.get(i) + "\n");
-            CLIPrinter.printMessage("Tour Name: " + tourName.get(i) + "\n");
+            CLIPrinter.printMessage("Tour Name: " + tourName.get(i) + "\n\n");
         }
     }
+
 }
