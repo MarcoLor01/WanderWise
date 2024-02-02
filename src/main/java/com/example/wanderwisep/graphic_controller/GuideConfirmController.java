@@ -50,12 +50,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
     @FXML
     public void confirmTour(String user, String guidedTourId) {
         try {
-            TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
-            answerBean.setIdSession(idSession);
-            answerBean.setIdTour(guidedTourId);
-            answerBean.setUserEmail(user);
-            answerBean.setGuideDecision("Confirmed");
-            bookTourControllerApplication.guideDecision(answerBean);
+            setTour(user, guidedTourId, "Confirmed");
             showAlertDialog("Request accepted", "Tour Confirmation");
 
         } catch (IOException | SQLException | CsvValidationException | DAOException e) {
@@ -66,15 +61,19 @@ public class GuideConfirmController extends NavigatorController implements Initi
         }
     }
 
+    private void setTour(String user, String guidedTourId, String decision) throws DAOException, CsvValidationException, SQLException, TourException, TouristGuideNotFoundException, RequestNotFoundException, IOException {
+        TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
+        answerBean.setIdSession(idSession);
+        answerBean.setIdTour(guidedTourId);
+        answerBean.setUserEmail(user);
+        answerBean.setGuideDecision(decision);
+        bookTourControllerApplication.guideDecision(answerBean);
+    }
+
     @FXML
     public void rejectTour(String user, String guidedTourId) {
         try {
-            TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
-            answerBean.setIdSession(idSession);
-            answerBean.setIdTour(guidedTourId);
-            answerBean.setUserEmail(user);
-            answerBean.setGuideDecision("Refused");
-            bookTourControllerApplication.guideDecision(answerBean);
+            setTour(user, guidedTourId, "Refused");
             showAlertDialog("Request rejected", "Tour Confirmation");
 
         } catch (IOException | SQLException | CsvValidationException | DAOException e) {
