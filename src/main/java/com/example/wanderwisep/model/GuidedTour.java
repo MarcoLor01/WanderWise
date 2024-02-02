@@ -24,19 +24,23 @@ public class GuidedTour {
         this.guidedTourId = guidedTourId;
     }
 
-    public GuidedTour(String nameTour, Blob photo, LocalDate departureDate, LocalDate returnDate, String idTour) {
-        this.cityName = nameTour;
+    public GuidedTour(String cityName, Blob photo, LocalDate departureDate, LocalDate returnDate, String guidedTourId) {
+        initializeCommonFields(cityName, departureDate, returnDate, guidedTourId);
         this.photo = photo;
-        this.departureDate = departureDate;
-        this.returnDate = returnDate;
-        this.guidedTourId = idTour;
     }
 
     public GuidedTour(String cityName, List<String> listOfAttraction, LocalDate departureDate, LocalDate returnDate, TouristGuide touristGuide, String nameTour, String guidedTourId) {
-        this(cityName, null, departureDate, returnDate, guidedTourId);
+        initializeCommonFields(cityName, departureDate, returnDate, guidedTourId);
         this.listOfAttraction = listOfAttraction;
         this.touristGuide = touristGuide;
         this.nameTour = nameTour;
+    }
+
+    private void initializeCommonFields(String cityName, LocalDate departureDate, LocalDate returnDate, String guidedTourId) {
+        this.cityName = cityName;
+        this.departureDate = departureDate;
+        this.returnDate = returnDate;
+        this.guidedTourId = guidedTourId;
     }
 
     public String getNameTour() {
