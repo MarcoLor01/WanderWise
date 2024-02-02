@@ -32,7 +32,7 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
                 PreparedStatement stmt = conn.prepareStatement(
                         Queries.FIND_TOURS,
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
+                        ResultSet.CONCUR_READ_ONLY)
 
         ) {
             stmt.setString(1, city);
@@ -56,75 +56,47 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
         return guidedTourList;
     }
 
+    private GuidedTour createGuidedTourFromResultSet(ResultSet rs) throws SQLException, TouristGuideNotFoundException {
+        String idTour = rs.getString(ID_GUIDED_TOUR_ROW);
+        String nameTour = rs.getString(NAME_TOUR_ROW);
+        Blob photoBlob = rs.getBlob(PHOTO_ROW);
+        LocalDate departureD = rs.getDate(DEPARTURE_DATE_ROW).toLocalDate();
+        LocalDate returnD = rs.getDate(RETURN_DATE_ROW).toLocalDate();
+        String cityName = rs.getString(CITY_NAME_ROW);
+        String listOfAttraction = rs.getString(LIST_OF_ATTRACTION_ROW);
+        String touristGuideEmail = rs.getString(TOURIST_GUIDE_ROW);
+        List<String> attractionsArray = List.of(listOfAttraction.split(","));
+        TouristGuide touristGuide = retrieveTouristGuide(touristGuideEmail);
+
+        GuidedTour guidedTour = new GuidedTour(cityName, attractionsArray, departureD, returnD, touristGuide, nameTour, idTour);
+        guidedTour.setPhoto(photoBlob);
+        return guidedTour;
+    }
+
     public GuidedTour retrieveTour(String tourName, LocalDate departureDate, LocalDate returnDate) throws TourException, SQLException, TouristGuideNotFoundException {
         Connection conn = DBConnection.getConnection();
-        try (
-
-                PreparedStatement stmt = conn.prepareStatement(
-                        Queries.RETRIEVE_TOUR,
-                        ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY)
-        ) {
+        try (PreparedStatement stmt = conn.prepareStatement(Queries.RETRIEVE_TOUR, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             stmt.setString(1, tourName);
             stmt.setDate(2, Date.valueOf(departureDate));
             stmt.setDate(3, Date.valueOf(returnDate));
-
             try (ResultSet rs = stmt.executeQuery()) {
-                GuidedTour guidedTour;
-
                 if (!rs.first()) {
                     throw new TourException("Error in tour retrieving");
                 }
-
-                rs.first();
-                String idTour = rs.getString(ID_GUIDED_TOUR_ROW);
-                String nameTour = rs.getString(NAME_TOUR_ROW);
-                Blob photoBlob = rs.getBlob(PHOTO_ROW);
-                LocalDate departureD = rs.getDate(DEPARTURE_DATE_ROW).toLocalDate();
-                LocalDate returnD = rs.getDate(RETURN_DATE_ROW).toLocalDate();
-                String cityName = rs.getString(CITY_NAME_ROW);
-                String listOfAttraction = rs.getString(LIST_OF_ATTRACTION_ROW);
-                String touristGuideEmail = rs.getString(TOURIST_GUIDE_ROW);
-                List<String> attractionsArray = List.of(listOfAttraction.split(","));
-                TouristGuide touristGuide = retrieveTouristGuide(touristGuideEmail);
-                guidedTour = new GuidedTour(cityName, attractionsArray, departureD, returnD, touristGuide, nameTour, idTour);
-                guidedTour.setPhoto(photoBlob);
-                return guidedTour;
+                return createGuidedTourFromResultSet(rs);
             }
         }
     }
 
     public GuidedTour retrieveTourFromId(String id) throws SQLException, TourException, TouristGuideNotFoundException {
         Connection conn = DBConnection.getConnection();
-        try (
-
-                PreparedStatement stmt = conn.prepareStatement(
-                        Queries.RETRIEVE_TOUR_FROM_ID,
-                        ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY)
-        ) {
+        try (PreparedStatement stmt = conn.prepareStatement(Queries.RETRIEVE_TOUR_FROM_ID, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             stmt.setString(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
-                GuidedTour guidedTour;
-
                 if (!rs.first()) {
                     throw new TourException("Error in tour retrieving");
                 }
-
-                rs.first();
-                String idTour = rs.getString(ID_GUIDED_TOUR_ROW);
-                String nameTour = rs.getString(NAME_TOUR_ROW);
-                Blob photoBlob = rs.getBlob(PHOTO_ROW);
-                LocalDate departureD = rs.getDate(DEPARTURE_DATE_ROW).toLocalDate();
-                LocalDate returnD = rs.getDate(RETURN_DATE_ROW).toLocalDate();
-                String cityName = rs.getString(CITY_NAME_ROW);
-                String listOfAttraction = rs.getString(LIST_OF_ATTRACTION_ROW);
-                String touristGuideEmail = rs.getString(TOURIST_GUIDE_ROW);
-                List<String> attractionsArray = List.of(listOfAttraction.split(","));
-                TouristGuide touristGuide = retrieveTouristGuide(touristGuideEmail);
-                guidedTour = new GuidedTour(cityName, attractionsArray, departureD, returnD, touristGuide, nameTour, idTour);
-                guidedTour.setPhoto(photoBlob);
-                return guidedTour;
+                return createGuidedTourFromResultSet(rs);
             }
         }
     }
