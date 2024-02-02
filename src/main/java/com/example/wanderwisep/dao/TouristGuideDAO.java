@@ -2,6 +2,7 @@ package com.example.wanderwisep.dao;
 
 import com.example.wanderwisep.dao.db_connection.DBConnection;
 import com.example.wanderwisep.dao.db_connection.Queries;
+import com.example.wanderwisep.enumeration.roleEnum;
 import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.example.wanderwisep.model.TouristGuide;
 
@@ -31,7 +32,7 @@ public class TouristGuideDAO {
                 rs.first();
                 String touristGuideName = rs.getString("nome");
                 String touristGuideSurname = rs.getString("cognome");
-                touristGuide = new TouristGuide(touristGuideName, touristGuideSurname, touristGuideEmail);
+                touristGuide = new TouristGuide(touristGuideEmail, touristGuideName, touristGuideSurname, roleEnum.fromString("TouristGuide"));
                 return touristGuide;
             }
         }

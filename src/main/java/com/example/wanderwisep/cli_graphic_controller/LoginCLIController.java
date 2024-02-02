@@ -6,9 +6,6 @@ import com.example.wanderwisep.exception.InvalidFormatException;
 import com.example.wanderwisep.exception.UserNotFoundException;
 import com.example.wanderwisep.utilities.CLIPrinter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -51,46 +48,7 @@ public class LoginCLIController extends NavigatorCLIController {
         return getMenuChoice(1, 2);
     }
 
-    private int showMenuLogin() {
-        CLIPrinter.printMessage("*** Are you a User or a Tourist Guide? ***\n");
-        CLIPrinter.printMessage("1) I'm a Tourist Guide\n");
-        CLIPrinter.printMessage("2) I'm a User\n");
-        CLIPrinter.printMessage("3) Quit\n");
-
-        return getMenuChoice(1, 3);
-    }
-
     private void login() {
-        boolean shouldExit = false;
-
-        while (!shouldExit) {
-            try {
-                int choice = showMenuLogin();
-
-                switch (choice) {
-
-                    case 1 -> {
-                        shouldExit = true;
-                        loginGuide();
-                    }
-                    case 2 -> {
-                        shouldExit = true;
-                        loginUser();
-                    }
-                    case 3 -> {
-                        System.exit(0);
-                        shouldExit = true;
-                    }
-                    default -> throw new InvalidFormatException("Invalid choice");
-                }
-            } catch (InvalidFormatException e) {
-                logger.log(Level.SEVERE, e.getMessage());
-            }
-        }
-    }
-
-
-    private void loginUser() {
         LoginControllerApplication loginController = new LoginControllerApplication();
         Scanner scanner = new Scanner(System.in);
         try {
@@ -101,29 +59,14 @@ public class LoginCLIController extends NavigatorCLIController {
             LoginBean loginBean = new LoginBean();
             loginBean.setEmail(email);
             loginBean.setPassword(password);
-            loginBean = loginController.loginUser(loginBean);
+            loginBean = loginController.login(loginBean);
             idSession = loginBean.getIdSession();
-            new SearchBarCLIController().start(idSession);
-        } catch (SQLException | UserNotFoundException e) {
-            logger.log(Level.SEVERE, e.getMessage());
-        }
-    }
 
-    private void loginGuide() {
-        LoginControllerApplication loginController = new LoginControllerApplication();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            CLIPrinter.printMessage("Email: ");
-            String email = reader.readLine();
-            CLIPrinter.printMessage("Password: ");
-            String password = reader.readLine();
-            LoginBean loginBean = new LoginBean();
-            loginBean.setEmail(email);
-            loginBean.setPassword(password);
-            loginBean = loginController.loginGuide(loginBean);
-            idSession = loginBean.getIdSession();
-            new GuideConfirmCLIController().start(idSession);
-        } catch (IOException | SQLException | UserNotFoundException e) {
+            if (loginBean.getRole().equals("User")) new SearchBarCLIController().start(idSession);
+
+            if (loginBean.getRole().equals("TouristGuide")) new GuideConfirmCLIController().start(idSession);
+
+        } catch (SQLException | UserNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }

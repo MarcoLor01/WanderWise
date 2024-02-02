@@ -19,31 +19,23 @@ public class LoginController extends NavigatorController {
     @FXML // fx:id="buttonUserLogin"
     private Button buttonUserLogin; // Value injected by FXMLLoader
 
-    @FXML // fx:id="emailGuideLogin"
-    private TextField emailGuideLogin; // Value injected by FXMLLoader
-
     @FXML // fx:id="emailUserLogin"
     private TextField emailUserLogin; // Value injected by FXMLLoader
-
-    @FXML // fx:id="guideButtonLogin"
-    private Button guideButtonLogin; // Value injected by FXMLLoader
-
-    @FXML // fx:id="passwordGuideLogin"
-    private TextField passwordGuideLogin; // Value injected by FXMLLoader
 
     @FXML // fx:id="passwordUserLogin"
     private PasswordField passwordUserLogin; // Value injected by FXMLLoader
     private static final String LOGIN_ERROR = "Login Error";
 
     @FXML
-    public void doLoginGuide() {
+    public void doLogin() {
         try {
             LoginBean loginBean = new LoginBean();
-            loginBean.setEmail(emailGuideLogin.getText());
-            loginBean.setPassword(passwordGuideLogin.getText());
+            loginBean.setEmail(emailUserLogin.getText());
+            loginBean.setPassword(passwordUserLogin.getText());
             loginBean.checkField(loginBean.getEmail(), loginBean.getPassword());
-            loginBean = loginControllerApp.loginGuide(loginBean);
-            goToPageInit(GUIDECONFIRM, loginBean);
+            loginBean = loginControllerApp.login(loginBean);
+            if (loginBean.getRole().equals("TouristGuide")) goToPageInit(GUIDECONFIRM, loginBean);
+            if (loginBean.getRole().equals("User")) goToPageInit(SEARCHBAR, loginBean);
         } catch (InvalidFormatException | UserNotFoundException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog(e.getMessage(), LOGIN_ERROR);
@@ -53,31 +45,10 @@ public class LoginController extends NavigatorController {
         }
     }
 
-    @FXML
-    public void doLoginUser() {
-        try {
-            LoginBean loginBean = new LoginBean();
-            loginBean.setEmail(emailUserLogin.getText());
-            loginBean.setPassword(passwordUserLogin.getText());
-            loginBean.checkField(loginBean.getEmail(), loginBean.getPassword());
-            loginBean = loginControllerApp.loginUser(loginBean);
-            goToPageInit(SEARCHBAR, loginBean);
-        } catch (InvalidFormatException | UserNotFoundException e) {
-            logger.log(Level.INFO, e.getMessage());
-            showErrorDialog(e.getMessage(), LOGIN_ERROR);
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.getMessage());
-            showErrorDialog("Database Error", LOGIN_ERROR);
-        }
-    }
-
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert buttonUserLogin != null : "fx:id=\"buttonUserLogin\" was not injected: check your FXML file 'Login.fxml'.";
-        assert emailGuideLogin != null : "fx:id=\"emailGuideLogin\" was not injected: check your FXML file 'Login.fxml'.";
         assert emailUserLogin != null : "fx:id=\"emailUserLogin\" was not injected: check your FXML file 'Login.fxml'.";
-        assert guideButtonLogin != null : "fx:id=\"guideButtonLogin\" was not injected: check your FXML file 'Login.fxml'.";
-        assert passwordGuideLogin != null : "fx:id=\"passwordGuideLogin\" was not injected: check your FXML file 'Login.fxml'.";
         assert passwordUserLogin != null : "fx:id=\"passwordUserLogin\" was not injected: check your FXML file 'Login.fxml'.";
 
     }

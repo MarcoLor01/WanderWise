@@ -1,7 +1,6 @@
 package com.example.wanderwisep.session_management;
 
-import com.example.wanderwisep.model.TouristGuide;
-import com.example.wanderwisep.model.User;
+import com.example.wanderwisep.model.Person;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,25 +24,13 @@ public class SessionManager {
         return SingletonHelper.INSTANCE;
     }
 
-    public String addSession(User user) {
-        Session existingSession = checkDuplicateSessionUser(user);
+    public String addSession(Person person) {
+        Session existingSession = checkDuplicateSessionPerson(person);
         if (existingSession != null) {
             logger.log(Level.WARNING, "Session already exists");
             return existingSession.getSessionId();
         }
-        Session session = new Session(user);
-        String sessionId = session.getSessionId();
-        activeSessions.put(sessionId, session);
-        return sessionId;
-    }
-
-    public String addSession(TouristGuide touristGuide) {
-        Session existingSession = checkDuplicateSessionTouristGuide(touristGuide);
-        if (existingSession != null) {
-            logger.log(Level.WARNING, "Session already exists");
-            return existingSession.getSessionId();
-        }
-        Session session = new Session(touristGuide);
+        Session session = new Session(person);
         String sessionId = session.getSessionId();
         activeSessions.put(sessionId, session);
         return sessionId;
@@ -58,18 +45,10 @@ public class SessionManager {
     }
 
 
-    private Session checkDuplicateSessionUser(User user) {
+    private Session checkDuplicateSessionPerson(Person person) {
         return activeSessions.values()
                 .stream()
-                .filter(session -> session.getEmail().equals(user.getEmail()))
-                .findFirst()
-                .orElse(null);
-    }
-
-    private Session checkDuplicateSessionTouristGuide(TouristGuide touristGuide) {
-        return activeSessions.values()
-                .stream()
-                .filter(session -> session.getEmail().equals(touristGuide.getEmail()))
+                .filter(session -> session.getEmail().equals(person.getEmail()))
                 .findFirst()
                 .orElse(null);
     }

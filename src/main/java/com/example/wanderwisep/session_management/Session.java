@@ -1,8 +1,8 @@
 package com.example.wanderwisep.session_management;
 
+import com.example.wanderwisep.enumeration.roleEnum;
 import com.example.wanderwisep.model.GuidedTour;
-import com.example.wanderwisep.model.TouristGuide;
-import com.example.wanderwisep.model.User;
+import com.example.wanderwisep.model.Person;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,18 +15,14 @@ public class Session {
     private final String sessionId;
     private List<GuidedTour> guidedTourList;
 
-    public Session(User user) {
-        this.sessionId = generateSessionId();
-        this.name = user.getName();
-        this.surname = user.getSurname();
-        this.email = user.getEmail();
-    }
+    private roleEnum role;
 
-    public Session(TouristGuide touristGuide) {
+    public Session(Person person) {
         this.sessionId = generateSessionId();
-        this.name = touristGuide.getName();
-        this.surname = touristGuide.getSurname();
-        this.email = touristGuide.getEmail();
+        this.name = person.getName();
+        this.surname = person.getSurname();
+        this.email = person.getEmail();
+        this.role = person.getRole();
     }
 
     public List<GuidedTour> getGuidedTourList() {
@@ -43,6 +39,14 @@ public class Session {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public roleEnum getRole() {
+        return role;
+    }
+
+    public void setRole(roleEnum role) {
+        this.role = role;
     }
 
     public GuidedTour getActualGuidedTour() {

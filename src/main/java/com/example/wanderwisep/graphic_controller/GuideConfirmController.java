@@ -47,17 +47,6 @@ public class GuideConfirmController extends NavigatorController implements Initi
     @FXML // fx:id="anchorRequest"
     private AnchorPane anchorRequest; // Value injected by FXMLLoader
 
-    @FXML // fx:id="availabilityNo"
-    private Button availabilityNo; // Value injected by FXMLLoader
-
-    @FXML // fx:id="availabilityYes"
-    private Button availabilityYes; // Value injected by FXMLLoader
-
-    @FXML // fx:id="textFor"
-    private Text textFor; // Value injected by FXMLLoader
-
-    @FXML // fx:id="textFrom"
-    private Text textFrom; // Value injected by FXMLLoader
 
     @FXML
     public void confirmTour(String user, String guidedTourId) {
@@ -216,10 +205,6 @@ public class GuideConfirmController extends NavigatorController implements Initi
         // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert anchorRequest != null : "fx:id=\"anchorRequest\" was not injected: check your FXML file 'GuideConfirm.fxml'.";
-        assert availabilityNo != null : "fx:id=\"availabilityNo\" was not injected: check your FXML file 'GuideConfirm.fxml'.";
-        assert availabilityYes != null : "fx:id=\"availabilityYes\" was not injected: check your FXML file 'GuideConfirm.fxml'.";
-        assert textFor != null : "fx:id=\"textFor\" was not injected: check your FXML file 'GuideConfirm.fxml'.";
-        assert textFrom != null : "fx:id=\"textFrom\" was not injected: check your FXML file 'GuideConfirm.fxml'.";
         assert anchorPaneRequests != null : "fx:id=\"anchorPaneRequests\" was not injected: check your FXML file 'GuideConfirm.fxml'.";
     }
 

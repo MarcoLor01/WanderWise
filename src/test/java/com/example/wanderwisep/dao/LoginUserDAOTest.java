@@ -15,8 +15,8 @@ class LoginUserDAOTest {
         assertThrows(UserNotFoundException.class, () -> {
             String email = "test@test.com";
             String password = "test";
-            LoginUserDAO loginUserDAO = new LoginUserDAO();
-            loginUserDAO.findUser(email, password);
+            LoginPersonDAO loginPersonDAO = new LoginPersonDAO();
+            loginPersonDAO.findUser(email, password);
         });
     }
 
@@ -25,8 +25,8 @@ class LoginUserDAOTest {
         try {
             String email = "user@user.com";
             String password = "user";
-            LoginUserDAO loginUserDAO = new LoginUserDAO();
-            User user = loginUserDAO.findUser(email, password);
+            LoginPersonDAO loginPersonDAO = new LoginPersonDAO();
+            User user = loginPersonDAO.findUser(email, password);
             assertNotNull(user);
             assertEquals(email, user.getEmail(), "Email should match");
         } catch (UserNotFoundException | SQLException e) {

@@ -1,49 +1,21 @@
 package com.example.wanderwisep.model;
 
+import com.example.wanderwisep.enumeration.roleEnum;
+
 import java.util.List;
 
-public class TouristGuide {
-    private String name;
-    private String surname;
-    private String email;
+public class TouristGuide extends Person {
+
     private List<String> spokenLanguages;
     private List<GuidedTour> myTour;
 
-    public TouristGuide(String name, String surname, String email) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
+    public TouristGuide(String email, String name, String surname, roleEnum role) {
+        super(email, name, surname, role);
     }
 
-    public TouristGuide(String name, String surname, String email, List<String> spokenLanguages) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
+    public TouristGuide(String email, String name, String surname, roleEnum role, List<String> spokenLanguages) {
+        super(email, name, surname, role);
         this.spokenLanguages = spokenLanguages;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public List<String> getSpokenLanguages() {
@@ -61,4 +33,5 @@ public class TouristGuide {
     public void setMyTour(List<GuidedTour> myTour) {
         this.myTour = myTour;
     }
+
 }

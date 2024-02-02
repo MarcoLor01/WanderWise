@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -18,17 +20,20 @@
             <Font name="Verdana Pro Cond Semibold" size="24.0" />
          </font>
       </Text>
-      <AnchorPane layoutX="14.0" layoutY="164.0" minWidth="-Infinity" prefHeight="222.0" prefWidth="180.0" style="-fx-background-color: #4682B4;">
+      <AnchorPane layoutX="112.0" layoutY="164.0" minWidth="-Infinity" prefHeight="222.0" prefWidth="180.0"
+                  style="-fx-background-color: #4682B4;">
          <effect>
-            <Glow />
+            <Glow/>
          </effect>
          <children>
-            <Text layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Login" textAlignment="CENTER" wrappingWidth="180.0">
+            <Text layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER"
+                  wrappingWidth="180.0">
                <font>
-                  <Font name="Verdana Pro Cond Semibold" size="18.0" />
+                  <Font name="Verdana Pro Cond Semibold" size="18.0"/>
                </font>
             </Text>
-            <TextField id="emailUserLogin" fx:id="emailUserLogin" layoutX="7.0" layoutY="60.0" prefHeight="25.0" prefWidth="167.0" />
+            <TextField id="emailUserLogin" fx:id="emailUserLogin" layoutX="7.0" layoutY="60.0" prefHeight="25.0"
+                       prefWidth="167.0"/>
             <Text layoutX="11.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" x="-3.0">
                <font>
                   <Font name="Verdana Pro Cond Semibold" size="12.0" />
@@ -45,24 +50,28 @@
                </font>
             </Text>
             <PasswordField id="passwordUserLogin" fx:id="passwordUserLogin" layoutX="7.0" layoutY="136.0" prefHeight="25.0" prefWidth="167.0" />
-            <Button id="buttonUserLogin" fx:id="buttonUserLogin" layoutX="11.0" layoutY="187.0" mnemonicParsing="false" onAction="#doLoginUser" text="Login">
+            <Button id="buttonUserLogin" fx:id="buttonUserLogin" layoutX="11.0" layoutY="187.0" mnemonicParsing="false"
+                    onAction="#doLogin" text="Login">
                <font>
-                  <Font name="Verdana Pro Cond Semibold" size="12.0" />
+                  <Font name="Verdana Pro Cond Semibold" size="12.0"/>
                </font>
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="406.0" layoutY="164.0" minWidth="-Infinity" prefHeight="222.0" prefWidth="180.0" style="-fx-background-color: #4682B4;">
+      <AnchorPane layoutX="304.0" layoutY="164.0" minWidth="-Infinity" prefHeight="222.0" prefWidth="180.0"
+                  style="-fx-background-color: #4682B4;">
          <effect>
-            <Glow />
+            <Glow/>
          </effect>
          <children>
-            <Text layoutX="-9.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New User?" textAlignment="CENTER" wrappingWidth="200.0">
+            <Text layoutX="-9.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New User?"
+                  textAlignment="CENTER" wrappingWidth="200.0">
                <font>
-                  <Font name="Verdana Pro Cond Semibold" size="18.0" />
+                  <Font name="Verdana Pro Cond Semibold" size="18.0"/>
                </font>
             </Text>
-            <AnchorPane layoutX="7.0" layoutY="38.0" prefHeight="24.0" prefWidth="167.0" style="-fx-background-color: white; -fx-background-radius: 2;">
+            <AnchorPane layoutX="7.0" layoutY="38.0" prefHeight="24.0" prefWidth="167.0"
+                        style="-fx-background-color: white; -fx-background-radius: 2;">
                <children>
                   <Text layoutX="18.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new account" textAlignment="CENTER" wrappingWidth="137.13671875">
                      <font>
@@ -85,42 +94,6 @@
                   </Text>
                </children>
             </AnchorPane>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="210.0" layoutY="164.0" minWidth="-Infinity" prefHeight="222.0" prefWidth="180.0" style="-fx-background-color: #4682B4;">
-         <effect>
-            <Glow />
-         </effect>
-         <children>
-            <Text layoutX="12.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tourist Guide Login">
-               <font>
-                  <Font name="Verdana Pro Cond Semibold" size="18.0" />
-               </font>
-            </Text>
-            <TextField id="emailGuideLogin" fx:id="emailGuideLogin" layoutX="6.0" layoutY="60.0" prefHeight="25.0" prefWidth="167.0" />
-            <Text layoutX="6.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="36.16796875">
-               <font>
-                  <Font name="Verdana Pro Cond Semibold" size="12.0" />
-               </font>
-            </Text>
-            <Text layoutX="7.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
-               <font>
-                  <Font name="Verdana Pro Cond Semibold" size="12.0" />
-               </font>
-            </Text>
-            <AnchorPane layoutX="10.0" layoutY="161.0" prefHeight="29.0" prefWidth="65.0" />
-            <Button id="guideButtonLogin" fx:id="guideButtonLogin" layoutX="11.0" layoutY="187.0" mnemonicParsing="false" onAction="#doLoginGuide" text="Login">
-               <font>
-                  <Font name="Verdana Pro Cond Semibold" size="12.0" />
-               </font>
-            </Button>
-            <Text layoutX="65.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forgot Password?">
-               <font>
-                  <Font name="Verdana Pro Cond Semibold" size="12.0" />
-               </font>
-            </Text>
-             <PasswordField id="passwordGuideLogin" fx:id="passwordGuideLogin" layoutX="6.0" layoutY="136.0"
-                            prefHeight="25.0" prefWidth="167.0"/>
          </children>
       </AnchorPane>
    </children>

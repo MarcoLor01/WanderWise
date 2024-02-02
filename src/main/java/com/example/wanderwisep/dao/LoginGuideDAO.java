@@ -2,6 +2,7 @@ package com.example.wanderwisep.dao;
 
 import com.example.wanderwisep.dao.db_connection.DBConnection;
 import com.example.wanderwisep.dao.db_connection.Queries;
+import com.example.wanderwisep.enumeration.roleEnum;
 import com.example.wanderwisep.exception.UserNotFoundException;
 import com.example.wanderwisep.model.TouristGuide;
 
@@ -34,7 +35,7 @@ public class LoginGuideDAO {
                 String surname = rs.getString("cognome");
                 String lingueparlateString = rs.getString("lingueparlate");
                 List<String> lingueParlate = Arrays.asList(lingueparlateString.split(","));
-                return new TouristGuide(name, surname, email, lingueParlate);
+                return new TouristGuide(name, surname, email, roleEnum.fromString("TouristGuide"), lingueParlate);
             }
         }
     }

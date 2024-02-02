@@ -18,6 +18,8 @@ public class Queries {
             "SELECT * FROM touristguide WHERE email = ? AND password = ?";
     public static final String FIND_USER =
             "SELECT * FROM user WHERE email = ? AND password = ?";
+    public static final String FIND_PERSON =
+            "SELECT * FROM person WHERE email = ? AND password = ?";
     public static final String FIND_TOURS =
             "SELECT * FROM guidedtour WHERE cityName = ? AND departureDate >= ? AND returnDate <= ?";
     public static final String RETRIEVE_TOUR =
