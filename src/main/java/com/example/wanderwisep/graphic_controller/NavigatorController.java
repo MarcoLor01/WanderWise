@@ -37,6 +37,13 @@ public class NavigatorController {
         alert.showAndWait();
     }
 
+    protected void showAlertDialog(String message, String title) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     protected Image convertBlobToImage(Blob blob) {
         try (InputStream inputStream = blob.getBinaryStream()) {
             return new Image(inputStream);

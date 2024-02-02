@@ -10,7 +10,6 @@ import com.example.wanderwisep.exception.TourException;
 import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -57,10 +56,8 @@ public class GuideConfirmController extends NavigatorController implements Initi
             answerBean.setUserEmail(user);
             answerBean.setGuideDecision("Confirmed");
             bookTourControllerApplication.guideDecision(answerBean);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Tour Confirmation");
-            alert.setContentText("Request accepted");
-            alert.showAndWait();
+            showAlertDialog("Request accepted", "Tour Confirmation");
+
         } catch (IOException | SQLException | CsvValidationException | DAOException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Please retry", "Tour confirmation");
@@ -78,10 +75,8 @@ public class GuideConfirmController extends NavigatorController implements Initi
             answerBean.setUserEmail(user);
             answerBean.setGuideDecision("Refused");
             bookTourControllerApplication.guideDecision(answerBean);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Tour Confirmation");
-            alert.setContentText("Request rejected");
-            alert.showAndWait();
+            showAlertDialog("Request rejected", "Tour Confirmation");
+
         } catch (IOException | SQLException | CsvValidationException | DAOException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Please retry", "Tour confirmation");

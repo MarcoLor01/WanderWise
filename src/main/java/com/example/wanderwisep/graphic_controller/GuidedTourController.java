@@ -13,7 +13,6 @@ import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -119,10 +118,8 @@ public class GuidedTourController extends NavigatorController implements Initial
             ticketBean.setStateTicket("waiting for confirmation");
             ticketBean.setIdSession(idSession);
             bookTourControllerApplication.createTicket(ticketBean);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Guided Tour");
-            alert.setContentText("Guided Tour Booked");
-            alert.showAndWait();
+            showAlertDialog("Guided Tour Booked", "Guided Tour");
+
         } catch (IOException | DAOException | SQLException | CsvValidationException | TourException |
                  TouristGuideNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
