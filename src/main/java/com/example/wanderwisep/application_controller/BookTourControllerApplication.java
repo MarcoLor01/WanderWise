@@ -68,7 +68,7 @@ public class BookTourControllerApplication {
 
         if (SessionManager.getInstance().getSession(ticketBean.getIdSession()).getRole().getRoleName().equals("User"))
             user = SessionManager.getInstance().getSession(ticketBean.getIdSession()).getEmail();
-        System.out.println(user);
+       
         GuidedTour tour = SessionManager.getInstance().getSession(ticketBean.getIdSession()).getActualGuidedTour();
 
         Ticket ticket = new Ticket(stateEnum.fromString(ticketBean.getStateTicket()), ticketBean.getPrenotationDate(), tour, user);

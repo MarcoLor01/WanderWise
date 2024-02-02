@@ -17,11 +17,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TicketDAOCSV extends TicketDAO {
-    private static final Integer indexIdTicket = 0;
-    private static final Integer indexState = 1;
-    private static final Integer indexPrenotationDate = 2;
-    private static final Integer indexUser = 3;
-    private static final Integer indexMyGuidedTourId = 4;
+    private static final Integer INDEX_ID_TICKET = 0;
+    private static final Integer INDEX_STATE = 1;
+    private static final Integer INDEX_PRENOTATION_DATE = 2;
+    private static final Integer INDEX_USER = 3;
+    private static final Integer INDEX_MY_GUIDED_TOUR_ID = 4;
     private final Logger logger = Logger.getLogger(TicketDAOCSV.class.getName());
     private static final String CSV_FILE_NAME = "src/main/resources/com/example/wanderwisep/ticketDBlocal.csv";
     private final File fd;
@@ -57,11 +57,11 @@ public class TicketDAOCSV extends TicketDAO {
 
         try (CSVWriter csvWriter = new CSVWriter(new BufferedWriter(new FileWriter(fd, true)))) { //Security Hotspot
             String[] ticketRecord = new String[5];
-            ticketRecord[indexIdTicket] = ticket.getIdTicket();
-            ticketRecord[indexState] = ticket.getState().getStateName();
-            ticketRecord[indexPrenotationDate] = String.valueOf(ticket.getPrenotationDate());
-            ticketRecord[indexUser] = ticket.getUser();
-            ticketRecord[indexMyGuidedTourId] = ticket.getMyGuidedTour().getGuidedTourId();
+            ticketRecord[INDEX_ID_TICKET] = ticket.getIdTicket();
+            ticketRecord[INDEX_STATE] = ticket.getState().getStateName();
+            ticketRecord[INDEX_PRENOTATION_DATE] = String.valueOf(ticket.getPrenotationDate());
+            ticketRecord[INDEX_USER] = ticket.getUser();
+            ticketRecord[INDEX_MY_GUIDED_TOUR_ID] = ticket.getMyGuidedTour().getGuidedTourId();
             csvWriter.writeNext(ticketRecord);
             csvWriter.flush();
         }
@@ -73,13 +73,13 @@ public class TicketDAOCSV extends TicketDAO {
             List<Ticket> ticketList = new ArrayList<>();
 
             while ((recordToTake = csvReader.readNext()) != null) {
-                boolean recordFound = recordToTake[indexIdTicket].equals(String.valueOf(idTicket));
+                boolean recordFound = recordToTake[INDEX_ID_TICKET].equals(String.valueOf(idTicket));
                 if (recordFound) {
-                    String id = String.valueOf(recordToTake[indexIdTicket]);
-                    stateEnum state = stateEnum.fromString(recordToTake[indexState]);
-                    LocalDate prenotationDate = LocalDate.parse(String.valueOf(recordToTake[indexPrenotationDate]));
-                    String user = String.valueOf(recordToTake[indexUser]);
-                    String guidedTourId = String.valueOf(recordToTake[indexMyGuidedTourId]);
+                    String id = String.valueOf(recordToTake[INDEX_ID_TICKET]);
+                    stateEnum state = stateEnum.fromString(recordToTake[INDEX_STATE]);
+                    LocalDate prenotationDate = LocalDate.parse(String.valueOf(recordToTake[INDEX_PRENOTATION_DATE]));
+                    String user = String.valueOf(recordToTake[INDEX_USER]);
+                    String guidedTourId = String.valueOf(recordToTake[INDEX_MY_GUIDED_TOUR_ID]);
                     GuidedTourDAOJDBC guidedTourDAOJDBC = new GuidedTourDAOJDBC();
                     GuidedTour guidedTour = guidedTourDAOJDBC.retrieveTourFromId(guidedTourId);
                     Ticket ticket = new Ticket(id, state, prenotationDate, guidedTour, user);
@@ -108,13 +108,13 @@ public class TicketDAOCSV extends TicketDAO {
             List<Ticket> ticketList = new ArrayList<>();
 
             while ((recordToTake = csvReader.readNext()) != null) {
-                boolean recordFound = recordToTake[indexUser].equals(userName);
+                boolean recordFound = recordToTake[INDEX_USER].equals(userName);
                 if (recordFound) {
-                    String id = String.valueOf(recordToTake[indexIdTicket]);
-                    stateEnum state = stateEnum.fromString(recordToTake[indexState]);
-                    LocalDate prenotationDate = LocalDate.parse(String.valueOf(recordToTake[indexPrenotationDate]));
-                    String user = String.valueOf(recordToTake[indexUser]);
-                    String guidedTourId = String.valueOf(recordToTake[indexMyGuidedTourId]);
+                    String id = String.valueOf(recordToTake[INDEX_ID_TICKET]);
+                    stateEnum state = stateEnum.fromString(recordToTake[INDEX_STATE]);
+                    LocalDate prenotationDate = LocalDate.parse(String.valueOf(recordToTake[INDEX_PRENOTATION_DATE]));
+                    String user = String.valueOf(recordToTake[INDEX_USER]);
+                    String guidedTourId = String.valueOf(recordToTake[INDEX_MY_GUIDED_TOUR_ID]);
                     GuidedTourDAOJDBC guidedTourDAOJDBC = new GuidedTourDAOJDBC();
                     GuidedTour guidedTour = guidedTourDAOJDBC.retrieveTourFromId(guidedTourId);
                     Ticket ticket = new Ticket(id, state, prenotationDate, guidedTour, user);
@@ -142,12 +142,12 @@ public class TicketDAOCSV extends TicketDAO {
             String[] recordToTake;
 
             while ((recordToTake = csvReader.readNext()) != null) {
-                boolean recordFound = recordToTake[indexUser].equals(userEmail) &&
-                        recordToTake[indexMyGuidedTourId].equals(idTour) &&
-                        recordToTake[indexState].equals("Waiting for confirmation");
+                boolean recordFound = recordToTake[INDEX_USER].equals(userEmail) &&
+                        recordToTake[INDEX_MY_GUIDED_TOUR_ID].equals(idTour) &&
+                        recordToTake[INDEX_STATE].equals("Waiting for confirmation");
 
                 if (recordFound) {
-                    recordToTake[indexState] = decision;
+                    recordToTake[INDEX_STATE] = decision;
                     recordUpdated = true;
                     records.add(recordToTake);
                 }
