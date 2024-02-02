@@ -32,14 +32,11 @@ public class GuidedTour {
         this.guidedTourId = idTour;
     }
 
-    public GuidedTour(String cityName, List<String> listOfAttraction, LocalDate departureDate, LocalDate returnDate, TouristGuide myTouristGuide, String tourName, String idTour) {
-        this.cityName = cityName;
+    public GuidedTour(String cityName, List<String> listOfAttraction, LocalDate departureDate, LocalDate returnDate, TouristGuide touristGuide, String nameTour, String guidedTourId) {
+        this(cityName, null, departureDate, returnDate, guidedTourId);
         this.listOfAttraction = listOfAttraction;
-        this.departureDate = departureDate;
-        this.returnDate = returnDate;
-        this.touristGuide = myTouristGuide;
-        this.nameTour = tourName;
-        this.guidedTourId = idTour;
+        this.touristGuide = touristGuide;
+        this.nameTour = nameTour;
     }
 
     public String getNameTour() {
