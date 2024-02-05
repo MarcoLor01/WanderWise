@@ -3,7 +3,7 @@ package com.example.wanderwisep.graphic_controller;
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
 import com.example.wanderwisep.bean.GuidedTourBean;
 import com.example.wanderwisep.bean.TourListBean;
-import com.example.wanderwisep.exception.TourException;
+import com.example.wanderwisep.exception.TourNotFoundException;
 import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -70,8 +70,8 @@ public class TourListController extends NavigatorController implements Initializ
             guidedTourBean.setIdSession(idSession);
             guidedTourBean = bookTourController.getTourDescription(guidedTourBean);
             goToPageInit(GUIDEDTOUR, guidedTourBean);
-        } catch (TourException | SQLException | TouristGuideNotFoundException e) {
-            logger.log(Level.INFO, e.getMessage());
+        } catch (TourNotFoundException | SQLException | TouristGuideNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog(e.getMessage(), "Tour Visualization Error");
         }
     }

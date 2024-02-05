@@ -6,10 +6,7 @@ import com.example.wanderwisep.bean.GuidedTourBean;
 import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.TicketBean;
 import com.example.wanderwisep.bean.TourListBean;
-import com.example.wanderwisep.exception.DAOException;
-import com.example.wanderwisep.exception.DuplicateTourException;
-import com.example.wanderwisep.exception.TourException;
-import com.example.wanderwisep.exception.TouristGuideNotFoundException;
+import com.example.wanderwisep.exception.*;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -120,11 +117,11 @@ public class GuidedTourController extends NavigatorController implements Initial
             bookTourControllerApplication.createTicket(ticketBean);
             showAlertDialog("Guided Tour Booked", "Guided Tour");
 
-        } catch (IOException | DAOException | SQLException | CsvValidationException | TourException |
-                 TouristGuideNotFoundException e) {
+        } catch (IOException | SQLException | CsvValidationException | TourNotFoundException |
+                 TouristGuideNotFoundException | TicketNotFoundException | RequestNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("error in booking the tour", "Error guided tour");
-        } catch (DuplicateTourException e) {
+        } catch (DuplicateTicketException e) {
             logger.log(Level.INFO, e.getMessage());
             showErrorDialog("You have already booked this guided tour", "Error guided tour");
         }

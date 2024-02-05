@@ -3,7 +3,7 @@ package com.example.wanderwisep.cli_graphic_controller;
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
 import com.example.wanderwisep.bean.GuidedTourBean;
 import com.example.wanderwisep.bean.TourListBean;
-import com.example.wanderwisep.exception.TourException;
+import com.example.wanderwisep.exception.TourNotFoundException;
 import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.example.wanderwisep.utilities.CLIPrinter;
 
@@ -45,8 +45,9 @@ public class TourListCLIController extends NavigatorCLIController {
             guidedTourBean.setIdSession(idSession);
             guidedTourBean = bookTourControllerApplication.getTourDescription(guidedTourBean);
             new GuidedTourCLIController().start(guidedTourBean);
-        } catch (TourException | SQLException | TouristGuideNotFoundException e) {
-            logger.log(Level.WARNING, e.getMessage());
+
+        } catch (TourNotFoundException | SQLException | TouristGuideNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage());
         }
     }
 }

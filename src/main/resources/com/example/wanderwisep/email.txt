@@ -2,6 +2,6 @@
 Email sent from tourist guide: guide@guide.com
 Email sent to user: user@user.com
 *************************************
-We inform you that the tourist guide has decided to accept your request
-for the booking of the guided tour: Barcelona Tour4
+We inform you that the tourist guide has decided to refuse your request
+for the booking of the guided tour: Barcelona Tour7
 -----------------------------------

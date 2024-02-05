@@ -20,9 +20,10 @@ public class GuidedTourCLIController extends NavigatorCLIController {
     private final Logger logger = Logger.getLogger(GuidedTourCLIController.class.getName());
 
     public void start(GuidedTourBean guidedTourBean) {
+
         idSession = guidedTourBean.getIdSession();
         boolean shouldExit = false;
-        CLIPrinter.printMessage("These are the details of the Guided Tour: \n");
+        CLIPrinter.printMessage("\nThese are the details of the Guided Tour: \n");
         CLIPrinter.printMessage("Name of the Guided Tour: " + guidedTourBean.getTourName() + "\n");
         CLIPrinter.printMessage("Name of your Tourist Guide: " + guidedTourBean.getTouristGuideName() + " " + guidedTourBean.getTouristGuideSurname() + "\n");
         CLIPrinter.printMessage("list of attractions you will see during the guided tour: " + guidedTourBean.getListOfAttraction() + "\n");
@@ -35,22 +36,25 @@ public class GuidedTourCLIController extends NavigatorCLIController {
                         shouldExit = true;
                         bookTour();
                     }
-                    case 2 -> System.exit(0);
+                    case 2 -> {
+                        return;
+                    }
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (IOException | InvalidFormatException | DAOException | CsvValidationException | SQLException |
-                     DuplicateTourException | TourException | TouristGuideNotFoundException e) {
+                     DuplicateTicketException | TourNotFoundException | TouristGuideNotFoundException |
+                     TicketNotFoundException | RequestNotFoundException e) {
                 logger.log(Level.SEVERE, e.getMessage());
             }
         }
     }
 
     private int showMenu() {
-        CLIPrinter.printMessage("*** You want To Book This Guided Tour? ***\n1) Book Guided Tour\n2) Exit\n");
+        CLIPrinter.printMessage("\n*** You want To Book This Guided Tour? ***\n1) Book Guided Tour\n2) Exit\n");
         return getMenuChoice(1, 2);
     }
 
-    private void bookTour() throws DAOException, CsvValidationException, SQLException, DuplicateTourException, IOException, TourException, TouristGuideNotFoundException {
+    private void bookTour() throws DAOException, CsvValidationException, SQLException, DuplicateTicketException, IOException, TourNotFoundException, TouristGuideNotFoundException, TicketNotFoundException, RequestNotFoundException {
         TicketBean ticketBean = new TicketBean();
         ticketBean.setPrenotationDate(LocalDate.now());
         ticketBean.setStateTicket("waiting for confirmation");

@@ -3,7 +3,7 @@ package com.example.wanderwisep.graphic_controller;
 import com.example.wanderwisep.application_controller.ManageMyBookedGuidedToursController;
 import com.example.wanderwisep.bean.TicketListBean;
 import com.example.wanderwisep.exception.TicketNotFoundException;
-import com.example.wanderwisep.exception.TourException;
+import com.example.wanderwisep.exception.TourNotFoundException;
 import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
@@ -68,7 +68,7 @@ public class MyAreaController extends NavigatorController implements Initializab
 
             initializePage(ticketListBean.getIdTicket(), ticketListBean.getTourName(), ticketListBean.getStateEnum(), ticketListBean.getPrenotationDate());
 
-        } catch (IOException | SQLException | CsvValidationException | TourException |
+        } catch (IOException | SQLException | CsvValidationException | TourNotFoundException |
                  TouristGuideNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         } catch (TicketNotFoundException e) {

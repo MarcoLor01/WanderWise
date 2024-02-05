@@ -6,14 +6,14 @@ import com.example.wanderwisep.exception.InvalidFormatException;
 import com.example.wanderwisep.exception.UserNotFoundException;
 import com.example.wanderwisep.utilities.CLIPrinter;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LoginCLIController extends NavigatorCLIController {
-
-    private String idSession;
 
     private final Logger logger = Logger.getLogger(LoginCLIController.class.getName());
 
@@ -26,10 +26,12 @@ public class LoginCLIController extends NavigatorCLIController {
 
                 switch (choice) {
                     case 1 -> {
-                        login();
                         shouldExit = true;
+                        login();
                     }
-                    case 2 -> System.exit(0);
+                    case 2 -> {
+                        return;
+                    }
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (InvalidFormatException e) {
@@ -50,23 +52,23 @@ public class LoginCLIController extends NavigatorCLIController {
 
     private void login() {
         LoginControllerApplication loginController = new LoginControllerApplication();
-        Scanner scanner = new Scanner(System.in);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
             CLIPrinter.printMessage("Email: ");
-            String email = scanner.nextLine().trim();
-            CLIPrinter.printMessage("Password: ");
-            String password = scanner.nextLine().trim();
+            String email = reader.readLine();
+            CLIPrinter.printMessage("password: ");
+            String password = reader.readLine();
             LoginBean loginBean = new LoginBean();
             loginBean.setEmail(email);
             loginBean.setPassword(password);
             loginBean = loginController.login(loginBean);
-            idSession = loginBean.getIdSession();
+            String idSession = loginBean.getIdSession();
 
             if (loginBean.getRole().equals("User")) new SearchBarCLIController().start(idSession);
 
             if (loginBean.getRole().equals("TouristGuide")) new GuideConfirmCLIController().start(idSession);
 
-        } catch (SQLException | UserNotFoundException e) {
+        } catch (SQLException | IOException | UserNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }

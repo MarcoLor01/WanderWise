@@ -3,7 +3,10 @@ package com.example.wanderwisep.dao;
 import com.example.wanderwisep.dao.db_connection.DBConnection;
 import com.example.wanderwisep.dao.db_connection.Queries;
 import com.example.wanderwisep.enumeration.stateEnum;
-import com.example.wanderwisep.exception.*;
+import com.example.wanderwisep.exception.DuplicateTicketException;
+import com.example.wanderwisep.exception.TicketNotFoundException;
+import com.example.wanderwisep.exception.TourNotFoundException;
+import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.example.wanderwisep.model.GuidedTour;
 import com.example.wanderwisep.model.Ticket;
 
@@ -21,7 +24,7 @@ public class TicketDAOJDBC extends TicketDAO {
     private final Logger logger = Logger.getLogger(TicketDAOJDBC.class.getName());
 
     @Override
-    public void createTicket(Ticket ticket) throws SQLException, DuplicateTourException, DAOException {
+    public void createTicket(Ticket ticket) throws SQLException, DuplicateTicketException, TicketNotFoundException {
         duplicateTicket(ticket.getIdTicket());
         Connection conn = DBConnection.getConnection();
         try (
@@ -42,12 +45,12 @@ public class TicketDAOJDBC extends TicketDAO {
             if (result == 1) {
                 logger.log(Level.INFO, "Ticket inserted");
             } else {
-                throw new DAOException("Error creating ticket");
+                throw new TicketNotFoundException("Error creating ticket");
             }
         }
     }
 
-    private void duplicateTicket(String idTicket) throws SQLException, DuplicateTourException {
+    private void duplicateTicket(String idTicket) throws SQLException, DuplicateTicketException {
         Connection conn = DBConnection.getConnection();
         try (
 
@@ -60,14 +63,14 @@ public class TicketDAOJDBC extends TicketDAO {
             stmt.setString(1, idTicket);
             try (ResultSet resultSet = stmt.executeQuery()) {
                 if (resultSet.next()) {
-                    throw new DuplicateTourException("Tour already booked");
+                    throw new DuplicateTicketException("Tour already booked");
                 }
             }
         }
     }
 
     @Override
-    public List<Ticket> retrieveTicket(String emailUser) throws SQLException, TicketNotFoundException, TourException, TouristGuideNotFoundException {
+    public List<Ticket> retrieveTicket(String emailUser) throws TicketNotFoundException, TourNotFoundException, TouristGuideNotFoundException, SQLException {
         List<Ticket> ticketsUser = new ArrayList<>();
         Connection conn = DBConnection.getConnection();
         try (
@@ -88,7 +91,7 @@ public class TicketDAOJDBC extends TicketDAO {
                     LocalDate prenotationDate = rs.getDate("prenotationDate").toLocalDate();
                     String idTour = rs.getString("myGuidedTourId");
                     stateEnum state = stateEnum.fromString(stateTicket);
-                    GuidedTour guidedTour = createTourGuide(idTour);
+                    GuidedTour guidedTour = createGuidedTour(idTour);
                     Ticket ticket = new Ticket(idTicket, state, prenotationDate, guidedTour, emailUser);
                     ticket.setIdTicket(emailUser);
                     ticketsUser.add(ticket);
@@ -100,7 +103,7 @@ public class TicketDAOJDBC extends TicketDAO {
 
 
     @Override
-    public void modifyTicketState(String userEmail, String idTour, String decision) throws SQLException, RequestNotFoundException {
+    public void modifyTicketState(String userEmail, String idTour, String decision) throws TicketNotFoundException, SQLException {
         Connection conn = DBConnection.getConnection();
         try (
 
@@ -117,7 +120,7 @@ public class TicketDAOJDBC extends TicketDAO {
             int rowsUpdated = stmt.executeUpdate();
 
             if (rowsUpdated == 0) {
-                throw new RequestNotFoundException("No request available");
+                throw new TicketNotFoundException("No ticket available");
             }
         }
     }

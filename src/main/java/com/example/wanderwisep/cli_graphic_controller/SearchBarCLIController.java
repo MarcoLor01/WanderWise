@@ -6,13 +6,16 @@ import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.SearchBean;
 import com.example.wanderwisep.bean.TourListBean;
 import com.example.wanderwisep.exception.InvalidFormatException;
-import com.example.wanderwisep.exception.TourException;
+import com.example.wanderwisep.exception.TourNotFoundException;
 import com.example.wanderwisep.utilities.CLIPrinter;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
+import java.time.format.DateTimeParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,7 +37,9 @@ public class SearchBarCLIController extends NavigatorCLIController {
                         shouldExit = true;
                         searchTour();
                     }
-                    case 2 -> System.exit(0);
+                    case 2 -> {
+                        return;
+                    }
                     case 3 -> {
                         shouldExit = true;
                         seeMyArea();
@@ -67,28 +72,32 @@ public class SearchBarCLIController extends NavigatorCLIController {
 
     private void searchTour() {
         try {
-            Scanner input = new Scanner(System.in);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             SearchBean guidedTourBean = new SearchBean();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             CLIPrinter.printMessage("Please insert city name: ");
-            String cityName = input.nextLine();
+            String cityName = reader.readLine();
             guidedTourBean.setCityName(cityName);
             CLIPrinter.printMessage("\nPlease insert departure date in the format DD/MM/YYYY: ");
-            String departureDate = input.nextLine();
+            String departureDate = reader.readLine();
+
             LocalDate departureD = LocalDate.parse(departureDate, formatter);
+
             guidedTourBean.setDepartureDate(departureD);
             CLIPrinter.printMessage("\nPlease insert return date in the format DD/MM/YYYY: ");
-            String returnDate = input.nextLine();
+            String returnDate = reader.readLine();
             LocalDate returnD = LocalDate.parse(returnDate, formatter);
             guidedTourBean.setReturnDate(returnD);
             guidedTourBean.checkField(guidedTourBean.getCityName(), guidedTourBean.getDepartureDate(), guidedTourBean.getReturnDate());
             guidedTourBean.setIdSession(idSession);
             TourListBean tourListBean = bookTourControllerApplication.searchTour(guidedTourBean);
             new TourListCLIController().start(tourListBean);
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             logger.log(Level.SEVERE, e.getMessage());
-        } catch (InvalidFormatException | TourException e) {
+        } catch (InvalidFormatException | TourNotFoundException e) {
             logger.log(Level.WARNING, e.getMessage());
+        } catch (DateTimeParseException e) {
+            logger.log(Level.WARNING, "Insert correct date", e);
         }
     }
 

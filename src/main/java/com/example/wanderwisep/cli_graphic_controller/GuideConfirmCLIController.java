@@ -33,8 +33,13 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
                         shouldExit = true;
                         showRequests();
                     }
-                    case 2 -> System.exit(0);
-                    case 3 -> logout();
+                    case 2 -> {
+                        return;
+                    }
+                    case 3 -> {
+                        shouldExit = true;
+                        logout();
+                    }
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
             } catch (InvalidFormatException e) {
@@ -53,16 +58,19 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
 
     private void showRequests() {
         try {
+
             TouristGuideRequestsBean touristGuideAnswerBean = new TouristGuideRequestsBean();
             touristGuideAnswerBean.setIdSession(idSession);
             touristGuideAnswerBean = bookTourControllerApplication.createTouristGuideArea(touristGuideAnswerBean);
             List<String> userEmail = touristGuideAnswerBean.getUserEmail();
             List<String> guidedTourId = touristGuideAnswerBean.getGuidedTourId();
             CLIPrinter.printMessage("*** List of your Requests ***\nPress 1) For accept the request\nPress 2) For refuse the request\nPress 3) For see the next request\nPress 4) For exit\nPress 5) For logout\n");
+
             int i = 0;
+            boolean shouldExit = false;
             while (i < guidedTourId.size()) {
-                boolean shouldExit = false;
                 while (!shouldExit) {
+
                     int choice = showRequest(userEmail.get(i), guidedTourId.get(i), i);
 
                     switch (choice) {
@@ -81,8 +89,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
                             i++;
                         }
                         case 4 -> {
-                            shouldExit = true;
-                            System.exit(0);
+                            return;
                         }
                         case 5 -> {
                             shouldExit = true;
@@ -95,10 +102,11 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
             }
             if (i == guidedTourId.size()) CLIPrinter.printMessage("There are no more requests\n");
 
-        } catch (CsvValidationException | SQLException | IOException | InvalidFormatException | DAOException e) {
+        } catch (CsvValidationException | SQLException | IOException | InvalidFormatException | DAOException |
+                 TourNotFoundException | TouristGuideNotFoundException | TicketNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
-        } catch (RequestNotFoundException | TourException | TouristGuideNotFoundException e) {
-            logger.log(Level.INFO, e.getMessage());
+        } catch (RequestNotFoundException e) {
+            logger.log(Level.SEVERE, "No request available", "tour confirmation");
         }
     }
 
@@ -109,7 +117,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
         return getMenuChoice(1, 5);
     }
 
-    private void acceptRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, DAOException, TourException, TouristGuideNotFoundException {
+    private void acceptRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, DAOException, TourNotFoundException, TouristGuideNotFoundException, TicketNotFoundException {
         TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
         answerBean.setIdSession(idSession);
         answerBean.setIdTour(idTour);
@@ -119,7 +127,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
         CLIPrinter.printMessage("\nRequest Accepted\n");
     }
 
-    private void refuseRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, DAOException, TourException, TouristGuideNotFoundException {
+    private void refuseRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, DAOException, TourNotFoundException, TouristGuideNotFoundException, TicketNotFoundException {
         TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
         answerBean.setIdSession(idSession);
         answerBean.setIdTour(idTour);

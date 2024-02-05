@@ -10,10 +10,10 @@ class TicketDAOFactorySingletonTest {
 
     @Test
     void ticketDAOJDBCRight() {
-
         assertDoesNotThrow(() -> {
             TicketDAOFactorySingleton ticketDAOFactory = TicketDAOFactorySingleton.getInstance();
-            TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO(2);
-        });
+            TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO();
+        }, "Creating TicketDAO should not throw any exception");
     }
+
 }

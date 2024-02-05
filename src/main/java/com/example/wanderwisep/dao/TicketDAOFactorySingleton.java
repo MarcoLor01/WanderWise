@@ -1,6 +1,7 @@
 package com.example.wanderwisep.dao;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class TicketDAOFactorySingleton {
 
@@ -17,14 +18,14 @@ public class TicketDAOFactorySingleton {
         return SingletonHelper.INSTANCE;
     }
 
-    public TicketDAO createTicketDAO(int type) throws IllegalArgumentException, IOException {
+    public TicketDAO createTicketDAO() throws IllegalArgumentException, IOException {
+        boolean factoryNumber = getPersistence();
+        //if(factoryNumber) {
+        //    return new TicketDAOJDBC();
+        //}
 
-        return switch (type) {
-            case 1 -> new TicketDAOJDBC();
-            case 2 -> new TicketDAOCSV();
-            default -> throw new IllegalArgumentException("Invalid type : " + type);
+        return new TicketDAOCSV();
 
-        };
     }
 
     public TicketDAO createTicketDAOJDBC() {
@@ -33,6 +34,12 @@ public class TicketDAOFactorySingleton {
 
     public TicketDAO createTicketDAOCSV() throws IOException {
         return new TicketDAOCSV();
+    }
+
+    public static boolean getPersistence() {
+        LocalDate date = LocalDate.now();
+        int number = date.getDayOfMonth() % 2;
+        return number == 1;
     }
 
 }

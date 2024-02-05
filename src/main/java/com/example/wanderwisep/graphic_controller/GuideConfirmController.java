@@ -4,10 +4,7 @@ import com.example.wanderwisep.application_controller.BookTourControllerApplicat
 import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.TouristGuideAnswerBean;
 import com.example.wanderwisep.bean.TouristGuideRequestsBean;
-import com.example.wanderwisep.exception.DAOException;
-import com.example.wanderwisep.exception.RequestNotFoundException;
-import com.example.wanderwisep.exception.TourException;
-import com.example.wanderwisep.exception.TouristGuideNotFoundException;
+import com.example.wanderwisep.exception.*;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -43,25 +40,25 @@ public class GuideConfirmController extends NavigatorController implements Initi
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
 
-    @FXML // fx:id="anchorRequest"
-    private AnchorPane anchorRequest; // Value injected by FXMLLoader
-
-
     @FXML
     public void confirmTour(String user, String guidedTourId) {
         try {
-            setTour(user, guidedTourId, "Confirmed");
-            showAlertDialog("Request accepted", "Tour Confirmation");
 
-        } catch (IOException | SQLException | CsvValidationException | DAOException e) {
-            logger.log(Level.SEVERE, e.getMessage());
-            showErrorDialog("Please retry", "Tour confirmation");
-        } catch (RequestNotFoundException | TourException | TouristGuideNotFoundException e) {
-            logger.log(Level.SEVERE, e.getMessage());
+            setTour(user, guidedTourId, "Confirmed");
+            showAlertDialog("Request accepted", "Booking Confirmation");
+
+        } catch (IOException | SQLException | CsvValidationException | DAOException | RequestNotFoundException |
+                 TourNotFoundException | TouristGuideNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e.getCause());
+            showErrorDialog("Please retry", "Booking confirmation");
+        } catch (TicketNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e.getCause());
+            showErrorDialog("You have already confirmed the request, otherwise try again later", "tour confirmation");
         }
+
     }
 
-    private void setTour(String user, String guidedTourId, String decision) throws DAOException, CsvValidationException, SQLException, TourException, TouristGuideNotFoundException, RequestNotFoundException, IOException {
+    private void setTour(String user, String guidedTourId, String decision) throws DAOException, CsvValidationException, SQLException, TourNotFoundException, TouristGuideNotFoundException, RequestNotFoundException, IOException, TicketNotFoundException {
         TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
         answerBean.setIdSession(idSession);
         answerBean.setIdTour(guidedTourId);
@@ -73,14 +70,17 @@ public class GuideConfirmController extends NavigatorController implements Initi
     @FXML
     public void rejectTour(String user, String guidedTourId) {
         try {
-            setTour(user, guidedTourId, "Refused");
-            showAlertDialog("Request rejected", "Tour Confirmation");
 
-        } catch (IOException | SQLException | CsvValidationException | DAOException e) {
+            setTour(user, guidedTourId, "Refused");
+            showAlertDialog("Request rejected", "Booking refused");
+
+        } catch (IOException | SQLException | CsvValidationException | RequestNotFoundException | DAOException |
+                 TourNotFoundException | TouristGuideNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Please retry", "Tour confirmation");
-        } catch (RequestNotFoundException | TourException | TouristGuideNotFoundException e) {
-            logger.log(Level.SEVERE, e.getMessage());
+        } catch (TicketNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e.getCause());
+            showErrorDialog("You have already rejected the request, otherwise try again later", "tour confirmation");
         }
     }
 
@@ -173,8 +173,8 @@ public class GuideConfirmController extends NavigatorController implements Initi
                     requestBean.getGuidedTourId().subList(minTicket, maxTicket)
             );
         } else {
-            logger.log(Level.INFO, "PAGE 0");
-            showErrorDialog("This is the first page", "WanderWise");
+            logger.log(Level.INFO, "First page");
+            showAlertDialog("This is the first page", "WanderWise");
         }
     }
 
@@ -190,15 +190,16 @@ public class GuideConfirmController extends NavigatorController implements Initi
             );
 
         } else {
+
             logger.log(Level.INFO, "No more requests");
-            showErrorDialog("No more requests", "WanderWise");
+            showAlertDialog("No more requests", "WanderWise");
+
         }
     }
 
     @FXML
         // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        assert anchorRequest != null : "fx:id=\"anchorRequest\" was not injected: check your FXML file 'GuideConfirm.fxml'.";
         assert anchorPaneRequests != null : "fx:id=\"anchorPaneRequests\" was not injected: check your FXML file 'GuideConfirm.fxml'.";
     }
 

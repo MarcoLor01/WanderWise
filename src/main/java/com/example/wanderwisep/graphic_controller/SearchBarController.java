@@ -6,7 +6,7 @@ import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.SearchBean;
 import com.example.wanderwisep.bean.TourListBean;
 import com.example.wanderwisep.exception.InvalidFormatException;
-import com.example.wanderwisep.exception.TourException;
+import com.example.wanderwisep.exception.TourNotFoundException;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +67,7 @@ public class SearchBarController extends NavigatorController implements Initiali
     @FXML
     public void searchDestination() {
         try {
+
             SearchBean newSearch = new SearchBean();
             newSearch.checkField(citySearch.getText(), dateInitial.getValue(), dateFinal.getValue());
             newSearch.setCityName((citySearch.getText()));
@@ -74,10 +76,11 @@ public class SearchBarController extends NavigatorController implements Initiali
             newSearch.setIdSession(idSession);
             TourListBean tourListBean = bookTourController.searchTour(newSearch);
             goToPageInit(TOURLIST, tourListBean);
-        } catch (SQLException e) {
+
+        } catch (SQLException | IOException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog(e.getMessage(), "Search Tour Error");
-        } catch (InvalidFormatException | TourException e) {
+        } catch (InvalidFormatException | TourNotFoundException e) {
             logger.log(Level.WARNING, e.getMessage());
             showErrorDialog(e.getMessage(), "Search Tour Error");
         }

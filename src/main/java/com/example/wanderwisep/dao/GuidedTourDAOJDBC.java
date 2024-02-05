@@ -2,7 +2,7 @@ package com.example.wanderwisep.dao;
 
 import com.example.wanderwisep.dao.db_connection.DBConnection;
 import com.example.wanderwisep.dao.db_connection.Queries;
-import com.example.wanderwisep.exception.TourException;
+import com.example.wanderwisep.exception.TourNotFoundException;
 import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.example.wanderwisep.model.GuidedTour;
 import com.example.wanderwisep.model.TouristGuide;
@@ -23,7 +23,7 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
     private static final String TOURIST_GUIDE_ROW = "touristGuide";
 
 
-    public List<GuidedTour> findTours(String city, LocalDate departureD, LocalDate returnD) throws SQLException, TourException {
+    public List<GuidedTour> findTours(String city, LocalDate departureD, LocalDate returnD) throws SQLException, TourNotFoundException {
         List<GuidedTour> guidedTourList = new ArrayList<>();
         Connection conn = DBConnection.getConnection();
 
@@ -40,7 +40,7 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
             stmt.setDate(3, Date.valueOf(returnD));
             try (ResultSet rs = stmt.executeQuery()) {
                 if (!rs.first()) {
-                    throw new TourException("No tours available");
+                    throw new TourNotFoundException("No tours available");
                 }
                 do {
                     String tourName = rs.getString(NAME_TOUR_ROW);
@@ -48,8 +48,8 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
                     LocalDate departure = rs.getDate(DEPARTURE_DATE_ROW).toLocalDate();
                     LocalDate dateReturn = rs.getDate(RETURN_DATE_ROW).toLocalDate();
                     String idTour = rs.getString(ID_GUIDED_TOUR_ROW);
-                    GuidedTour a = new GuidedTour(tourName, photoBlob, departure, dateReturn, idTour);
-                    guidedTourList.add(a);
+                    GuidedTour guidedTour = new GuidedTour(tourName, photoBlob, departure, dateReturn, idTour);
+                    guidedTourList.add(guidedTour);
                 } while (rs.next());
             }
         }
@@ -73,7 +73,7 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
         return guidedTour;
     }
 
-    public GuidedTour retrieveTour(String tourName, LocalDate departureDate, LocalDate returnDate) throws TourException, SQLException, TouristGuideNotFoundException {
+    public GuidedTour retrieveTour(String tourName, LocalDate departureDate, LocalDate returnDate) throws SQLException, TourNotFoundException, TouristGuideNotFoundException {
         Connection conn = DBConnection.getConnection();
         try (PreparedStatement stmt = conn.prepareStatement(Queries.RETRIEVE_TOUR, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             stmt.setString(1, tourName);
@@ -81,20 +81,20 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
             stmt.setDate(3, Date.valueOf(returnDate));
             try (ResultSet rs = stmt.executeQuery()) {
                 if (!rs.first()) {
-                    throw new TourException("Error in tour retrieving");
+                    throw new TourNotFoundException("No tours available");
                 }
                 return createGuidedTourFromResultSet(rs);
             }
         }
     }
 
-    public GuidedTour retrieveTourFromId(String id) throws SQLException, TourException, TouristGuideNotFoundException {
+    public GuidedTour retrieveTourFromId(String id) throws SQLException, TourNotFoundException, TouristGuideNotFoundException {
         Connection conn = DBConnection.getConnection();
         try (PreparedStatement stmt = conn.prepareStatement(Queries.RETRIEVE_TOUR_FROM_ID, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             stmt.setString(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (!rs.first()) {
-                    throw new TourException("Error in tour retrieving");
+                    throw new TourNotFoundException("No tours available");
                 }
                 return createGuidedTourFromResultSet(rs);
             }

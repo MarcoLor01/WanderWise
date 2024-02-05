@@ -14,5 +14,4 @@ public class RequestNotFoundException extends Exception {
         super(message, cause);
     }
 
-
 }

@@ -4,7 +4,7 @@ import com.example.wanderwisep.bean.TicketListBean;
 import com.example.wanderwisep.dao.TicketDAO;
 import com.example.wanderwisep.dao.TicketDAOFactorySingleton;
 import com.example.wanderwisep.exception.TicketNotFoundException;
-import com.example.wanderwisep.exception.TourException;
+import com.example.wanderwisep.exception.TourNotFoundException;
 import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.example.wanderwisep.model.Ticket;
 import com.example.wanderwisep.session_management.SessionManager;
@@ -16,13 +16,11 @@ import java.util.List;
 
 public class ManageMyBookedGuidedToursController {
 
-    private static final int JDBC_DAO = 1;
-    private static final int CSV_DAO = 2;
 
-    public TicketListBean createMyArea(TicketListBean ticketListBean) throws IOException, TicketNotFoundException, SQLException, CsvValidationException, TourException, TouristGuideNotFoundException {
+    public TicketListBean createMyArea(TicketListBean ticketListBean) throws IOException, TicketNotFoundException, SQLException, CsvValidationException, TourNotFoundException, TouristGuideNotFoundException {
         TicketDAOFactorySingleton ticketDAOFactory = TicketDAOFactorySingleton.getInstance();
         String email = SessionManager.getInstance().getSession(ticketListBean.getIdSession()).getEmail();
-        TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO(JDBC_DAO);
+        TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO();
         List<Ticket> ticketList = ticketDAO.retrieveTicket(email);
 
         int dimensione = ticketList.size();

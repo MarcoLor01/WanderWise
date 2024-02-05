@@ -1,7 +1,10 @@
 package com.example.wanderwisep.dao;
 
 import com.example.wanderwisep.enumeration.stateEnum;
-import com.example.wanderwisep.exception.*;
+import com.example.wanderwisep.exception.DuplicateTicketException;
+import com.example.wanderwisep.exception.TicketNotFoundException;
+import com.example.wanderwisep.exception.TourNotFoundException;
+import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.example.wanderwisep.model.GuidedTour;
 import com.example.wanderwisep.model.Ticket;
 import com.opencsv.CSVReader;
@@ -40,15 +43,11 @@ public class TicketDAOCSV extends TicketDAO {
 
 
     @Override
-    public void createTicket(Ticket ticket) throws DAOException, SQLException, IOException, DuplicateTourException, CsvValidationException, TourException, TouristGuideNotFoundException {
+    public void createTicket(Ticket ticket) throws SQLException, IOException, DuplicateTicketException, CsvValidationException, TourNotFoundException, TouristGuideNotFoundException, TicketNotFoundException {
 
-        try {
-            List<Ticket> ticketsList = retrieveByIdTicket(this.fd, ticket.getIdTicket());
-            if (!ticketsList.isEmpty()) {
-                throw new DuplicateTourException("Tour already booked");
-            }
-        } catch (TicketNotFoundException e) {
-            logger.log(Level.INFO, e.getMessage());
+        List<Ticket> ticketsList = retrieveByIdTicket(this.fd, ticket.getIdTicket());
+        if (!ticketsList.isEmpty()) {
+            throw new DuplicateTicketException("Tour already booked");
         }
         insertTicket(this.fd, ticket);
     }
@@ -67,7 +66,7 @@ public class TicketDAOCSV extends TicketDAO {
         }
     }
 
-    private synchronized List<Ticket> retrieveByIdTicket(File fd, String idTicket) throws IOException, CsvValidationException, TicketNotFoundException, SQLException, TourException, TouristGuideNotFoundException {
+    private synchronized List<Ticket> retrieveByIdTicket(File fd, String idTicket) throws IOException, CsvValidationException, TicketNotFoundException, SQLException, TourNotFoundException, TouristGuideNotFoundException {
         try (CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
             String[] recordToTake;
             List<Ticket> ticketList = new ArrayList<>();
@@ -87,21 +86,17 @@ public class TicketDAOCSV extends TicketDAO {
                 }
             }
 
-            if (ticketList.isEmpty()) {
-                throw new TicketNotFoundException("No Ticket founded with ticket id: " + idTicket);
-            }
-
             return ticketList;
         }
     }
 
 
     @Override
-    public List<Ticket> retrieveTicket(String userEmail) throws SQLException, TicketNotFoundException, CsvValidationException, IOException, TourException, TouristGuideNotFoundException {
+    public List<Ticket> retrieveTicket(String userEmail) throws SQLException, TicketNotFoundException, CsvValidationException, IOException, TourNotFoundException, TouristGuideNotFoundException {
         return retrieveByUserName(this.fd, userEmail);
     }
 
-    private synchronized List<Ticket> retrieveByUserName(File fd, String userName) throws IOException, CsvValidationException, TicketNotFoundException, SQLException, TourException, TouristGuideNotFoundException {
+    private synchronized List<Ticket> retrieveByUserName(File fd, String userName) throws IOException, CsvValidationException, TicketNotFoundException, SQLException, TourNotFoundException, TouristGuideNotFoundException {
         try (CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
             String[] recordToTake;
 
@@ -130,11 +125,11 @@ public class TicketDAOCSV extends TicketDAO {
         }
     }
 
-    public void modifyTicketState(String userEmail, String idTour, String decision) throws CsvValidationException, IOException {
+    public void modifyTicketState(String userEmail, String idTour, String decision) throws CsvValidationException, IOException, TicketNotFoundException {
         retrieveFromTourGuide(this.fd, userEmail, idTour, decision);
     }
 
-    public void retrieveFromTourGuide(File fd, String userEmail, String idTour, String decision) throws CsvValidationException, IOException {
+    public void retrieveFromTourGuide(File fd, String userEmail, String idTour, String decision) throws CsvValidationException, IOException, TicketNotFoundException {
         boolean recordUpdated = false;
 
         try (CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
@@ -157,6 +152,8 @@ public class TicketDAOCSV extends TicketDAO {
                 try (CSVWriter csvWriter = new CSVWriter(new FileWriter(fd, false))) {
                     csvWriter.writeAll(records);
                 }
+            } else {
+                throw new TicketNotFoundException("No ticket available");
             }
         }
     }

@@ -2,7 +2,6 @@ package com.example.wanderwisep.dao;
 
 import com.example.wanderwisep.dao.db_connection.DBConnection;
 import com.example.wanderwisep.dao.db_connection.Queries;
-import com.example.wanderwisep.exception.DAOException;
 import com.example.wanderwisep.exception.RequestNotFoundException;
 import com.example.wanderwisep.model.TouristGuideRequest;
 
@@ -18,7 +17,7 @@ import java.util.logging.Logger;
 public class TouristGuideRequestDAO {
     private final Logger logger = Logger.getLogger(TouristGuideRequestDAO.class.getName());
 
-    public void createRequest(String userEmail, String touristGuideEmail, String guidedTourId) throws SQLException, DAOException {
+    public void createRequest(String userEmail, String touristGuideEmail, String guidedTourId) throws SQLException, RequestNotFoundException {
         Connection conn = DBConnection.getConnection();
         try (
 
@@ -36,7 +35,7 @@ public class TouristGuideRequestDAO {
             if (result == 1) {
                 logger.log(Level.INFO, "Request inserted");
             } else {
-                throw new DAOException("Error creating request");
+                throw new RequestNotFoundException("Error creating request");
             }
         }
     }
@@ -68,7 +67,7 @@ public class TouristGuideRequestDAO {
         return touristGuideRequests;
     }
 
-    public void deleteRequest(String userEmail, String touristGuide, String tourId) throws SQLException, DAOException {
+    public void deleteRequest(String userEmail, String touristGuide, String tourId) throws SQLException, RequestNotFoundException {
         Connection conn = DBConnection.getConnection();
         try (
 
@@ -85,7 +84,7 @@ public class TouristGuideRequestDAO {
             if (result == 1) {
                 logger.log(Level.INFO, "Request inserted");
             } else {
-                throw new DAOException("Error deleting request");
+                throw new RequestNotFoundException("Error deleting request");
             }
         }
     }

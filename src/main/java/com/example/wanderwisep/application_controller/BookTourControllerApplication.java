@@ -7,7 +7,6 @@ import com.example.wanderwisep.enumeration.stateEnum;
 import com.example.wanderwisep.exception.*;
 import com.example.wanderwisep.model.GuidedTour;
 import com.example.wanderwisep.model.Ticket;
-import com.example.wanderwisep.model.TouristGuide;
 import com.example.wanderwisep.model.TouristGuideRequest;
 import com.example.wanderwisep.session_management.SessionManager;
 import com.opencsv.exceptions.CsvValidationException;
@@ -18,15 +17,12 @@ import java.util.List;
 
 public class BookTourControllerApplication {
 
-    private static final int JDBC_DAO = 1;
-    private static final int CSV_DAO = 2;
+    public GuidedTourBean getTourDescription(GuidedTourBean guidedTourBean) throws TourNotFoundException, SQLException, TouristGuideNotFoundException {
 
-    public GuidedTourBean getTourDescription(GuidedTourBean guidedTourBean) throws TourException, SQLException, TouristGuideNotFoundException {
-        GuidedTourDAOJDBC searchTourDAO = new GuidedTourDAOJDBC();
+        GuidedTourDAO searchTourDAO = new GuidedTourDAOJDBC();
         GuidedTour myTour = searchTourDAO.retrieveTour(guidedTourBean.getTourName(), guidedTourBean.getDepartureDate(), guidedTourBean.getReturnDate());
-        TouristGuideDAO touristGuideDAO = new TouristGuideDAO();
-        TouristGuide touristGuide = touristGuideDAO.retrieveTouristGuide(myTour.getTouristGuide().getEmail());
-        myTour.setTouristGuide(touristGuide);
+
+        //Setting bean
         GuidedTourBean guidedTourB = new GuidedTourBean();
         guidedTourB.setIdTour(myTour.getGuidedTourId());
         guidedTourB.setCityName(myTour.getCityName());
@@ -35,20 +31,29 @@ public class BookTourControllerApplication {
         guidedTourB.setReturnDate(myTour.getReturnDate());
         guidedTourB.setPhoto(myTour.getPhoto());
         guidedTourB.setListOfAttraction(myTour.getListOfAttraction());
-        guidedTourB.setTouristGuideName(touristGuide.getName());
-        guidedTourB.setTouristGuideSurname(touristGuide.getSurname());
+        guidedTourB.setTouristGuideName(myTour.getTouristGuide().getName());
+        guidedTourB.setTouristGuideSurname(myTour.getTouristGuide().getSurname());
+
+        //Saving the actual tour
         SessionManager.getInstance().getSession(guidedTourBean.getIdSession()).setActualGuidedTour(myTour);
         guidedTourB.setIdSession(guidedTourBean.getIdSession());
         return guidedTourB;
     }
 
-    public TourListBean searchTour(SearchBean searchBean) throws TourException, SQLException {
+    public TourListBean searchTour(SearchBean searchBean) throws TourNotFoundException, SQLException, IOException {
+
         String idSession = searchBean.getIdSession();
-        GuidedTourDAOJDBC guidedTourDAO = new GuidedTourDAOJDBC();
+
+        GuidedTourDAO guidedTourDAO = new GuidedTourDAOJDBC();
         List<GuidedTour> guidedTourList = guidedTourDAO.findTours(searchBean.getCityName(), searchBean.getDepartureDate(), searchBean.getReturnDate());
+
+        //Setting actual guided tour list
         SessionManager.getInstance().getSession(idSession).setGuidedTourList(guidedTourList);
+
+        //Setting bean
         TourListBean tourListBean = new TourListBean();
         tourListBean.setIdSession(idSession);
+
         int dimensione = guidedTourList.size();
         int i = 0;
 
@@ -63,23 +68,24 @@ public class BookTourControllerApplication {
         return tourListBean;
     }
 
-    public void createTicket(TicketBean ticketBean) throws IOException, DAOException, SQLException, DuplicateTourException, CsvValidationException, TourException, TouristGuideNotFoundException {
-        String user = null;
+    public void createTicket(TicketBean ticketBean) throws IOException, SQLException, DuplicateTicketException, CsvValidationException, TourNotFoundException, TouristGuideNotFoundException, TicketNotFoundException, RequestNotFoundException {
+        String email = null;
 
         if (SessionManager.getInstance().getSession(ticketBean.getIdSession()).getRole().getRoleName().equals("User"))
-            user = SessionManager.getInstance().getSession(ticketBean.getIdSession()).getEmail();
-       
+            email = SessionManager.getInstance().getSession(ticketBean.getIdSession()).getEmail();
+
         GuidedTour tour = SessionManager.getInstance().getSession(ticketBean.getIdSession()).getActualGuidedTour();
 
-        Ticket ticket = new Ticket(stateEnum.fromString(ticketBean.getStateTicket()), ticketBean.getPrenotationDate(), tour, user);
-        ticket.setIdTicket(user);
+        Ticket ticket = new Ticket(stateEnum.fromString(ticketBean.getStateTicket()), ticketBean.getPrenotationDate(), tour, email);
+        ticket.setIdTicket(email);
 
         TicketDAOFactorySingleton ticketDAOFactory = TicketDAOFactorySingleton.getInstance();
-        TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO(JDBC_DAO);
+        TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO();
         ticketDAO.createTicket(ticket);
 
+        //Create request for the tourist guide
         TouristGuideRequestDAO touristGuideDecisionDAO = new TouristGuideRequestDAO();
-        touristGuideDecisionDAO.createRequest(user, tour.getTouristGuide().getEmail(), tour.getGuidedTourId());
+        touristGuideDecisionDAO.createRequest(email, tour.getTouristGuide().getEmail(), tour.getGuidedTourId());
     }
 
     public TouristGuideRequestsBean createTouristGuideArea(TouristGuideRequestsBean requestBean) throws SQLException, RequestNotFoundException {
@@ -90,6 +96,7 @@ public class BookTourControllerApplication {
 
         TouristGuideRequestDAO touristGuideRequestDAO = new TouristGuideRequestDAO();
         List<TouristGuideRequest> requests = touristGuideRequestDAO.retrieveRequestsForGuide(email);
+
         int dimensione = requests.size();
         int i = 0;
         while (i < dimensione) {
@@ -100,19 +107,25 @@ public class BookTourControllerApplication {
         return requestBean;
     }
 
-    public void guideDecision(TouristGuideAnswerBean touristAnswerBean) throws IOException, SQLException, RequestNotFoundException, CsvValidationException, DAOException, TourException, TouristGuideNotFoundException {
+    public void guideDecision(TouristGuideAnswerBean touristAnswerBean) throws IOException, SQLException, RequestNotFoundException, CsvValidationException, TourNotFoundException, TouristGuideNotFoundException, TicketNotFoundException {
         String touristGuideEmail = null;
+
         TicketDAOFactorySingleton ticketDAOFactory = TicketDAOFactorySingleton.getInstance();
 
         if (SessionManager.getInstance().getSession(touristAnswerBean.getIdSession()).getRole().getRoleName().equals("TouristGuide"))
             touristGuideEmail = SessionManager.getInstance().getSession(touristAnswerBean.getIdSession()).getEmail();
 
-        TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO(JDBC_DAO);
+        TicketDAO ticketDAO = ticketDAOFactory.createTicketDAO();
+
+        //Setting ticket status
         ticketDAO.modifyTicketState(touristAnswerBean.getUserEmail(), touristAnswerBean.getIdTour(), touristAnswerBean.getGuideDecision());
+
+        //Deleting accepted or refused request
         TouristGuideRequestDAO touristGuideRequestDAO = new TouristGuideRequestDAO();
         touristGuideRequestDAO.deleteRequest(touristAnswerBean.getUserEmail(), touristGuideEmail, touristAnswerBean.getIdTour());
 
-        GuidedTourDAOJDBC guidedTourDAOJDBC = new GuidedTourDAOJDBC();
+        //Take the guided tour and send an email
+        GuidedTourDAO guidedTourDAOJDBC = new GuidedTourDAOJDBC();
         GuidedTour guidedTour = guidedTourDAOJDBC.retrieveTourFromId(touristAnswerBean.getIdTour());
         EmailBean emailBean = new EmailBean();
         emailBean.setDecision(touristAnswerBean.getGuideDecision());
@@ -121,11 +134,11 @@ public class BookTourControllerApplication {
         emailBean.setUserEmail(touristAnswerBean.getUserEmail());
         EmailBookTourBoundary emailBookTourBoundary = new EmailBookTourBoundary();
         emailBookTourBoundary.initializeEmail(emailBean);
-
     }
 
 
     public TourListBean getMyTourList(String idSession) {
+
         TourListBean tourListBean = new TourListBean();
         List<GuidedTour> guidedTourList = SessionManager.getInstance().getSession(idSession).getGuidedTourList();
         int dimensione = guidedTourList.size();

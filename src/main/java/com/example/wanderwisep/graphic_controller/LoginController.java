@@ -34,10 +34,13 @@ public class LoginController extends NavigatorController {
             loginBean.setPassword(passwordUserLogin.getText());
             loginBean.checkField(loginBean.getEmail(), loginBean.getPassword());
             loginBean = loginControllerApp.login(loginBean);
+
             if (loginBean.getRole().equals("TouristGuide")) goToPageInit(GUIDECONFIRM, loginBean);
+
             if (loginBean.getRole().equals("User")) goToPageInit(SEARCHBAR, loginBean);
+
         } catch (InvalidFormatException | UserNotFoundException e) {
-            logger.log(Level.INFO, e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog(e.getMessage(), LOGIN_ERROR);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());

@@ -3,7 +3,7 @@ package com.example.wanderwisep.cli_graphic_controller;
 import com.example.wanderwisep.application_controller.ManageMyBookedGuidedToursController;
 import com.example.wanderwisep.bean.TicketListBean;
 import com.example.wanderwisep.exception.TicketNotFoundException;
-import com.example.wanderwisep.exception.TourException;
+import com.example.wanderwisep.exception.TourNotFoundException;
 import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.example.wanderwisep.utilities.CLIPrinter;
 import com.opencsv.exceptions.CsvValidationException;
@@ -30,7 +30,7 @@ public class MyAreaCLIController extends NavigatorCLIController {
             ticketListBean = manageMyGuidedTourApplication.createMyArea(ticketListBean);
             showMyTicket(ticketListBean);
 
-        } catch (IOException | SQLException | CsvValidationException | TourException |
+        } catch (IOException | SQLException | CsvValidationException | TourNotFoundException |
                  TouristGuideNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         } catch (TicketNotFoundException e) {
