@@ -106,7 +106,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
                  TouristGuideNotFoundException | TicketNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         } catch (RequestNotFoundException e) {
-            logger.log(Level.SEVERE, "No request available", "tour confirmation");
+            logger.log(Level.SEVERE, "No request available");
         }
     }
 
