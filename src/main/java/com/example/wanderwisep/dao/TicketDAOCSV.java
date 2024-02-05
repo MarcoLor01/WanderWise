@@ -66,7 +66,7 @@ public class TicketDAOCSV extends TicketDAO {
         }
     }
 
-    private synchronized List<Ticket> retrieveByIdTicket(File fd, String idTicket) throws IOException, CsvValidationException, TicketNotFoundException, SQLException, TourNotFoundException, TouristGuideNotFoundException {
+    private synchronized List<Ticket> retrieveByIdTicket(File fd, String idTicket) throws IOException, CsvValidationException, SQLException, TourNotFoundException, TouristGuideNotFoundException {
         try (CSVReader csvReader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
             String[] recordToTake;
             List<Ticket> ticketList = new ArrayList<>();

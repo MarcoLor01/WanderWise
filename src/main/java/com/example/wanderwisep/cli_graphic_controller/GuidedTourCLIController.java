@@ -41,7 +41,7 @@ public class GuidedTourCLIController extends NavigatorCLIController {
                     }
                     default -> throw new InvalidFormatException("Invalid choice");
                 }
-            } catch (IOException | InvalidFormatException | DAOException | CsvValidationException | SQLException |
+            } catch (IOException | InvalidFormatException | CsvValidationException | SQLException |
                      DuplicateTicketException | TourNotFoundException | TouristGuideNotFoundException |
                      TicketNotFoundException | RequestNotFoundException e) {
                 logger.log(Level.SEVERE, e.getMessage());
@@ -54,7 +54,7 @@ public class GuidedTourCLIController extends NavigatorCLIController {
         return getMenuChoice(1, 2);
     }
 
-    private void bookTour() throws DAOException, CsvValidationException, SQLException, DuplicateTicketException, IOException, TourNotFoundException, TouristGuideNotFoundException, TicketNotFoundException, RequestNotFoundException {
+    private void bookTour() throws CsvValidationException, SQLException, DuplicateTicketException, IOException, TourNotFoundException, TouristGuideNotFoundException, TicketNotFoundException, RequestNotFoundException {
         TicketBean ticketBean = new TicketBean();
         ticketBean.setPrenotationDate(LocalDate.now());
         ticketBean.setStateTicket("waiting for confirmation");

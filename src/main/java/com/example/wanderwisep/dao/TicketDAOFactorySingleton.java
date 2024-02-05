@@ -20,9 +20,9 @@ public class TicketDAOFactorySingleton {
 
     public TicketDAO createTicketDAO() throws IllegalArgumentException, IOException {
         boolean factoryNumber = getPersistence();
-        //if(factoryNumber) {
-        //    return new TicketDAOJDBC();
-        //}
+        if (factoryNumber) {
+            return new TicketDAOJDBC();
+        }
 
         return new TicketDAOCSV();
 

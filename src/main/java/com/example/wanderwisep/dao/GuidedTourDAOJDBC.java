@@ -21,6 +21,7 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
     private static final String CITY_NAME_ROW = "cityName";
     private static final String LIST_OF_ATTRACTION_ROW = "listOfAttraction";
     private static final String TOURIST_GUIDE_ROW = "touristGuide";
+    private static final String TOUR_NOT_FOUND_MESSAGE = "No tours available";
 
 
     public List<GuidedTour> findTours(String city, LocalDate departureD, LocalDate returnD) throws SQLException, TourNotFoundException {
@@ -40,7 +41,7 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
             stmt.setDate(3, Date.valueOf(returnD));
             try (ResultSet rs = stmt.executeQuery()) {
                 if (!rs.first()) {
-                    throw new TourNotFoundException("No tours available");
+                    throw new TourNotFoundException(TOUR_NOT_FOUND_MESSAGE);
                 }
                 do {
                     String tourName = rs.getString(NAME_TOUR_ROW);
@@ -81,7 +82,7 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
             stmt.setDate(3, Date.valueOf(returnDate));
             try (ResultSet rs = stmt.executeQuery()) {
                 if (!rs.first()) {
-                    throw new TourNotFoundException("No tours available");
+                    throw new TourNotFoundException(TOUR_NOT_FOUND_MESSAGE);
                 }
                 return createGuidedTourFromResultSet(rs);
             }
@@ -94,7 +95,7 @@ public class GuidedTourDAOJDBC extends GuidedTourDAO {
             stmt.setString(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (!rs.first()) {
-                    throw new TourNotFoundException("No tours available");
+                    throw new TourNotFoundException(TOUR_NOT_FOUND_MESSAGE);
                 }
                 return createGuidedTourFromResultSet(rs);
             }

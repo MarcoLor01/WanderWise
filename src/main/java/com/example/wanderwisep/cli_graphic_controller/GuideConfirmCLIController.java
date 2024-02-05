@@ -102,8 +102,8 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
             }
             if (i == guidedTourId.size()) CLIPrinter.printMessage("There are no more requests\n");
 
-        } catch (CsvValidationException | SQLException | IOException | InvalidFormatException | DAOException |
-                 TourNotFoundException | TouristGuideNotFoundException | TicketNotFoundException e) {
+        } catch (CsvValidationException | SQLException | IOException | InvalidFormatException | TourNotFoundException |
+                 TouristGuideNotFoundException | TicketNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         } catch (RequestNotFoundException e) {
             logger.log(Level.SEVERE, "No request available", "tour confirmation");
@@ -117,7 +117,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
         return getMenuChoice(1, 5);
     }
 
-    private void acceptRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, DAOException, TourNotFoundException, TouristGuideNotFoundException, TicketNotFoundException {
+    private void acceptRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, TourNotFoundException, TouristGuideNotFoundException, TicketNotFoundException {
         TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
         answerBean.setIdSession(idSession);
         answerBean.setIdTour(idTour);
@@ -127,7 +127,7 @@ public class GuideConfirmCLIController extends NavigatorCLIController {
         CLIPrinter.printMessage("\nRequest Accepted\n");
     }
 
-    private void refuseRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, DAOException, TourNotFoundException, TouristGuideNotFoundException, TicketNotFoundException {
+    private void refuseRequest(String userEmail, String idTour) throws CsvValidationException, SQLException, RequestNotFoundException, IOException, TourNotFoundException, TouristGuideNotFoundException, TicketNotFoundException {
         TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
         answerBean.setIdSession(idSession);
         answerBean.setIdTour(idTour);

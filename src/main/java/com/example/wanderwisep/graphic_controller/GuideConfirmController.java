@@ -4,7 +4,10 @@ import com.example.wanderwisep.application_controller.BookTourControllerApplicat
 import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.TouristGuideAnswerBean;
 import com.example.wanderwisep.bean.TouristGuideRequestsBean;
-import com.example.wanderwisep.exception.*;
+import com.example.wanderwisep.exception.RequestNotFoundException;
+import com.example.wanderwisep.exception.TicketNotFoundException;
+import com.example.wanderwisep.exception.TourNotFoundException;
+import com.example.wanderwisep.exception.TouristGuideNotFoundException;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -47,7 +50,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
             setTour(user, guidedTourId, "Confirmed");
             showAlertDialog("Request accepted", "Booking Confirmation");
 
-        } catch (IOException | SQLException | CsvValidationException | DAOException | RequestNotFoundException |
+        } catch (IOException | SQLException | CsvValidationException | RequestNotFoundException |
                  TourNotFoundException | TouristGuideNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage(), e.getCause());
             showErrorDialog("Please retry", "Booking confirmation");
@@ -58,7 +61,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
 
     }
 
-    private void setTour(String user, String guidedTourId, String decision) throws DAOException, CsvValidationException, SQLException, TourNotFoundException, TouristGuideNotFoundException, RequestNotFoundException, IOException, TicketNotFoundException {
+    private void setTour(String user, String guidedTourId, String decision) throws CsvValidationException, SQLException, TourNotFoundException, TouristGuideNotFoundException, RequestNotFoundException, IOException, TicketNotFoundException {
         TouristGuideAnswerBean answerBean = new TouristGuideAnswerBean();
         answerBean.setIdSession(idSession);
         answerBean.setIdTour(guidedTourId);
@@ -74,7 +77,7 @@ public class GuideConfirmController extends NavigatorController implements Initi
             setTour(user, guidedTourId, "Refused");
             showAlertDialog("Request rejected", "Booking refused");
 
-        } catch (IOException | SQLException | CsvValidationException | RequestNotFoundException | DAOException |
+        } catch (IOException | SQLException | CsvValidationException | RequestNotFoundException |
                  TourNotFoundException | TouristGuideNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
             showErrorDialog("Please retry", "Tour confirmation");
