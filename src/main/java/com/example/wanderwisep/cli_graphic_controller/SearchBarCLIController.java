@@ -41,7 +41,7 @@ public class SearchBarCLIController extends NavigatorCLIController {
                         return;
                     }
                     case 3 -> {
-                        shouldExit = true;
+
                         seeMyArea();
                     }
                     case 4 -> {
