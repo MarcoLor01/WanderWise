@@ -40,10 +40,7 @@ public class SearchBarCLIController extends NavigatorCLIController {
                     case 2 -> {
                         return;
                     }
-                    case 3 -> {
-
-                        seeMyArea();
-                    }
+                    case 3 -> seeMyArea();
                     case 4 -> {
                         shouldExit = true;
                         logout();
