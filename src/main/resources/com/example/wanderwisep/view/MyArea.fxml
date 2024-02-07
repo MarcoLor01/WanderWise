@@ -17,8 +17,8 @@
             <Image url="@../images/Cattura-removebg-preview.png" />
          </image>
       </ImageView>
-       <Text id="homeButton" fx:id="homeButton" layoutX="265.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0"
-             text="Home">
+       <Text id="homeButton" fx:id="homeButton" layoutX="265.0" layoutY="22.0" onMouseClicked="#openHome"
+             strokeType="OUTSIDE" strokeWidth="0.0" text="Home">
            <font>
                <Font name="Verdana Pro Cond Semibold" size="12.0"/>
            </font>

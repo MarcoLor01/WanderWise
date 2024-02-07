@@ -158,7 +158,7 @@ public class TourListController extends NavigatorController implements Initializ
 
         } else {
             logger.log(Level.INFO, "No more tickets");
-            showErrorDialog("No more tickets", "WanderWise");
+            showAlertDialog("No more tickets", "WanderWise");
 
         }
     }
@@ -179,7 +179,7 @@ public class TourListController extends NavigatorController implements Initializ
 
         } else {
             logger.log(Level.INFO, "PAGE 0");
-            showErrorDialog("This is the first page", "WanderWise");
+            showAlertDialog("This is the first page", "WanderWise");
         }
     }
 

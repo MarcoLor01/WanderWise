@@ -50,6 +50,12 @@ public class SearchBarController extends NavigatorController implements Initiali
         loginController.logout(loginBean);
         goToPageInit(LOGIN, loginBean);
     }
+
+    @FXML
+    public void openMyArea() {
+        goToPageInit(MYAREA, idSession);
+    }
+
     @FXML
     public void openLogout() {
         if (loginAnchor.isVisible() || loginLine.isVisible() || logoutSearchBar.isVisible()) {
@@ -101,6 +107,9 @@ public class SearchBarController extends NavigatorController implements Initiali
     public void initializeData(Object data) {
         if (data instanceof LoginBean loginBean) {
             idSession = loginBean.getIdSession();
+        }
+        if (data instanceof String sessionId) {
+            idSession = sessionId;
         }
     }
 }

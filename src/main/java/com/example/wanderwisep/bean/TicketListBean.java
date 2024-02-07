@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TicketListBean implements Serializable {
-    private List<String> idTicket = new ArrayList<>(); //
-    private List<String> stateEnum = new ArrayList<>(); //
+    private List<String> idTicket = new ArrayList<>();
+    private List<String> stateEnum = new ArrayList<>();
     private List<LocalDate> prenotationDate = new ArrayList<>(); //
     private List<String> tourId = new ArrayList<>();
     private List<String> touristGuideName = new ArrayList<>();

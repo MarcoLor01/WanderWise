@@ -3,7 +3,6 @@ package com.example.wanderwisep.bean;
 import java.io.Serializable;
 
 public class EmailBean implements Serializable {
-
     private String touristGuideEmail;
     private String userEmail;
     private String guidedTourName;

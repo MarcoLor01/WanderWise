@@ -134,6 +134,7 @@ public class GuidedTourController extends NavigatorController implements Initial
     }
 
 
+
     @FXML
     public void logout() {
         LoginBean loginBean = new LoginBean();
@@ -144,9 +145,7 @@ public class GuidedTourController extends NavigatorController implements Initial
 
     @FXML
     public void openHome() {
-        LoginBean loginBean = new LoginBean();
-        loginBean.setIdSession(idSession);
-        goToPageInit(SEARCHBAR, loginBean);
+        goToPageInit(SEARCHBAR, idSession);
     }
     @FXML
     public void openMyArea() {

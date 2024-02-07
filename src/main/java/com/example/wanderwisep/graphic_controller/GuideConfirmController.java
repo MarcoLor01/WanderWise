@@ -1,6 +1,7 @@
 package com.example.wanderwisep.graphic_controller;
 
 import com.example.wanderwisep.application_controller.BookTourControllerApplication;
+import com.example.wanderwisep.application_controller.LoginControllerApplication;
 import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.TouristGuideAnswerBean;
 import com.example.wanderwisep.bean.TouristGuideRequestsBean;
@@ -14,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -37,8 +39,17 @@ public class GuideConfirmController extends NavigatorController implements Initi
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
+
+    @FXML
+    private Line logoutLine;
+    @FXML
+    private AnchorPane anchorLogout;
+    @FXML
+    private Text logoutText;
     @FXML
     private AnchorPane anchorPaneRequests;
+
+    private final LoginControllerApplication loginController = new LoginControllerApplication();
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
@@ -59,6 +70,21 @@ public class GuideConfirmController extends NavigatorController implements Initi
             showErrorDialog("You have already confirmed the request, otherwise try again later", "tour confirmation");
         }
 
+    }
+
+    @FXML
+    public void openLogout() {
+        if (logoutLine.isVisible() || anchorLogout.isVisible() || logoutText.isVisible()) {
+            // Se la casella di logout è già aperta, la chiudo
+            anchorLogout.setVisible(false);
+            logoutLine.setVisible(false);
+            logoutText.setVisible(false);
+        } else {
+            // Altrimenti, la apro
+            anchorLogout.setVisible(true);
+            logoutLine.setVisible(true);
+            logoutText.setVisible(true);
+        }
     }
 
     private void setTour(String user, String guidedTourId, String decision) throws CsvValidationException, SQLException, TourNotFoundException, TouristGuideNotFoundException, RequestNotFoundException, IOException, TicketNotFoundException {
@@ -206,4 +232,10 @@ public class GuideConfirmController extends NavigatorController implements Initi
         assert anchorPaneRequests != null : "fx:id=\"anchorPaneRequests\" was not injected: check your FXML file 'GuideConfirm.fxml'.";
     }
 
+    public void logout() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.setIdSession(idSession);
+        loginController.logout(loginBean);
+        goToPageInit(LOGIN, loginBean);
+    }
 }

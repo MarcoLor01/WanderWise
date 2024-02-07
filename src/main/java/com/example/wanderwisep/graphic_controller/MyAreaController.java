@@ -1,6 +1,7 @@
 package com.example.wanderwisep.graphic_controller;
 
 import com.example.wanderwisep.application_controller.ManageMyBookedGuidedToursController;
+import com.example.wanderwisep.bean.LoginBean;
 import com.example.wanderwisep.bean.TicketListBean;
 import com.example.wanderwisep.exception.TicketNotFoundException;
 import com.example.wanderwisep.exception.TourNotFoundException;
@@ -178,6 +179,13 @@ public class MyAreaController extends NavigatorController implements Initializab
             logger.log(Level.INFO, "PAGE 0");
             showErrorDialog("This is the first page", "WanderWise");
         }
+    }
+
+    @FXML
+    public void openHome() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.setIdSession(idSession);
+        goToPageInit(SEARCHBAR, loginBean);
     }
 
     @FXML
